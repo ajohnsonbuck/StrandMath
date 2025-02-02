@@ -3,15 +3,15 @@ function rc = reverse_complement(seq)
     for m = 1:length(seq)
         n = length(seq)-m+1;
         base = seq(n);
-        if strcmp(base,'C')
+        if strcmpi(base,'C')
             comp = 'G';
-        elseif strcmp(base,'G')
+        elseif strcmpi(base,'G')
             comp = 'C';
-        elseif strcmp(base,'T')
+        elseif strcmpi(base,'T')
             comp = 'A';
-        elseif strcmp(base, 'U')
+        elseif strcmpi(base, 'U')
             comp = 'A';
-        elseif strcmp(base,'A')
+        elseif strcmpi(base,'A')
             comp = 'T';
         end
         rc(m)=comp;

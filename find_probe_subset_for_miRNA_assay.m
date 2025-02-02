@@ -1,8 +1,9 @@
+% Given a small set of probes (e.g., 16-20), find the smallest set that can
+% cover the 7 miRNAs in our possession unambiguously
+
 [seqs_orig, seq_names] = walter_lab_miRNAs();
 
-% Probe target pool with only 1.6% ambiguous targets (2025-01-28)
-% subseq_list = {'GGAG',	'CAAG',	'TCTC',	'TTGC',	'TACG',	'TGGG',	'TGTA',	'GGAT',	'TGGC',	'GGAA',	'CAGG',	'CTGA',	'CCCA',	'TGCG',	'ACAT',	'AATC'};
-
+% Probe list as of 2025-01-29
 subseq_list = {'GTTG',	'GGAG',	'ATCG',	'GTAT',	'TCTG',	'ACTC',	'CTGG',	'GTGT',	'TCAA',	'AAGG',	'TAAC',	'TCCA',	'TTGC',	'TCCC',	'GCAC',	'TGGC'};
 
 % subseq_list = {'TGGC', 'CTGA', 'TTGC', 'AATC'};

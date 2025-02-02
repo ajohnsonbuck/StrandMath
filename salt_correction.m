@@ -3,9 +3,11 @@
 %
 % Based on salt corrections used on IDT OligoAnalyzer, from Owczarzy,R.
 % et al., Biochemistry, 43, 3537 and Owczarzy, R. et al., Biochemistry, 47, 5336
-% Tm_1MNa = melting temperature (deg C) at 1 M Na+
+% Tm_1MNa = melting temperature at 1 M Na+, in Celsius
+% Nbp = number of base pairs
 % fGC = fractional GC content
 % Na = [Na+], in molar (moles/L)
+% Mg = [Mg2+], in molar (moles/L)
 
 function Tm = salt_correction(Tm_1MNa, Nbp, fGC, Na, Mg)
 
