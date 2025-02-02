@@ -7,9 +7,9 @@ function [dH0, dS0, dG] = parameters_NA(seq,type,T)
         % RNA-DNA parameters from From Sugimoto,N. et al., Biochemistry, 34, 11211, per IDT Oligoanalyzer
         % 2025-01-31: Confirmed identical results for several oligo sequences in Sugimoto
         % et al. Table 2.
-        seqs = {'AA', 'AC',	'AG', 'AT', 'CA', 'CC', 'CG', 'CT',	'GA', 'GC', 'GG', 'GT', 'TA', 'TC', 'TG', 'TT'};
-        dH0s = -[11.5,	7.8, 7,	8.3, 10.4, 12.8, 16.3, 9.1, 8.6, 8,	9.3, 5.9, 7.8, 5.5,	9, 7.8];
-        dS0s = -[36.4, 21.6, 19.7, 23.9, 28.4, 31.9, 47.1, 23.5, 22.9, 17.1, 23.2, 12.3, 23.2, 13.5, 26.1, 21.9];
+        seqs = {'AA',   'AC',	'AG',   'AT',   'CA',   'CC',   'CG',   'CT',	'GA',   'GC',   'GG',   'GT',   'TA',   'TC',   'TG',   'TT'};
+        dH0s = -[11.5,	7.8,    7,	    8.3,    10.4,   12.8,   16.3,   9.1,    8.6,    8,	    9.3,    5.9,    7.8,    5.5,	9,     7.8];
+        dS0s = -[36.4,  21.6,   19.7,   23.9,   28.4,   31.9,   47.1,   23.5,   22.9,   17.1,   23.2,   12.3,   23.2,   13.5,   26.1,  21.9];
         dH0 = 1.9; % Initiation
         dS0 = -3.9; % Initiation
     elseif strcmp(type, 'DNA')
@@ -28,9 +28,9 @@ function [dH0, dS0, dG] = parameters_NA(seq,type,T)
     end
     dH0 = dH0*1000; % Convert to cal/mol
 
-    if strcmp(type, 'RNA')
-        dS0 = dS0+4.9*length(seq);  % Assume dS0 decreases by 3.33 for each BNA modification -- based on estimate that deltaG drops by ~1000 cal/mol for each increase in ~6 deg C to the melting temp
-    end
+    % if strcmp(type, 'RNA-BNA')
+    %     dS0 = dS0+4.9*length(seq);  % Assume dS0 decreases by 3.33 for each BNA modification -- based on estimate that deltaG drops by ~1000 cal/mol for each increase in ~6 deg C to the melting temp
+    % end
 
     dG = dH0 - (273.15+T)*dS0;
 end
