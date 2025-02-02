@@ -3,5 +3,5 @@ function Tm = Tm_NA(seq,type,conc,Na,Mg)
 
     Tm = Tm_1MNa(dH0,dS0,conc);
 
-    Tm = salt_correction(Tm,length(seq),gc_content(seq),Na,Mg);
+    Tm = salt_correction(Tm,NA_length(seq),gc_content(seq),Na,Mg);
 end

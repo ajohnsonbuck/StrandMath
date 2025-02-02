@@ -5,5 +5,5 @@ function fGC = gc_content(seq)
             nGC = nGC + 1;
         end
     end
-    fGC = nGC/length(seq);
+    fGC = nGC/NA_length(seq);
 end
