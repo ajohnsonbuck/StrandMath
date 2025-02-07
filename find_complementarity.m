@@ -67,10 +67,21 @@ function [mismatches, overhangs, startpos, endpos] = find_complementarity(seq, t
             end
         end
         mismatches = {};
+        % Check for terminal mismatches
+        if ~isempty(overhangs.target{2}) && ~isempty(overhangs.seq{1}) % terminal mismatch on 5' end of probe
+            mismatches = horzcat(mismatches,strcat('5t',overhangs.seq{2},'x',overhangs.target{1}(1)));
+            overhangs.target{2} = '';
+            overhangs.seq{1} = '';
+        end
+        if ~isempty(overhangs.target{1}) && ~isempty(overhangs.seq{2}) % terminal mismatch on 3' end of probe
+            mismatches = horzcat(mismatches,strcat('3t',overhangs.seq{2},'x',overhangs.target{1}(1)));
+            overhangs.target{1} = '';
+            overhangs.seq{2} = '';
+        end
         % find first and last complementary nucleotide of probe
         startpos = 0;
         n = 1;
-        while startpos == 0
+        while startpos == 0 && n < length(comp.seq)
             if comp.seq(n) == 1
                 startpos = n;
             else
@@ -79,13 +90,14 @@ function [mismatches, overhangs, startpos, endpos] = find_complementarity(seq, t
         end
         n = length(seq2);
         endpos = Inf;
-        while endpos == Inf
+        while endpos == Inf && n > 0
             if comp.seq(n) == 1
                 endpos = n;
             else
                 n = n-1;
             end
         end
+        if startpos>0 && endpos < Inf
         for n = startpos:endpos
             if comp.seq(n) == 0
                 mismatch = '';
@@ -100,6 +112,7 @@ function [mismatches, overhangs, startpos, endpos] = find_complementarity(seq, t
                 mismatch = strcat(mismatch,target(length(target)-r-n));
                 mismatches = horzcat(mismatches,mismatch);
             end
+        end
         end
     end
 end

@@ -5,7 +5,7 @@ function Tm = estimate_Tm(seq,varargin)
     [type, conc, Na, Mg, target] = parse_input(seq,args);
 
     % Calculate thermodynamic parameters
-    [dH0, dS0, ~] = parameters_NA(seq,'type',type,'concentration',conc,'Na',Na,'Mg',Mg,'temperature',37,'target',target);
+    [dH0, dS0, ~] = parameters_NA(seq,'type',type,'concentration',conc,'temperature',37,'target',target);
 
     % Calculate Tm under standard conditions
     Tm = Tm_1MNa(dH0,dS0,conc);
@@ -31,6 +31,8 @@ function [type, conc, Na, Mg, target] = parse_input(seq,args)
             Mg = args{n+1};
         elseif strcmpi(args{n}, 'target')
             target = args{n+1};
+        else
+            fprintf(1,'Warning: estimate_Tm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(args{n}));
         end
     end
 end

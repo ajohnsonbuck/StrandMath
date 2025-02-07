@@ -4,7 +4,7 @@
 [seqs_orig, seq_names] = walter_lab_miRNAs();
 
 % Probe list as of 2025-01-29
-subseq_list = {'GTTG',	'GGAG',	'ATCG',	'GTAT',	'TCTG',	'ACTC',	'CTGG',	'GTGT',	'TCAA',	'AAGG',	'TAAC',	'TCCA',	'TTGC',	'TCCC',	'GCAC',	'TGGC'};
+options.required_sequences = {'ATCG','TCAT',	'GGCT',	'TCAA',	'GGAC',	'GAAG',	'CCTC',	'GCAA',	'TGGC',	'ACCG',	'GTTG',	'GTAT',	'GTCC',	'TAGT',	'CTGC',	'TGTA'}; %2025-01-29 98.8% unambiguous
 
 % subseq_list = {'TGGC', 'CTGA', 'TTGC', 'AATC'};
 

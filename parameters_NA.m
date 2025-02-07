@@ -3,14 +3,21 @@ function [dH0, dS0, dG] = parameters_NA(seq, varargin)
     % duplex); target sequence is implied
     % type = target type (DNA or RNA)
     %
-    % 2025-02-03 - To do:
-    % Incorporate explicit mismatch treatment
-    % Refine and test RNA-LNA/RNA-BNA parameters
+    % 2025-02-07 - To do:
+    % Create NucleicAcid class with fields for sequence, binding_configuration (2D cell array expanded on both sides to accommodate dangling ends, etc.)
+    % Sequence should be a cell array where each entry has a string corresponding to a single nucleic acid (e.g., 'A', '+G', 'rU')
+    % Also have methods to print sequence with and without modifications 
+    % Treat probe and target sequence as instances of NucleicAcid class
+    % Load parameters from a CSV file instead of hard-coding them
+    % Parameters should be somewhat agnostic to type (e.g., all could be pooled together in a single list with a comprehensive format like 'AG/TC', '+G+C/rCrG',
+    % 'TA/-T' for 5' overhangs, 'GA/C-' for 3' overhangs, etc. 
+    % Try to incorporate better LNA/RNA parameters from, e.g., Kierzek, Elzbieta, et al. "The influence of locked nucleic acid residues on the thermodynamic properties of 2′-O-methyl RNA/RNA heteroduplexes." Nucleic acids research 33.16 (2005): 5082-5093.
 
     args = varargin;
 
-    [type, T, mismatches, overhangs, startpos, endpos] = parse_input(seq,args); % Parse input arguments
+    [type, T, mismatches, overhangs, startpos, endpos, c, model_overhangs] = parse_input(seq,args); % Parse input arguments
 
+    if startpos > 0 && endpos < Inf
     [seqs, dH0s, dS0s] = propagation_parameters(type); % Load nearest-neighbor propagation parameters depending on target type
     
     % Initiation/symmetry depending on target type
@@ -31,6 +38,7 @@ function [dH0, dS0, dG] = parameters_NA(seq, varargin)
         dS0 = dS0 + dS0s(strcmpi(seqs,nn));
     end
 
+    if model_overhangs == true
     % Apply dangling end (overhang) corrections
     if ~isempty(overhangs.seq{1})
         dH0 = dH0 + o5dH0s(strcmpi(oseqs5,overhangs.seq{1}));
@@ -48,10 +56,33 @@ function [dH0, dS0, dG] = parameters_NA(seq, varargin)
         dH0 = dH0 + o3dH0s(strcmpi(oseqs3,overhangs.target{2}));
         dS0 = dS0 + o3dS0s(strcmpi(oseqs3,overhangs.target{2}));
     end
+    end
+
+    % Apply mismatch corrections
+    % Terminal mismatches - roughly approximate as average of RNA terminal
+    % mismatches from
+    % https://rna.urmc.rochester.edu/NNDB/rna_2004/rna_2004_terminal_mismatches.html,
+    % assembled in
+    % Xia, T., Mathews, D.H. and Turner, D.H. (1999) In Söll, D. G., Nishimura, S. and Moore, P. B. (eds.), Prebiotic Chemistry, Molecular Fossils, Nucleosides, and RNA. Elsevier, New York, pp. 21-47.
+    for n = 1:length(mismatches)
+        if strcmp(mismatches{n}(1:2),'5t') || strcmp(mismatches{n}(1:2),'3t')
+            dH0 = dH0 - 3.3;
+            dS0 = dS0 - 7.75;
+        elseif contains(mismatches{n},'+')
+            % Internal mismatches, crudely approximated from Kierzek E, Ciesielska A, Pasternak K, Mathews DH, Turner DH, Kierzek R. The influence of locked nucleic acid residues on the thermodynamic properties of 2'-O-methyl RNA/RNA heteroduplexes. Nucleic Acids Res. 2005 Sep 9;33(16):5082-93. doi: 10.1093/nar/gki789. PMID: 16155181; PMCID: PMC1201327.
+            dH0 = dH0 + 4;
+            dS0 = dS0 - 6.44;
+        end
+    end
 
     dH0 = dH0*1000; % Convert to cal/mol
 
-    dG = dH0 - (273.15+T)*dS0;
+    dG = deltaG(dH0,dS0,'temperature',T,'concentration',c);
+    else
+        dH0 = Inf;
+        dS0 = -Inf;
+        dG = Inf;
+    end
 end
 
 function [dH0, dS0] = DNA_initiation(seq,startpos,endpos)
@@ -75,12 +106,13 @@ function [dH0, dS0] = DNA_initiation(seq,startpos,endpos)
     end
 end
 
-function [type, T, mismatches, overhangs, startpos, endpos] = parse_input(seq,args)
+function [type, T, mismatches, overhangs, startpos, endpos, c, model_overhangs] = parse_input(seq,args)
 
     type = 'DNA'; % default to DNA
     T = 37; % default temp 37 C
-    
+    c = 1; % default conc 1 M
     target = '';
+    model_overhangs = true;
     
     for n = 1:2:length(args)
         if strcmpi(args{n}, 'type')
@@ -90,6 +122,18 @@ function [type, T, mismatches, overhangs, startpos, endpos] = parse_input(seq,ar
         elseif strcmpi(args{n}, 'target')
             target = args{n+1};
             % may want to check that target sequence matches type
+        elseif strcmpi(args{n}, 'concentration') || strcmpi(args{n},'conc')
+            c = args{n+1};
+        elseif strcmpi(args{n}, 'model_overhangs')
+            if strcmpi(args{n+1}, 'false')
+                model_overhangs = false;
+            elseif strcmpi(args{n+1},'true')
+                model_overhangs = true;
+            else
+                disp('Error: overhangs argument must be set to "true" or "false."');
+            end
+        else
+            fprintf(1,'Warning: parameters_NA() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(args{n}));
         end
     end
     
@@ -148,23 +192,24 @@ function [seqs, dH0s, dS0s] = propagation_parameters(type)
 end
 
 function [oseqs5,o5dH0s,o5dS0s,oseqs3,o3dH0s,o3dS0s] = overhang_parameters(type)
-    if strcmp(type,'RNA')
-    %Overhangs
-    % This is for DNA, from Bommarito et al. (2000), Nucleic Acids Research
-    % 28(9), 1929-1934.
-    % For RNA, should consult Freier et al. (1986) PNAS 83, 9373-9377.
-    % OR
-    % Freier et al. (1985) PNAS 24 (17), 4533-9
-    % 5'overhangs
-    oseqs5 =   {'AA', 'AC',	   'AG',   'AU',  'CA',  'CC',   'CG',   'CU',	 'GA',   'GC',    'GG',    'GU',   'UA',  'UC',   'UG',   'UU'};
-    o5dH0s =   [0.2,  -6.3,    -3.7,  -2.9,   0.6,   -4.4,   -4.0,   -4.1,   -1.1,   -5.1,    -3.9,    -4.2,   -6.9,  -4.0,   -4.9,   -0.2]; % in kcal/mol
-    o5dS0s =   [2.3,  -17.1,   -10.0, -7.6,   3.3,   -12.6,  -11.9,  -13.0,  -1.6,   -14.0,  -10.9,  -15.0,   -20.0,  -10.9,  -13.8,  -0.5]; % in cal/mol/K
-    % 3'overhangs
-    oseqs3 =   {'UA',   'GA',   'CA',   'AA',   'UC',   'GC',   'CC',   'AC',   'UG',   'GG',   'CG',   'AG',   'UU',   'GU',   'CU',   'AU'}; % 3'overhangs (listed in 5'-3' order for the strand with the overhang)
-    o3dH0s =   [-0.7,   -2.1,   -5.9,   -0.5,    4.4,   -0.2,   -2.6,   4.7,    -1.6,   -3.9,   -3.2,   -4.1,   2.9,    -4.4,   -5.2,   -3.8]; % in kcal/mol
-    o3dS0s =   [-0.8,   -3.9,   -16.5,  -1.1,   14.9,   -0.1,   -7.4,   14.2,   -3.6,   -11.2,  -10.4,  -13.1,  10.4,   -13.1,  -15.0,  -12.6]; % in cal/mol/K
-    
-    elseif strcmp(type,'DNA')
+    % if strcmp(type,'RNA')
+    % RNA overhangs, from Doug Turner's Nearest Neighbor Database (U Rochester, 
+    % https://rna.urmc.rochester.edu/NNDB/parameter_tables/turner_2004_rnastructure/turner_2004_dangle.html)
+    % Ref: params assembled in Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261.
+    % For compatibility, U is listed as T here.
+    % Gs or Us that are part of wobble pairs are listed as 'Gw' and Tw',
+    % respectively.  These are listed here, but not currently used.
+    % Note:these are for RNA-RNA duplexes; currently assume they're the same for RNA-DNA
+    % oseqs5 =   {'AA',   'AC',	 'AG',   'AT',  'CA',  'CC',   'CG',   'CT',	 'GA',   'GC',    'GG',    'GT',   'TA',  'TC',   'TG',   'TT',     'ATw',  'CTw',  'GTw',  'TTw',  'AGw',  'CGw',  'GGw',  'TGw'};
+    % o5dH0s =   [1.6,    -2.4,   -1.6,   -2.9,   2.2,   3.3,    0.7,   -4.1,      0.7,    0.8,    -4.6,    -0.2,    3.1,   -1.4,   -0.4,   -0.2,     -0.5,    6.9,   0.6,    0.6,    1.6,    2.2,    0.7,    3.1]; % in kcal/mol
+    % o5dS0s =   [6.3,    -6.1,   -4.5,   -0.64,    8.1,  11.6,   3.2,   22.6,     3.6,    3.2,    -14.8,    2.6,    10.64, -4.2,   -1.3,    2.6,     -0.64,  22.6,   2.6,    2.6,    6.1,    8.1,    3.6,    10.6]; % in cal/mol/K
+    % % 3'overhangs
+    % oseqs3 =   {'AA',   'AC',	 'AG',   'AT',  'CA',  'CC',   'CG',   'CT',	 'GA',   'GC',    'GG',    'GT',   'TA',  'TC',   'TG',   'TT',     'GwA',  'GwC',  'GwG',  'GwT',  'TwA',  'TwC',  'TwG',  'TwT'}; % 3'overhangs (listed in 5'-3' order for the strand with the overhang)
+    % o3dH0s =   [-4.9,   -0.9,    -5.5,   -2.3,   -9,   -4.1,   -8.6,   -7.5,     -7.4,   -2.8,    -6.4,    -3.6,   -5.7,  -0.7,   -5.8,   -2.2,     -4.9,   -0.9,   -5.5,   -2.3,   -5.7,   -0.7,   -5.8,   -2.2]; % in kcal/mol
+    % o3dS0s =   [-13.2,  -1.3,    -15.1,  -5.5,  -23.5, -10.6,  -22.3,  -20.3,    -20.3,  -7.7,    -16.4,   -9.7,   -16.1, -1.9,   -16.4,  -6.8,     -13.2,  -1.3,   -15.2,  -5.5,   -16.1,  -1.9,   -16.4,  -6.8]; % in cal/mol/K
+    if strcmp(type,'DNA') || strcmp(type,'RNA')
+    % elseif strcmp(type,'DNA')
+    % DNA overhangs, from Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934.
     oseqs5 =   {'AA', 'AC',	   'AG',   'AT',  'CA',  'CC',   'CG',   'CT',	 'GA',   'GC',    'GG',    'GT',   'TA',  'TC',   'TG',   'TT'};
     o5dH0s =   [0.2,  -6.3,    -3.7,  -2.9,   0.6,   -4.4,   -4.0,   -4.1,   -1.1,   -5.1,    -3.9,    -4.2,   -6.9,  -4.0,   -4.9,   -0.2]; % in kcal/mol
     o5dS0s =   [2.3,  -17.1,   -10.0, -7.6,   3.3,   -12.6,  -11.9,  -13.0,  -1.6,   -14.0,  -10.9,  -15.0,   -20.0,  -10.9,  -13.8,  -0.5]; % in cal/mol/K
