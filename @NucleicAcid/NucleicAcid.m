@@ -1,10 +1,10 @@
 classdef NucleicAcid
     properties
-        String = 'ATCG';
-        Sequence = {'A','T','C','G'};
-        BareString = 'ATCG';
-        BareSequence = {'A','T','C','G'};
-        Modifications = {'','','',''};
+        String = '';
+        Sequence = {};
+        BareString = '';
+        BareSequence = {};
+        Modifications = {};
     end
     properties (SetAccess = private)
         Modlist = {'+','b','r'};
@@ -114,6 +114,9 @@ classdef NucleicAcid
                 end
                 rc(m)=comp;
             end
+        end
+        function len = length(obj)
+           len = length(obj.BareString);
         end
     end
 end

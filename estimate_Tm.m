@@ -2,7 +2,7 @@ function Tm = estimate_Tm(seq,varargin)
     
     % Parse input arguments
     args = varargin;
-    [type, conc, Na, Mg, target] = parse_input(seq,args);
+    [type, conc, Na, Mg, target] = parse_input(args);
 
     % Calculate thermodynamic parameters
     [dH0, dS0, ~] = parameters_NA(seq,'type',type,'concentration',conc,'temperature',37,'target',target);
@@ -14,7 +14,7 @@ function Tm = estimate_Tm(seq,varargin)
     Tm = salt_correction(Tm,length(parse_modifications(seq)),gc_content(seq),Na,Mg);
 end
 
-function [type, conc, Na, Mg, target] = parse_input(seq,args)
+function [type, conc, Na, Mg, target] = parse_input(args)
     type = 'DNA';
     conc = 0.2E-6;
     Na = 1;
