@@ -175,102 +175,102 @@ T+T/AA,-5.574,-14.149,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43,
 +T+C/AG,-9.166,-21.535,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
 +T+G/AC,-10.046,-22.591,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
 +T+T/AA,-10.419,-27.683,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
-+A+A/AT,-3.826,-13.109,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+C/AG,-2.367,-7.322,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+G/AC,-4.849,-13.007,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+T/AA,-5.049,-17.514,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+A/TA,-4.229,-15.16,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+A/GA,-5.878,-17.663,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+A/CA,-8.558,-23.976,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+A/AA,2.074,3.446,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+A/CT,2.218,4.75,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+C/CG,1.127,1.826,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+G/CC,-10.903,-32.025,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+T/CA,-2.053,-10.517,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+C/TC,1.065,-1.403,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+C/GC,-9.522,-27.024,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+C/CC,-4.767,-14.897,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+C/AC,4.114,9.258,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+A/GT,-2.92,-9.387,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+C/GG,-8.139,-21.784,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+G/GC,-5.149,-12.508,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+T/GA,-8.991,-27.311,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+G/TG,-4.98,-15.426,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+G/GG,-4.441,-12.158,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+G/CG,-13.505,-36.021,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+G/AG,-2.775,-9.286,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+A/TT,-3.744,-12.149,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+C/TG,-4.387,-13.52,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+G/TC,-6.346,-16.629,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+T/TA,-7.697,-25.049,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+T/TT,-4.207,-14.307,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+T/GT,-8.176,-22.962,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+T/CT,-7.241,-20.622,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+T/AT,-2.051,-7.055,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+A/CT,-1.362,-5.551,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+C/CG,-1.759,-6.511,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+G/CC,-6.549,-18.073,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+T/CA,-3.563,-14.105,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+A/TC,-2.078,-10.088,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+A/GC,-5.868,-16.952,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+A/CC,-8.477,-24.565,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+A/AC,2.69,4.965,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+A/AT,-9.844,-29.673,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+C/AG,-3.761,-11.204,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+G/AC,-9.845,-27.316,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+T/AA,-3.389,-12.517,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+C/TA,0.753,-0.503,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+C/GA,-12.714,-35.555,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+C/CA,-12.658,-35.729,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+C/AA,-1.719,-7.023,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+A/GT,2.193,4.374,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+C/GG,-8.453,-22.672,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+G/GC,-1.164,-2.532,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+T/GA,-7.418,-24.066,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+A/TG,-1.963,-9.013,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+A/GG,-8.712,-23.779,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+A/CG,-7.875,-21.661,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+A/AG,3.207,7.156,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+A/AT,-2.914,-9.402,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+C/AG,-9.131,-25.347,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+G/AC,-2.154,-3.871,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+T/AA,-8.515,-26.313,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+G/TA,-6.691,-21.148,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+G/GA,-3.96,-10.588,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+G/CA,-12.898,-34.656,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+G/AA,0.334,-0.44,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+A/TT,0.382,-0.579,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+C/TG,-2.716,-8,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+G/TC,-10.363,-29.315,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+T/TA,-5.783,-20.173,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+C/TT,-0.692,-5.278,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+C/GT,-10.299,-28.503,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+C/CT,-9.062,-26.356,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+C/AT,2.073,3.968,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+A/CT,-5.485,-17.347,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+C/CG,1.451,1.556,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+G/CC,-7.213,-20.128,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+T/CA,-2.397,-11.371,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+T/TC,-0.633,-5.801,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+T/GC,-6.868,-21,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+T/CC,-5.853,-16.643,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+T/AC,0.211,-1.446,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+A/TT,-5.551,-15.398,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+C/TG,-14.943,-40.148,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+G/TC,-8.11,-18.349,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+T/TA,-14.213,-40.041,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+G/TT,-7.13,-20.786,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+G/GT,-14.862,-39.43,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+G/CT,-14.622,-37.51,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+G/AT,-6.703,-18.111,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+A/GT,-4.612,-14.039,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+C/GG,-9.798,-26.406,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+G/GC,-4.519,-11.065,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+T/GA,-4.523,-15.693,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+A+T/TG,-2.364,-8.834,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+C+T/GG,-11.396,-30.732,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+G+T/CG,-6.233,-15.933,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
-+T+T/AG,-2.96,-9.305,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+A/AT,-3.826,-13.109,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/AG,-2.367,-7.322,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/AC,-4.849,-13.007,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/AA,-5.049,-17.514,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+A/TA,-4.229,-15.16,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/GA,-5.878,-17.663,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/CA,-8.558,-23.976,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/AA,2.074,3.446,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/CT,2.218,4.75,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/CG,1.127,1.826,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/CC,-10.903,-32.025,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/CA,-2.053,-10.517,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/TC,1.065,-1.403,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/GC,-9.522,-27.024,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/CC,-4.767,-14.897,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/AC,4.114,9.258,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/GT,-2.92,-9.387,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/GG,-8.139,-21.784,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/GC,-5.149,-12.508,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/GA,-8.991,-27.311,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/TG,-4.98,-15.426,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/GG,-4.441,-12.158,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/CG,-13.505,-36.021,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/AG,-2.775,-9.286,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/TT,-3.744,-12.149,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/TG,-4.387,-13.52,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/TC,-6.346,-16.629,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/TA,-7.697,-25.049,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/TT,-4.207,-14.307,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/GT,-8.176,-22.962,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/CT,-7.241,-20.622,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/AT,-2.051,-7.055,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+A/CT,-1.362,-5.551,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/CG,-1.759,-6.511,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/CC,-6.549,-18.073,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/CA,-3.563,-14.105,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+A/TC,-2.078,-10.088,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/GC,-5.868,-16.952,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/CC,-8.477,-24.565,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/AC,2.69,4.965,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/AT,-9.844,-29.673,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/AG,-3.761,-11.204,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/AC,-9.845,-27.316,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/AA,-3.389,-12.517,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/TA,0.753,-0.503,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/GA,-12.714,-35.555,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/CA,-12.658,-35.729,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/AA,-1.719,-7.023,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+A/GT,2.193,4.374,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/GG,-8.453,-22.672,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/GC,-1.164,-2.532,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/GA,-7.418,-24.066,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+A/TG,-1.963,-9.013,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/GG,-8.712,-23.779,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/CG,-7.875,-21.661,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/AG,3.207,7.156,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/AT,-2.914,-9.402,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/AG,-9.131,-25.347,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/AC,-2.154,-3.871,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/AA,-8.515,-26.313,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/TA,-6.691,-21.148,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/GA,-3.96,-10.588,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/CA,-12.898,-34.656,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/AA,0.334,-0.44,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/TT,0.382,-0.579,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/TG,-2.716,-8,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/TC,-10.363,-29.315,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/TA,-5.783,-20.173,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/TT,-0.692,-5.278,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/GT,-10.299,-28.503,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/CT,-9.062,-26.356,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/AT,2.073,3.968,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/CT,-5.485,-17.347,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/CG,1.451,1.556,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/CC,-7.213,-20.128,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/CA,-2.397,-11.371,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/TC,-0.633,-5.801,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/GC,-6.868,-21,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/CC,-5.853,-16.643,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/AC,0.211,-1.446,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/TT,-5.551,-15.398,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/TG,-14.943,-40.148,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/TC,-8.11,-18.349,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/TA,-14.213,-40.041,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/TT,-7.13,-20.786,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/GT,-14.862,-39.43,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/CT,-14.622,-37.51,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/AT,-6.703,-18.111,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/GT,-4.612,-14.039,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/GG,-9.798,-26.406,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/GC,-4.519,-11.065,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/GA,-4.523,-15.693,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/TG,-2.364,-8.834,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/GG,-11.396,-30.732,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/CG,-6.233,-15.933,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/AG,-2.96,-9.305,LNA/DNA,Mismatch,"Owczarzy,R et al., Biochemistry, 50, 9352"
 5trArA/rU,1.6,6.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
 5trArC/rG,-2.4,-6.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
 5trArG/rC,-1.6,-4.5,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
@@ -355,3 +355,57 @@ DNAinitGC,0.1,-2.8,DNA/DNA,Initiation,"Allawi,H., SantaLucia,J.,Jr., Biochemistr
 DNAinitAT,2.3,4.1,DNA/DNA,Initiation,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
 DNAsymmetry,0,-1.4,DNA/DNA,Symmetry,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
 DNARNAinit,1.9,-3.9,DNA/RNA,Initiation,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+AA/TA,1.2,1.7,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3477"
+CA/GA,-0.9,-4.2,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3478"
+GA/CA,-2.9,-9.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3479"
+TA/AA,4.7,12.9,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3480"
+AC/TC,0,-4.4,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3481"
+CC/GC,-1.5,-7.2,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3482"
+GC/CC,3.6,8.9,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3483"
+TC/AC,6.1,16.4,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3484"
+AG/TG,-3.1,-9.5,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3485"
+CG/GG,-4.9,-15.3,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3486"
+GG/CG,-6,-15.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3487"
+TG/AG,1.6,3.6,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3488"
+AT/TT,-2.7,-10.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3489"
+CT/GT,-5,-15.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3490"
+GT/CT,-2.2,-8.4,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3491"
+TT/AT,0.2,-1.5,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3492"
+AT/AA,1.2,1.7,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3477"
+AG/AC,-0.9,-4.2,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3478"
+AC/AG,-2.9,-9.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3479"
+AA/AT,4.7,12.9,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3480"
+CT/CA,0,-4.4,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3481"
+CG/CC,-1.5,-7.2,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3482"
+CC/CG,3.6,8.9,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3483"
+CA/CT,6.1,16.4,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3484"
+GT/GA,-3.1,-9.5,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3485"
+GG/GC,-4.9,-15.3,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3486"
+GC/GG,-6,-15.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3487"
+GA/GT,1.6,3.6,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3488"
+TT/TA,-2.7,-10.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3489"
+TG/TC,-5,-15.8,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3490"
+TC/TG,-2.2,-8.4,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3491"
+TA/TT,0.2,-1.5,DNA/DNA,Mismatch,"Peyret et al. Biochemistry 1999, 38, 12, 3468–3492"
+AG/TT,1,0.9,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+AT/TG,-2.5,-8.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+CG/GT,-4.1,-11.7,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+CT/GG,-2.8,-8,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GG/CT,3.3,10.4,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GG/TT,5.8,16.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GT/CG,-4.4,-12.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GT/TG,4.1,9.5,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TG/AT,-0.1,-1.7,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TG/GT,-1.4,-6.2,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TT/AG,-1.3,-5.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TT/GA,1,0.9,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GT/TA,-2.5,-8.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TG/GC,-4.1,-11.7,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GG/TC,-2.8,-8,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TC/GG,3.3,10.4,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TT/GG,5.8,16.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GC/TG,-4.4,-12.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GT/TG,4.1,9.5,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TA/GT,-0.1,-1.7,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+TG/GT,-1.4,-6.2,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
+GA/TT,-1.3,-5.3,DNA/DNA,Mismatch,"Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594"
