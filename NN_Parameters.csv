@@ -1,0 +1,357 @@
+NearestNeighbor,dH0,dS0,OligoType,InteractionType,Reference
+AA/rUrU,-11.5,-36.4,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+AC/rUrG,-7.8,-21.6,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+AG/rUrC,-7,-19.7,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+AT/rUrA,-8.3,-23.9,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+CA/rGrU,-10.4,-28.4,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+CC/rGrG,-12.8,-31.9,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+CG/rGrC,-16.3,-47.1,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+CT/rGrA,-9.1,-23.5,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+GA/rCrU,-8.6,-22.9,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+GC/rCrG,-8,-17.1,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+GG/rCrC,-9.3,-23.2,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+GT/rCrA,-5.9,-12.3,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+TA/rArU,-7.8,-23.2,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+TC/rArG,-5.5,-13.5,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+TG/rArC,-9,-26.1,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+TT/rArA,-7.8,-21.9,DNA/RNA,WatsonCrick,"Sugimoto,N. et al., Biochemistry, 34, 11211"
+bAA/rUrU,-11.5,-34.3,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAC/rUrG,-7.8,-19.5,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAG/rUrC,-7,-17.6,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAT/rUrA,-8.3,-21.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCA/rGrU,-10.4,-26.3,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCC/rGrG,-12.8,-29.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCG/rGrC,-16.3,-45,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCT/rGrA,-9.1,-21.4,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGA/rCrU,-8.6,-20.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGC/rCrG,-8,-15,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGG/rCrC,-9.3,-21.1,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGT/rCrA,-5.9,-10.2,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTA/rArU,-7.8,-21.1,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTC/rArG,-5.5,-11.4,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTG/rArC,-9,-24,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTT/rArA,-7.8,-19.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+AbA/rUrU,-11.5,-34.3,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+AbC/rUrG,-7.8,-19.5,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+AbG/rUrC,-7,-17.6,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+AbT/rUrA,-8.3,-21.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+CbA/rGrU,-10.4,-26.3,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+CbC/rGrG,-12.8,-29.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+CbG/rGrC,-16.3,-45,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+CbT/rGrA,-9.1,-21.4,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+GbA/rCrU,-8.6,-20.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+GbC/rCrG,-8,-15,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+GbG/rCrC,-9.3,-21.1,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+GbT/rCrA,-5.9,-10.2,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+TbA/rArU,-7.8,-21.1,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+TbC/rArG,-5.5,-11.4,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+TbG/rArC,-9,-24,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+TbT/rArA,-7.8,-19.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAbA/rUrU,-11.5,-31.5,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAbC/rUrG,-7.8,-16.7,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAbG/rUrC,-7,-14.8,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bAbT/rUrA,-8.3,-19,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCbA/rGrU,-10.4,-23.5,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCbC/rGrG,-12.8,-27,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCbG/rGrC,-16.3,-42.2,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bCbT/rGrA,-9.1,-18.6,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGbA/rCrU,-8.6,-18,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGbC/rCrG,-8,-12.2,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGbG/rCrC,-9.3,-18.3,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bGbT/rCrA,-5.9,-7.4,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTbA/rArU,-7.8,-18.3,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTbC/rArG,-5.5,-8.6,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTbG/rArC,-9,-21.2,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+bTbT/rArA,-7.8,-17,BNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++AA/rUrU,-11.5,-34.3,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++AC/rUrG,-7.8,-19.5,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++AG/rUrC,-7,-17.6,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++AT/rUrA,-8.3,-21.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++CA/rGrU,-10.4,-26.3,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++CC/rGrG,-12.8,-29.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++CG/rGrC,-16.3,-45,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++CT/rGrA,-9.1,-21.4,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++GA/rCrU,-8.6,-20.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++GC/rCrG,-8,-15,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++GG/rCrC,-9.3,-21.1,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++GT/rCrA,-5.9,-10.2,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++TA/rArU,-7.8,-21.1,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++TC/rArG,-5.5,-11.4,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++TG/rArC,-9,-24,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++TT/rArA,-7.8,-19.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+A+A/rUrU,-11.5,-34.3,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+A+C/rUrG,-7.8,-19.5,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+A+G/rUrC,-7,-17.6,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+A+T/rUrA,-8.3,-21.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+C+A/rGrU,-10.4,-26.3,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+C+C/rGrG,-12.8,-29.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+C+G/rGrC,-16.3,-45,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+C+T/rGrA,-9.1,-21.4,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+G+A/rCrU,-8.6,-20.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+G+C/rCrG,-8,-15,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+G+G/rCrC,-9.3,-21.1,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+G+T/rCrA,-5.9,-10.2,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+T+A/rArU,-7.8,-21.1,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+T+C/rArG,-5.5,-11.4,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+T+G/rArC,-9,-24,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+T+T/rArA,-7.8,-19.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++A+A/rUrU,-11.5,-31.5,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++A+C/rUrG,-7.8,-16.7,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++A+G/rUrC,-7,-14.8,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++A+T/rUrA,-8.3,-19,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++C+A/rGrU,-10.4,-23.5,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++C+C/rGrG,-12.8,-27,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++C+G/rGrC,-16.3,-42.2,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++C+T/rGrA,-9.1,-18.6,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++G+A/rCrU,-8.6,-18,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++G+C/rCrG,-8,-12.2,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++G+G/rCrC,-9.3,-18.3,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++G+T/rCrA,-5.9,-7.4,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++T+A/rArU,-7.8,-18.3,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++T+C/rArG,-5.5,-8.6,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++T+G/rArC,-9,-21.2,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
++T+T/rArA,-7.8,-17,LNA/RNA,WatsonCrick,"Extrapolated from Sugimoto et al. Biochemistry and Rahman et al J. Am. Chem. Soc. 2008, 130 (14), 4886?4896."
+AA/TT,-7.9,-22.2,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+AC/TG,-8.4,-22.4,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+AG/TC,-7.8,-21,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+AT/TA,-7.2,-20.4,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+CA/GT,-8.5,-22.7,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+CC/GG,-8,-19.9,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+CG/GC,-10.6,-27.2,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+CT/GA,-7.8,-21,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+GA/CT,-8.2,-22.2,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+GC/CG,-9.8,-24.4,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+GG/CC,-8,-19.9,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+GT/CA,-8.4,-22.4,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+TA/AT,-7.2,-21.3,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+TC/AG,-8.2,-22.2,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+TG/AC,-8.5,-22.7,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+TT/AA,-7.9,-22.2,DNA/DNA,WatsonCrick,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
++AA/TT,-7.193,-19.723,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++AC/TG,-7.269,-18.336,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++AG/TC,-7.536,-18.387,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++AT/TA,-4.918,-12.943,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++CA/GT,-7.451,-18.38,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++CC/GG,-5.904,-11.934,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++CG/GC,-9.815,-23.491,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++CT/GA,-7.092,-16.825,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++GA/CT,-5.038,-11.656,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++GC/CG,-10.16,-24.651,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++GG/CC,-10.844,-26.58,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++GT/CA,-8.612,-22.327,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++TA/AT,-7.246,-19.738,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++TC/AG,-6.307,-15.515,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++TG/AC,-10.04,-25.744,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++TT/AA,-6.372,-16.902,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+A+A/TT,-6.908,-18.135,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+A+C/TG,-5.51,-11.824,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+A+G/TC,-9,-22.826,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+A+T/TA,-5.384,-13.537,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+C+A/GT,-7.142,-18.333,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+C+C/GG,-5.937,-12.335,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+C+G/GC,-10.876,-27.918,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+C+T/GA,-9.471,-25.07,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+G+A/CT,-7.756,-19.302,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+G+C/CG,-10.725,-25.511,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+G+G/CC,-8.943,-20.833,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+G+T/CA,-9.035,-22.742,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+T+A/AT,-5.609,-16.019,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+T+C/AG,-7.591,-19.031,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+T+G/AC,-6.335,-15.537,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
+T+T/AA,-5.574,-14.149,LNA/DNA,WatsonCrick,"McTigue et al. Biochemistry 2004, 43, 18, 5388–5405"
++A+A/TT,-9.991,-27.175,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+C/TG,-11.389,-28.963,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+G/TC,-12.793,-31.607,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+T/TA,-14.703,-40.75,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+A/GT,-14.177,-35.498,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+C/GG,-15.399,-36.375,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+G/GC,-14.558,-35.239,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++C+T/GA,-15.737,-41.218,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+A/CT,-13.959,-35.097,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+C/CG,-16.109,-40.738,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+G/CC,-13.022,-29.673,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++G+T/CA,-17.361,-45.858,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+A/AT,-10.318,-26.108,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+C/AG,-9.166,-21.535,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+G/AC,-10.046,-22.591,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++T+T/AA,-10.419,-27.683,LNA/DNA,WatsonCrick,"Owczarzy,R et al., Biochemistry, 50, 9352"
++A+A/AT,-3.826,-13.109,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+C/AG,-2.367,-7.322,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+G/AC,-4.849,-13.007,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+T/AA,-5.049,-17.514,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+A/TA,-4.229,-15.16,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+A/GA,-5.878,-17.663,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+A/CA,-8.558,-23.976,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+A/AA,2.074,3.446,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+A/CT,2.218,4.75,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+C/CG,1.127,1.826,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+G/CC,-10.903,-32.025,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+T/CA,-2.053,-10.517,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+C/TC,1.065,-1.403,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+C/GC,-9.522,-27.024,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+C/CC,-4.767,-14.897,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+C/AC,4.114,9.258,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+A/GT,-2.92,-9.387,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+C/GG,-8.139,-21.784,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+G/GC,-5.149,-12.508,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+T/GA,-8.991,-27.311,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+G/TG,-4.98,-15.426,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+G/GG,-4.441,-12.158,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+G/CG,-13.505,-36.021,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+G/AG,-2.775,-9.286,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+A/TT,-3.744,-12.149,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+C/TG,-4.387,-13.52,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+G/TC,-6.346,-16.629,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+T/TA,-7.697,-25.049,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+T/TT,-4.207,-14.307,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+T/GT,-8.176,-22.962,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+T/CT,-7.241,-20.622,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+T/AT,-2.051,-7.055,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+A/CT,-1.362,-5.551,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+C/CG,-1.759,-6.511,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+G/CC,-6.549,-18.073,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+T/CA,-3.563,-14.105,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+A/TC,-2.078,-10.088,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+A/GC,-5.868,-16.952,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+A/CC,-8.477,-24.565,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+A/AC,2.69,4.965,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+A/AT,-9.844,-29.673,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+C/AG,-3.761,-11.204,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+G/AC,-9.845,-27.316,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+T/AA,-3.389,-12.517,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+C/TA,0.753,-0.503,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+C/GA,-12.714,-35.555,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+C/CA,-12.658,-35.729,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+C/AA,-1.719,-7.023,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+A/GT,2.193,4.374,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+C/GG,-8.453,-22.672,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+G/GC,-1.164,-2.532,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+T/GA,-7.418,-24.066,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+A/TG,-1.963,-9.013,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+A/GG,-8.712,-23.779,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+A/CG,-7.875,-21.661,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+A/AG,3.207,7.156,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+A/AT,-2.914,-9.402,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+C/AG,-9.131,-25.347,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+G/AC,-2.154,-3.871,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+T/AA,-8.515,-26.313,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+G/TA,-6.691,-21.148,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+G/GA,-3.96,-10.588,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+G/CA,-12.898,-34.656,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+G/AA,0.334,-0.44,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+A/TT,0.382,-0.579,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+C/TG,-2.716,-8,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+G/TC,-10.363,-29.315,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+T/TA,-5.783,-20.173,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+C/TT,-0.692,-5.278,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+C/GT,-10.299,-28.503,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+C/CT,-9.062,-26.356,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+C/AT,2.073,3.968,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+A/CT,-5.485,-17.347,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+C/CG,1.451,1.556,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+G/CC,-7.213,-20.128,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+T/CA,-2.397,-11.371,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+T/TC,-0.633,-5.801,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+T/GC,-6.868,-21,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+T/CC,-5.853,-16.643,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+T/AC,0.211,-1.446,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+A/TT,-5.551,-15.398,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+C/TG,-14.943,-40.148,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+G/TC,-8.11,-18.349,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+T/TA,-14.213,-40.041,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+G/TT,-7.13,-20.786,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+G/GT,-14.862,-39.43,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+G/CT,-14.622,-37.51,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+G/AT,-6.703,-18.111,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+A/GT,-4.612,-14.039,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+C/GG,-9.798,-26.406,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+G/GC,-4.519,-11.065,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+T/GA,-4.523,-15.693,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++A+T/TG,-2.364,-8.834,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++C+T/GG,-11.396,-30.732,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++G+T/CG,-6.233,-15.933,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
++T+T/AG,-2.96,-9.305,LNA/DNA,"Owczarzy,R et al., Biochemistry, 50, 9352",
+5trArA/rU,1.6,6.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trArC/rG,-2.4,-6.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trArG/rC,-1.6,-4.5,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trArU/rA,-2.9,-0.64,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trCrA/rU,2.2,8.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trCrC/rG,3.3,11.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trCrG/rC,0.7,3.2,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trCrU/rA,-4.1,22.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trGrA/rU,0.7,3.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trGrC/rG,0.8,3.2,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trGrG/rC,-4.6,-14.8,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trGrU/rA,-0.2,2.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trUrA/rU,3.1,10.64,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trUrC/rG,-1.4,-4.2,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trUrG/rC,-0.4,-1.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trUrU/rA,-0.2,2.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trArU/rG,-0.5,-0.64,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trCrU/rG,6.9,22.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trGrU/rG,0.6,2.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trUrU/rG,0.6,2.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trArG/rU,1.6,6.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trCrG/rU,2.2,8.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trGrG/rU,0.7,3.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5trUrG/rU,3.1,10.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trArA/rU,-4.9,-13.2,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trArC/rU,-0.9,-1.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trArG/rU,-5.5,-15.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trArU/rU,-2.3,-5.5,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trCrA/rG,-9,-23.5,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trCrC/rG,-4.1,-10.6,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trCrG/rG,-8.6,-22.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trCrU/rG,-7.5,-20.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrA/rC,-7.4,-20.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrC/rC,-2.8,-7.7,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrG/rC,-6.4,-16.4,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrU/rC,-3.6,-9.7,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrA/rA,-5.7,-16.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrC/rA,-0.7,-1.9,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrG/rA,-5.8,-16.4,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrU/rA,-2.2,-6.8,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrA/rU,-4.9,-13.2,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrC/rU,-0.9,-1.3,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrG/rU,-5.5,-15.2,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trGrU/rU,-2.3,-5.5,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrA/rG,-5.7,-16.1,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrC/rG,-0.7,-1.9,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrG/rG,-5.8,-16.4,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+3trUrU/rG,-2.2,-6.8,RNA/RNA,DanglingEnd,"Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261."
+5tAA/T,0.2,2.3,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tAC/G,-6.3,-17.1,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tAG/C,-3.7,-10,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tAT/A,-2.9,-7.6,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tCA/T,0.6,3.3,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tCC/G,-4.4,-12.6,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tCG/C,-4,-11.9,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tCT/A,-4.1,-13,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tGA/T,-1.1,-1.6,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tGC/G,-5.1,-14,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tGG/C,-3.9,-10.9,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tGT/A,-4.2,-15,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tTA/T,-6.9,-20,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tTC/G,-4,-10.9,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tTG/C,-4.9,-13.8,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+5tTT/A,-0.2,-0.5,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tTA/A,-0.7,-0.8,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tGA/C,-2.1,-3.9,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tCA/G,-5.9,-16.5,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tAA/T,-0.5,-1.1,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tTC/A,4.4,14.9,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tGC/C,-0.2,-0.1,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tCC/G,-2.6,-7.4,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tAC/T,4.7,14.2,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tTG/A,-1.6,-3.6,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tGG/C,-3.9,-11.2,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tCG/G,-3.2,-10.4,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tAG/T,-4.1,-13.1,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tTT/A,2.9,10.4,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tGT/C,-4.4,-13.1,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tCT/G,-5.2,-15,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+3tAT/T,-3.8,-12.6,DNA/DNA,DanglingEnd,"Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934."
+DNAinitGC,0.1,-2.8,DNA/DNA,Initiation,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+DNAinitAT,2.3,4.1,DNA/DNA,Initiation,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+DNAsymmetry,0,-1.4,DNA/DNA,Symmetry,"Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581"
+DNARNAinit,1.9,-3.9,DNA/RNA,Initiation,"Sugimoto,N. et al., Biochemistry, 34, 11211"

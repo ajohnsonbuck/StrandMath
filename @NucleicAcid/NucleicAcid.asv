@@ -1,10 +1,10 @@
 classdef NucleicAcid
     properties
-        String = 'ATCG';
-        Sequence = {'A','T','C','G'};
-        BareString = 'ATCG';
-        BareSequence = {'A','T','C','G'};
-        Modifications = {'','','',''};
+        String = '';
+        Sequence = {};
+        BareString = '';
+        BareSequence = {};
+        Modifications = {};
     end
     properties (SetAccess = private)
         Modlist = {'+','b','r'};
@@ -26,13 +26,28 @@ classdef NucleicAcid
                 end
             end
         end
-        function obj = fromSequence(obj) % Convert input cell array of nucleotides to a string
+        function obj = fromSequence(obj) % Populate object from input cell array of nucleotides
             obj.String = '';
             for n = 1:length(obj.Sequence)
                 obj.String = strcat(obj.String,obj.Sequence{n});
             end
+            seq = obj.String;
+            obj.BareString = erase(seq,obj.Modlist); % Remove modification prefixes from sequences
+            obj.BareSequence = cell(1,length(obj.BareString));
+            obj.Modifications = cell(1,length(obj.BareString));
+            c = 1;
+            for n = 1:length(seq)
+                if ismember(seq(n),obj.Modlist)
+                    obj.Modifications{c} = seq(n);
+                else
+                    c = c+1;
+                end
+            end
+            for n = 1:length(obj.BareString)
+                obj.BareSequence{n} = obj.BareString(n);
+            end
         end
-        function obj = fromString(obj,str1) % Convert input string to cell array of nucleotides
+        function obj = fromString(obj,str1) % Populate object from input string
             obj.String = str1;
             seq = obj.String;
             obj.BareString = erase(seq,obj.Modlist); % Remove modification prefixes from sequences
@@ -66,13 +81,16 @@ classdef NucleicAcid
                 seq1{n} = strcat('r',seq1{n});
             end
             obj.Sequence = seq1;
-            obj = obj.fromSequence(obj,seq1);
+            obj = fromSequence(obj);
         end 
         function rc = reverseComplement(obj, varargin)
             type = 'DNA';
             if ~isempty(varargin)
-                if strcmpi(varargin{1},'RNA')
+                for n = 1:length(varargin)
+                if strcmpi(varargin{n},'RNA')
                     type = 'RNA';
+                elseif strcmpi(varargin{n},'cell')
+                end
                 end
             end
             rc = obj.BareString;
@@ -96,6 +114,9 @@ classdef NucleicAcid
                 end
                 rc(m)=comp;
             end
+        end
+        function len = length(obj)
+           len = length(obj.BareString);
         end
     end
 end

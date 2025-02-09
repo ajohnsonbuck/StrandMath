@@ -47,7 +47,7 @@ classdef NucleicAcid
                 obj.BareSequence{n} = obj.BareString(n);
             end
         end
-        function obj = fromString(obj,str1) % Populat object from input string
+        function obj = fromString(obj,str1) % Populate object from input string
             obj.String = str1;
             seq = obj.String;
             obj.BareString = erase(seq,obj.Modlist); % Remove modification prefixes from sequences
@@ -71,9 +71,6 @@ classdef NucleicAcid
                 obj.BareSequence{n} = obj.BareString(n);
             end
         end
-        function obj = stripModifications(obj)
-            
-        end
         function obj = toDNA(obj)
             str1 = replace(obj.BareString, 'U', 'T');
             obj = fromString(obj,str1);
@@ -88,15 +85,22 @@ classdef NucleicAcid
         end 
         function rc = reverseComplement(obj, varargin)
             type = 'DNA';
+            convertToString = true; % Default: provide reverse complement as string unless 'sequence' provided as argument, in which case it is provided as a cell array
+            rc = obj.BareSequence; 
             if ~isempty(varargin)
-                if strcmpi(varargin{1},'RNA')
+                for n = 1:length(varargin)
+                if strcmpi(varargin{n},'RNA')
                     type = 'RNA';
+                elseif strcmpi(varargin{n},'char') || strcmpi(varargin{n},'string') 
+                    convertToString = true;
+                elseif strcmpi(varargin{n},'sequence') || strcmpi(varargin{n},'cell') 
+                    convertToString = false;
+                end
                 end
             end
-            rc = obj.BareString;
             for m = 1:length(rc)
                 n = length(rc)-m+1;
-                base = obj.BareString(n);
+                base = obj.BareSequence{n};
                 if strcmpi(base,'C')
                     comp = 'G';
                 elseif strcmpi(base,'G')
@@ -112,7 +116,10 @@ classdef NucleicAcid
                         comp = 'T';
                     end
                 end
-                rc(m)=comp;
+                rc{m}=comp;
+            end
+            if convertToString
+                rc = char(rc)'; % Convert to string (actually 1D char)
             end
         end
         function len = length(obj)
