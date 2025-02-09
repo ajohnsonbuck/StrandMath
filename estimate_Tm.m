@@ -1,20 +1,20 @@
-function Tm = estimate_Tm(seq,varargin)
+function Tm = estimate_Tm(probe,varargin)
     
     % Parse input arguments
+    if ~isa(probe,'NucleicAcid')
+        probe = NucleicAcid(probe);
+    end
     args = varargin;
-    [type, conc, Na, Mg, target] = parse_input(args);
+    [type, conc, Na, Mg, target] = parse_input(probe, args);
 
-    % Calculate thermodynamic parameters
-    [dH0, dS0, ~] = parameters_NA(seq,'type',type,'concentration',conc,'temperature',37,'target',target);
+    pair = NucleicAcidPair(probe,target); % Generate nucleic acid pair
+    pair = pair.findLongestDuplex(); % Find longest duplex
+    duplex = pair.Duplexes{1}.estimateTm('concentration',conc,'Na',Na,'Mg',Mg); % estimate Tm
+    Tm = duplex.Tm;
 
-    % Calculate Tm under standard conditions
-    Tm = Tm_1MNa(dH0,dS0,conc);
-
-    % Apply salt correction
-    Tm = salt_correction(Tm,length(parse_modifications(seq)),gc_content(seq),Na,Mg);
 end
 
-function [type, conc, Na, Mg, target] = parse_input(args)
+function [type, conc, Na, Mg, target] = parse_input(probe, args)
     type = 'DNA';
     conc = 0.2E-6;
     Na = 1;
@@ -31,8 +31,14 @@ function [type, conc, Na, Mg, target] = parse_input(args)
             Mg = args{n+1};
         elseif strcmpi(args{n}, 'target')
             target = args{n+1};
+            if ~isa(target,'NucleicAcid')
+                target = NucleicAcid(target);
+            end
         else
             fprintf(1,'Warning: estimate_Tm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(args{n}));
         end
+    end
+    if isempty(target)
+        target = probe.reverseComplement();
     end
 end
