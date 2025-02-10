@@ -79,6 +79,8 @@ classdef NucleicAcidDuplex
                 elseif contains(obj.Schema{1,n},'T') || contains(obj.Schema{1,n},'t') || contains(obj.Schema{1,n},'U') || contains(obj.Schema{1,n},'u')
                     if contains(obj.Schema{2,n},'A') || contains(obj.Schema{2,n},'a')
                         obj.PairingState{n} = 'p';
+                    elseif contains(obj.Schema{2,n},'G') || contains(obj.Schema{2,n},'g')
+                        obj.PairingState{n} = 'w';
                     elseif isempty(obj.Schema{2,n})
                         obj.PairingState{n} = 'd';
                     else
@@ -285,6 +287,35 @@ classdef NucleicAcidDuplex
                 end
             end
             obj.fGC = nGC/obj.Nbp;
+        end
+        function print(obj)
+            line1 = '\n5-';
+            line2 = '\n  ';
+            line3 = '\n3-';
+            for n = 1:size(obj.Schema,2)
+                if length(obj.Schema{1,n})==2
+                    line1 = [line1,obj.Schema{1,n}];
+                elseif length(obj.Schema{1,n})==1
+                    line1 = [line1,' ',obj.Schema{1,n}];
+                else 
+                    line1 = [line1,'  ',obj.Schema{1,n}];
+                end
+                if length(obj.Schema{2,n})==2
+                    line3 = [line3,obj.Schema{2,n}];
+                elseif length(obj.Schema{2,n})==1
+                    line3 = [line3,' ',obj.Schema{2,n}];
+                else
+                    line3 = [line3,'  ',obj.Schema{2,n}];
+                end
+                if obj.PairingState{n}=='p'
+                    line2 = [line2,' |'];
+                elseif obj.PairingState{n}=='w'
+                    line2 = [line2,' o'];
+                else
+                    line2 = [line2,'  '];
+                end
+            end
+            fprintf(1,strcat(line1,line2,line3,'\n\n'));
         end
     end
 end

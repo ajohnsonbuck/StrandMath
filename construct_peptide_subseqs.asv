@@ -1,0 +1,6 @@
+function construct_peptide_subseqs(n)
+    aa = 'GALMFWKQESPVICYHRNDT';
+    nperms = (length(aa))^n;
+    subseq_list = cell(nperms,1);
+    
+end
