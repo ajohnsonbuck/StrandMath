@@ -1,8 +1,18 @@
 function rc = reverse_complement(seq)
-    rc = seq;
-    for m = 1:length(seq)
-        n = length(seq)-m+1;
-        base = seq(n);
+modlist = {'b','r','+'};
+cellInput = true;
+if ~isa(seq,'cell')
+    seq = {seq};
+    cellInput = false;
+end
+rc = seq;
+for p = 1:length(seq)
+    entry = seq{p};
+    entry = erase(entry,modlist);
+    seqentry = entry;
+    for m = 1:length(seqentry)
+        n = length(seqentry)-m+1;
+        base = seqentry(n);
         if strcmpi(base,'C')
             comp = 'G';
         elseif strcmpi(base,'G')
@@ -13,7 +23,14 @@ function rc = reverse_complement(seq)
             comp = 'A';
         elseif strcmpi(base,'A')
             comp = 'T';
+        else
+            comp = '-';
         end
-        rc(m)=comp;
+            entry(m)=comp;
     end
+    rc{p} = entry;
+end
+if cellInput == false %Convert back to char in case of single input
+    rc = rc{1};
+end
 end

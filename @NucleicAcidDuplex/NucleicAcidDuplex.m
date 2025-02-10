@@ -45,7 +45,7 @@ classdef NucleicAcidDuplex
             obj = obj.findNearestNeighbors(); % Find nearest neighbors
             obj = determineSymmetryAndInitiation(obj); % Determine symmetry and initiation factors and add them to obj.NearestNeighbor property
             obj = obj.estimateThermodynamics(parameters); % Estimate deltaS, deltaH, deltaG
-            obj = obj.estimateTm();
+            % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
             obj.Length = length(obj.PairingState); % 
         end
         function obj = determinePairingState(obj)
