@@ -23,10 +23,10 @@ classdef NucleicAcidPair
             if sum(contains(obj.Sequences{2}.Sequence,'r'))<sum(contains(obj.Sequences{1}.Sequence,'r'))
                 obj.Sequences = flipud(obj.Sequences); % If either sequence has RNA, ensure Sequence 2 has more RNA residues
             end
-            if sum(contains(obj.Sequences{2}.Sequence,'+'))>sum(contains(obj.Sequences{2}.Sequence,'+'))
+            if sum(contains(obj.Sequences{2}.Sequence,'+'))>sum(contains(obj.Sequences{1}.Sequence,'+'))
                 obj.Sequences = flipud(obj.Sequences); % If either sequence has LNA, ensure Sequence 1 has more LNA residues
             end
-            if sum(contains(obj.Sequences{2}.Sequence,'b'))>sum(contains(obj.Sequences{2}.Sequence,'b'))
+            if sum(contains(obj.Sequences{2}.Sequence,'b'))>sum(contains(obj.Sequences{1}.Sequence,'b'))
                 obj.Sequences = flipud(obj.Sequences); % If either sequence has BNA, ensure Sequence 1 has more BNA residues
             end
             obj = findLongestDuplex(obj);
