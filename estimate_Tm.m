@@ -1,5 +1,20 @@
 function Tm = estimate_Tm(probe,varargin)
-    
+    % Estimate Tm of longest duplex between two provided sequences.
+    % If only one argument is provided, it is assumed to be the probe, and
+    % the target is assumed to be fully complementary.
+    % ------------------------
+    % First argument:
+    % Probe sequence (type: NucleicAcid object, char, string, or cell array)
+    % Name-value pair arguments:
+    % 'Target'
+    % Target sequence (type: NucleicAcid object, char, string, or cell array)
+    % 'concentration'
+    % Probe concentration, in mol/L (type: float)
+    % 'Na'
+    % Sodium concentration, in mol/L (type: float)
+    % 'Mg'
+    % Sodium concentration, in mol/L (type: float)
+
     % Parse input arguments
     if ~isa(probe,'NucleicAcid')
         probe = NucleicAcid(probe);
@@ -8,9 +23,8 @@ function Tm = estimate_Tm(probe,varargin)
     [type, conc, Na, Mg, target] = parse_input(probe, args);
 
     pair = NucleicAcidPair(probe,target); % Generate nucleic acid pair
-    pair = pair.findLongestDuplex(); % Find longest duplex
-    duplex = pair.Duplexes{1}.estimateTm('concentration',conc,'Na',Na,'Mg',Mg); % estimate Tm
-    Tm = duplex.Tm;
+
+    Tm = pair.longestDuplex.estimateTm('concentration',conc,'Na',Na,'Mg',Mg); % estimate Tm of longest duplex
 
 end
 

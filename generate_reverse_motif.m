@@ -1,4 +1,6 @@
 function seqs_out = generate_reverse_motif(seqs)
+    % Flips nearest-neighbor motif (top strand becomes bottom and
+    % vice-versa). Currently only works for DNA.
     seqs2 = cell(size(seqs,1),2);
     seqs3 = cell(size(seqs,1),2);
     seqs_out = cell(size(seqs));

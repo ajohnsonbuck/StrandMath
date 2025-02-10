@@ -4,30 +4,40 @@
 
 T = 37;
 
-[seqs_orig, seq_names] = walter_lab_miRNAs();
+[seqs, seq_names] = walter_lab_miRNAs();
 
-seqs = seqs_orig;
-for n=1:length(seqs)
-   seqs{n} = seqs{n}(12:end); % only g12-end 
-   % seqs{n} = seqs{n}(13:end); % only g13-end 
+mask = '-----------nnnnnnnnnnnnnnnnnnnn'; % only g12-end
+% mask = '------------nnnnnnnnnnnnnnnnnnn'; % only g13-end
+
+% Create array of NucleicAcid objects for all target sequences and apply
+% mask
+for n = 1:length(seqs)
+   targets(n) = NucleicAcid(seqs{n},'name',seq_names{n}).toRNA;
 end
+targets = targets.applyMask(mask);
 
 % probe_targets = {'ATCG','TCAT', 'GGCT', 'TCAA', 'GGAC', 'GAAG', 'CCTC', 'GCAA', 'TGGC', 'ACCG', 'GTTG', 'GTAT', 'GTCC', 'TAGT', 'CTGC', 'TGTA'}; %2025-01-29 98.8% unambiguous
-probe_targets = {'TGGC','GTTG','ATCG'};
+probe_targets = {'UGGC','GUUG','AUCG'};
 
-probes = probe_targets;
 for n = 1:length(probe_targets)
-    probes{n} = reverse_complement(probe_targets{n});
+    probes(n) = NucleicAcid(probe_targets{n}).reverseComplement.toLNA;
 end
 
-dG = zeros(length(seq_names),length(probes));
-
-for m = 1:length(seqs_orig)
-    for n = 1:length(probes)
-        [~, ~, dG(m,n)] = parameters_NA(add_modifications(probes{n},{'+','+','+','+'}),'target',seqs{m},'type','RNA','temperature',T,'model_overhangs','true'); % LNA parameters
+for m = 1:numel(targets)
+    for n = 1:numel(probes)
+        dG(m,n) = NucleicAcidPair(targets(m),probes(n)).longestDuplex.estimateDeltaG('temperature',T);
     end
 end
 
 % imshow(-dG/max(max(-dG)),'InitialMagnification',2000);
 
 dG = dG/1000;
+dG = round(dG,2);
+
+for n = 1:numel(probes)
+    column_names{1,n} = probes(n).BareString;
+end
+for n = 1:numel(targets)
+    row_names{n,1} = targets(n).Name;
+end
+uitable("ColumnName",column_names,"RowName",row_names,"Data",dG,'Units','normalized','Position',[0.05 0.05 0.9 0.9]);

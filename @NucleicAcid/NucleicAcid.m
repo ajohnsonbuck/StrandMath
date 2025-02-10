@@ -1,34 +1,58 @@
 classdef NucleicAcid
     properties
+        Name = '';
         String = '';
         Sequence = {};
+    end
+    properties (Hidden)
         BareString = '';
         BareSequence = {};
         Modifications = {};
+        Mask = '';
+        UnmaskedString = '';
     end
-    properties (SetAccess = private)
+    properties (Hidden, SetAccess = private)
         Modlist = {'+','b','r'};
     end
     methods
-        function obj = NucleicAcid(varargin)
-            if nargin == 1
+        function obj = NucleicAcid(varargin) % Constructor
+            if strcmpi(varargin{1},'random')
+                L = 10;
+                fGC = 0.5;
+                if length(varargin)>1
+                    for n = 2:2:length(varargin)
+                        if strcmpi(varargin{n},'length') || strcmpi(varargin{n},'size')
+                            L = varargin{n+1};
+                        elseif strcmpi(varargin{n},'GCcontent') || strcmpi(varargin{n},'GC_content') || strcmpi(varargin{n},'fGC')
+                            fGC = varargin{n+1};
+                        end
+                    end
+                end
+                seq = randomSequence(obj, L, fGC);
+                obj = fromString(obj, seq);
+            else
                 seq = varargin{1};
                 if isa(seq,'char') || isa(seq,'string')
                     obj = fromString(obj, seq);
                 else
                     obj = fromSequence(obj, seq);
                 end
-            else
-                for n = 1:length(varargin)
-                    if strcmpi(varargin{n},'String')
-                       str1 = varargin{n+1};
-                       obj = fromString(obj, str1);
-                    elseif strcmpi(varargin{n},'Sequence')
-                       obj.Sequence = varargin{n+1};
-                       obj = fromSequence(obj);
+            end
+            if length(varargin)>1
+                for n = 2:2:length(varargin)
+                    if strcmpi(varargin{n},'Mask')
+                       obj.Mask = varargin{n+1};
+                    elseif strcmpi(varargin{n},'Name')
+                       obj.Name = varargin{n+1};
                     end
                 end
             end
+            if isempty(obj.Mask)
+                for n = 1:obj.len
+                    obj.Mask = [obj.Mask, 'n'];
+                end
+            end
+            obj = applyMask(obj,obj.Mask);
         end
         function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
             if ~isempty(varargin)
@@ -54,8 +78,24 @@ classdef NucleicAcid
                 obj.BareSequence{n} = obj.BareString(n);
             end
         end
-        function obj = fromString(obj,str1) % Populate object from input string
-            obj.String = str1;
+        function seq = randomSequence(obj,L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
+            AT = {'A','T'};
+            GC = {'G','C'};
+            nGC = round(fGC*L);
+            nAT = L-nGC;
+            ind = unidrnd(2,nGC,1);
+            seq = '';
+            for n = 1:nGC % Add specified number of Gs and/or Cs
+                seq = [seq, GC{ind(n)}];
+            end
+            ind = unidrnd(2,nAT,1);
+            for n = 1:nAT % Populate remainder of sequence with As and Ts
+                seq = [seq, AT{ind(n)}];
+            end
+            seq = seq(randperm(length(seq))); % Shuffle sequence
+        end
+        function obj = fromString(obj,str1) % Populate object from input char or string
+            obj.String = char(str1); % Convert string to char
             seq = obj.String;
             obj.BareString = erase(seq,obj.Modlist); % Remove modification prefixes from sequences
             obj.Sequence = cell(1,length(obj.BareString));
@@ -82,6 +122,24 @@ classdef NucleicAcid
             for n = 1:numel(objArray)
                 str1 = replace(objArray(n).BareString, 'U', 'T');
                 objArray(n) = fromString(objArray(n),str1);
+            end
+        end
+        function objArray = toLNA(objArray)
+            for n = 1:numel(objArray)
+                seq1 = objArray(n).BareSequence;
+                for p = 1:length(seq1)
+                    seq1{p} = ['+',seq1{p}];
+                end
+                objArray(n) = fromSequence(objArray(n),seq1);
+            end
+        end
+        function objArray = toBNA(objArray)
+            for n = 1:numel(objArray)
+                seq1 = objArray(n).BareSequence;
+                for p = 1:length(seq1)
+                    seq1{p} = ['b',seq1{p}];
+                end
+                objArray(n) = fromSequence(objArray(n),seq1);
             end
         end
         function objArray = toRNA(objArray)
@@ -198,6 +256,21 @@ classdef NucleicAcid
                 end
             end
             fGC = nGC/length(obj.BareSequence);
+        end
+        function fGC = gc(obj) % Alias for gcContent()
+            fGC = gcContent(obj);
+        end
+        function objArray = applyMask(objArray,mask)
+            for n = 1:numel(objArray)
+                str1 = objArray(n).String;
+                for p = 1:objArray(n).len
+                    if strcmp(mask(p),'-')
+                       objArray(n).Sequence{p}='-';
+                    end
+                end
+                objArray(n) = objArray(n).fromSequence;
+                objArray(n).UnmaskedString = str1; % Retain unmasked sequence for reference
+            end
         end
     end
 end

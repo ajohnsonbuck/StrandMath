@@ -9,7 +9,7 @@ classdef NucleicAcidDuplex
         NearestNeighbors = {};
         Nbp = []; % Number of base pairs in interaction
         Length = []; % Length of interaction, including mismatches and overhangs
-        Tm = -Inf; % Melting temperature
+        fGC = -Inf;
         dS0 = -Inf; % Entropy of hybridization at standard conditions
         dH0 = Inf; % Enthalpy of hybridization at standard conditions
         dG0 = Inf; % Free energy of hybridization at standard conditions
@@ -20,9 +20,7 @@ classdef NucleicAcidDuplex
             obj.Schema = schema;
             if ~isempty(varargin) % Parse initialization arguments
                 for n = 1:2:length(varargin)
-                    if strcmpi(varargin{n},'DuplexName')
-                        obj.DuplexName = varargin{n+1};
-                    elseif strcmpi(varargin{n},'Sequences')
+                    if strcmpi(varargin{n},'Sequences')
                         obj.Sequences = varargin{n+1};
                     elseif strcmpi(varargin{n},'SequenceNames')
                         obj.SequenceNames = varargin{n+1};
@@ -45,6 +43,7 @@ classdef NucleicAcidDuplex
             obj = obj.findNearestNeighbors(); % Find nearest neighbors
             obj = determineSymmetryAndInitiation(obj); % Determine symmetry and initiation factors and add them to obj.NearestNeighbor property
             obj = obj.estimateThermodynamics(parameters); % Estimate deltaS, deltaH, deltaG
+            obj = obj.gcContent();
             % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
             obj.Length = length(obj.PairingState); % 
         end
@@ -152,7 +151,7 @@ classdef NucleicAcidDuplex
                 disp('Warning: Initiation and symmetry parameters for RNA/RNA duplexes not yet in database. Initiation and symmetry will be ignored.')
             end
         end
-        function obj = estimateThermodynamics(obj,parameters) 
+        function obj = estimateThermodynamics(obj,parameters)
             codes = parameters.NearestNeighbor;
             dH0s = parameters.dH0;
             dS0s = parameters.dS0;
@@ -161,11 +160,49 @@ classdef NucleicAcidDuplex
             dS0 = 0;
             for n = 1:length(obj.NearestNeighbors)
                 ind = strcmpi(obj.NearestNeighbors{n},codes);
-                if sum(ind) > 0
-                dH0 = dH0 + dH0s(ind);
-                dS0 = dS0 + dS0s(ind);
+                if sum(ind) == 0
+                    % Try approximating RNA as DNA
+                    nn = erase(obj.NearestNeighbors{n},'r');
+                    nn = replace(nn,'U','T');
+                    ind = strcmpi(nn,codes);
+                    if sum(ind) == 0
+                        % Try approximating RNA, LNA and BNA as DNA
+                        nn = erase(nn,{'b','+'});
+                        ind = strcmpi(nn,codes);
+                        if sum(ind) == 0
+                            % Try approximating terminal mismatches as
+                            % internal mismatches
+                            nn = erase(nn,{'5t','3t'});
+                            ind = strcmpi(nn,codes);
+                            if sum(ind) == 0
+                                % Try approximating LNA and BNA as RNA
+                                nn = replace(obj.NearestNeighbors{n},{'b','+'},'r');
+                                ind = strcmpi(nn,codes);
+                                if sum(ind) == 0
+                                    fprintf(1,'Error: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
+                                else
+                                    dH0 = dH0 + dH0s(ind);
+                                    dS0 = dS0 + dS0s(ind);
+                                    fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
+                                end
+                            else
+                                dH0 = dH0 + dH0s(ind);
+                                dS0 = dS0 + dS0s(ind);
+                                fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
+                            end
+                        else
+                            dH0 = dH0 + dH0s(ind);
+                            dS0 = dS0 + dS0s(ind);
+                            fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
+                        end
+                    else
+                        dH0 = dH0 + dH0s(ind);
+                        dS0 = dS0 + dS0s(ind);
+                        fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
+                    end
                 else
-                    fprintf(1,'Error: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
+                    dH0 = dH0 + dH0s(ind);
+                    dS0 = dS0 + dS0s(ind);
                 end
             end
             obj.dH0 = dH0*1000; % Convert to cal/mol before setting enthapy property
@@ -173,7 +210,7 @@ classdef NucleicAcidDuplex
             % Calculate deltaG
             obj.dG0 = obj.dH0 - 310.15*obj.dS0;
         end
-        function obj = estimateTm(obj, varargin)
+        function Tm = estimateTm(obj, varargin)
             conc = 0.2E-6;
             Na = 1;
             Mg = 0;
@@ -191,22 +228,21 @@ classdef NucleicAcidDuplex
             % Calculate Tm under standard conditions
             R = 1.987204258; % Gas constant, cal/(mol K)
             % Calculate Tm from entropy, enthalpy, and concentration
-            obj.Tm = obj.dH0/(obj.dS0 + R*log(conc/4))-273.15;
+            Tm = obj.dH0/(obj.dS0 + R*log(conc/4))-273.15;
             % Apply salt correction
-            obj.Tm = obj.salt_correction(obj.Tm,Na,Mg);
+            Tm = obj.salt_correction(Tm,Na,Mg);
         end
-        function Tm = salt_correction(obj,Tm_1MNa, Na, Mg)
+        function Tm = salt_correction(obj, Tm_1MNa, Na, Mg)
             % Convert from Celsius to Kelvin
             Tm_1MNa = Tm_1MNa + 273.15;
-            fGC = obj.gcContent();
             R = sqrt(Mg)/Na;
             if R < 0.22
-                Tm = 1/(1/Tm_1MNa + ((4.29*fGC - 3.95)*log(Na) + 0.940*(log(Na))^2)*(1E-5)); % Monovalent correction
+                Tm = 1/(1/Tm_1MNa + ((4.29*obj.fGC - 3.95)*log(Na) + 0.940*(log(Na))^2)*(1E-5)); % Monovalent correction
             elseif R < 6
                 a = 3.92*(0.843-0.352*sqrt(Na)*log(Na));
                 d = 1.42*(1.279-4.03E-3*log(Na)-8.03E-3*(log(Na))^2);
                 g = 8.31*(0.486-0.258*log(Na)+5.25E-3*(log(Na))^3);
-                Tm = 1/(1/Tm_1MNa + (a - 0.911*log(Mg)+fGC*(6.26+d*log(Mg))+1/(2*(obj.Nbp-1))*(-48.2+52.5*log(Mg)+g*(log(Mg))^2))*1E-5);
+                Tm = 1/(1/Tm_1MNa + (a - 0.911*log(Mg)+obj.fGC*(6.26+d*log(Mg))+1/(2*(obj.Nbp-1))*(-48.2+52.5*log(Mg)+g*(log(Mg))^2))*1E-5);
             else
                 a = 3.92;
                 d = 1.42;
@@ -234,7 +270,7 @@ classdef NucleicAcidDuplex
             T = T+273.15;
             dG = obj.dH0 - T*obj.dS0 - R*T*log(c/4);
         end
-        function fGC = gcContent(obj)
+        function obj = gcContent(obj)
             % Calculate GC content of interaction
             nGC = 0;
             for n = 1:size(obj.Schema,2)
@@ -248,7 +284,7 @@ classdef NucleicAcidDuplex
                     end
                 end
             end
-            fGC = nGC/obj.Nbp;
+            obj.fGC = nGC/obj.Nbp;
         end
     end
 end
