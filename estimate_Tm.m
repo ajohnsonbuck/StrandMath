@@ -8,7 +8,7 @@ function Tm = estimate_Tm(probe,varargin)
     % Name-value pair arguments:
     % 'Target'
     % Target sequence (type: NucleicAcid object, char, string, or cell array)
-    % 'concentration'
+    % 'concentration' or 'conc'
     % Probe concentration, in mol/L (type: float)
     % 'Na'
     % Sodium concentration, in mol/L (type: float)
@@ -26,6 +26,8 @@ function Tm = estimate_Tm(probe,varargin)
 
     Tm = pair.longestDuplex.estimateTm('concentration',conc,'Na',Na,'Mg',Mg); % estimate Tm of longest duplex
 
+    Tm = round(Tm,1);
+
 end
 
 function [type, conc, Na, Mg, target] = parse_input(probe, args)
@@ -37,7 +39,7 @@ function [type, conc, Na, Mg, target] = parse_input(probe, args)
     for n = 1:2:length(args)
         if strcmpi(args{n}, 'type')
             type = args{n+1};
-        elseif strcmpi(args{n}, 'concentration')
+        elseif strcmpi(args{n}, 'concentration') || strcmpi(args{n}, 'conc')
             conc = args{n+1};
         elseif strcmpi(args{n}, 'Na')
             Na = args{n+1};
