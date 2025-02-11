@@ -2,19 +2,13 @@
 
 % NEED TO INCORPORATE MISMATCHES INTO CODE, INCLUDING TERMINAL MISMATCHES
 
-T = 37;
-
-[seqs, seq_names] = walter_lab_miRNAs();
+T = 37; % temp in Celsius
 
 mask = '-----------nnnnnnnnnnnnnnnnnnnn'; % only g12-end
 % mask = '------------nnnnnnnnnnnnnnnnnnn'; % only g13-end
 
-% Create array of NucleicAcid objects for all target sequences and apply
-% mask
-for n = 1:length(seqs)
-   targets(n) = NucleicAcid(seqs{n},'name',seq_names{n}).toRNA;
-end
-targets = targets.applyMask(mask);
+targets = walter_lab_miRNAs(); % load miRNA sequences into array
+targets = targets.applyMask(mask); % apply mask
 
 % probe_targets = {'ATCG','TCAT', 'GGCT', 'TCAA', 'GGAC', 'GAAG', 'CCTC', 'GCAA', 'TGGC', 'ACCG', 'GTTG', 'GTAT', 'GTCC', 'TAGT', 'CTGC', 'TGTA'}; %2025-01-29 98.8% unambiguous
 probe_targets = {'UGGC','GUUG','AUCG'};

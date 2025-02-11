@@ -244,6 +244,14 @@ classdef NucleicAcid
                 rc = rc{1};
             end
         end
+        function objArray = scramble(objArray)
+            for n = 1:numel(objArray)
+                seq = objArray(n).Sequence;
+                name = objArray(n).Name;
+                objArray(n) = NucleicAcid(seq(randperm(numel(objArray(n).Sequence))));
+                objArray(n).Name = strcat(name,'_scrambled');
+            end
+        end
         function L = len(objArray)
             L = zeros(size(objArray));
             for n = 1:numel(objArray)
@@ -274,12 +282,25 @@ classdef NucleicAcid
                 objArray(n).UnmaskedString = str1; % Retain unmasked sequence for reference
             end
         end
-        function print(objArray)
+        function print(objArray,varargin)
+            printBare = false;
+            if numel(varargin)>0
+                for n = 1:numel(varargin)
+                    if strcmpi(varargin{n},'bare')
+                        printBare = true;
+                    end
+                end
+            end
             for n = 1:numel(objArray)
                 if ~isempty(objArray(n).Name)
                     fprintf(1,'\n%s',objArray(n).Name);
                 end
-                fprintf(1,['\n5-',objArray(n).String,'-3\n']);
+                if printBare
+                    str1 = objArray(n).BareString;
+                else
+                    str1 = objArray(n).String;
+                end
+                fprintf(1,['\n5-',str1,'-3\n']);
             end
             fprintf(1,'\n');
         end

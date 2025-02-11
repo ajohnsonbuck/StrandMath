@@ -91,18 +91,19 @@ classdef NucleicAcidDuplex
             end
         end
         function obj = findNearestNeighbors(obj)
+            [schema,pairingState] = trimSchema(obj);
             nn = {};
-            for n = 1:size(obj.Schema,2)-1
-                subcell = obj.Schema(1:2,n:n+1);
+            for n = 1:size(schema,2)-1
+                subcell = schema(1:2,n:n+1);
                 char1 = '';
-                if n == 1 && contains(obj.PairingState{n},{'-','d'}) % Mark terminal mismatches and overhangs as 3' or 5'
+                if n == 1 && contains(pairingState{n},{'-','d'}) % Mark terminal mismatches and overhangs as 3' or 5'
                     if isempty(subcell{1,1})
                         subcell = rot90(subcell,2); % If overhang is on bottom strand, flip overhang for lookup
                         char1 = strcat(char1,'3t');
                     else
                         char1 = strcat(char1,'5t');
                     end
-                elseif n == size(obj.Schema,2)-1 && contains(obj.PairingState{n+1},{'-','d'}) % Mark terminal mismatches and overhangs as 3' or 5'
+                elseif n == size(schema,2)-1 && contains(pairingState{n+1},{'-','d'}) % Mark terminal mismatches and overhangs as 3' or 5'
                     if isempty(subcell{1,2})
                         subcell = rot90(subcell,2); % If overhang is on bottom strand, flip overhang for lookup
                         char1 = strcat(char1,'5t');
@@ -114,6 +115,19 @@ classdef NucleicAcidDuplex
                 nn = [nn, char1];
             end
             obj.NearestNeighbors = nn;
+        end
+        function [schema,pairingState] = trimSchema(obj)
+            % Trim schema beyond first unpaired nucleotides at termini
+            schema = obj.Schema;
+            pairingState = obj.PairingState;
+            comp = cellfun(@(x) any(ismember(x, {'p','w'})), pairingState); % identify 
+            ind = movmax(comp,3); % Maximal region
+            ind2 = any(~cellfun(@isempty,schema),1); % Region occupied by at least one nucleotide from maximal region
+            ind = ind & ind2; % Trim region
+            startpos = find(ind,1,'first');
+            endpos = find(ind,1,'last');
+            schema = schema(:, startpos:endpos); % trim
+            pairingState = pairingState(startpos:endpos);
         end
         function obj = determineSymmetryAndInitiation(obj)
             % Determine type
@@ -285,9 +299,22 @@ classdef NucleicAcidDuplex
             end
             obj.fGC = nGC/obj.Nbp;
         end
-        function print(objArray)
+        function print(objArray,varargin)
+            flipSequences=false; % put bottom sequence on top
+            if numel(varargin)>0
+                for n = 1:numel(varargin)
+                    if strcmp(varargin{n},'flip')
+                        flipSequences = true;
+                    end
+                end
+            end
             for m = 1:numel(objArray)
-            fprintf('\n%s',objArray(m).Sequences{1}.Name);
+            if flipSequences == true
+                objArray(m).Sequences = flipud(objArray(m).Sequences);
+                objArray(m).Schema = rot90(objArray(m).Schema,2);
+                objArray(m).PairingState = fliplr(objArray(m).PairingState);
+            end
+            fprintf('\n%s\n',objArray(m).Sequences{1}.Name);
             line1 = '\n5-';
             line2 = '\n  ';
             line3 = '\n3-';

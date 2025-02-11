@@ -1,24 +1,29 @@
 classdef NucleicAcidPair
     properties
-        Sequences = cell(2,1); % Cell array of nucleic acid sequence objects
+        Sequences = {NucleicAcid(); NucleicAcid()}; % Cell array of two NucleicAcid objects
         Duplexes = {}; % Cell array of NucleicAcidDuplex objects describing one or more duplexes formed by the pair. By default, the first is the longest.
     end
     methods
         function obj = NucleicAcidPair(varargin) % Constructor
             if length(varargin) == 1
-               if isa(varargin{1},'NucleicAcid')
+                if isa(varargin{1},'NucleicAcid')
                     obj.Sequences{1} = varargin{1};
-                    obj.Sequences{2} = NucleicAcid(obj.Sequences{1}.reverseComplement('string')); % Create reverse complement
-               else
-                   disp('Error: Input must be one or two NucleicAcid objects');
-               end
+                elseif isa(varargin{1},'string') || isa(varargin{1},'char') || isa(varargin{1},'cell')
+                    obj.Sequences{1} = NucleicAcid(varargin{1});
+                else
+                    disp('Error: Input must be one or two NucleicAcid objects, chars, strings, or sequences');
+                end
+                obj.Sequences{2} = obj.Sequences{1}.reverseComplement; % Create reverse complement
             elseif length(varargin) == 2
-               if isa(varargin{1},'NucleicAcid') && isa(varargin{2},'NucleicAcid')
-                   obj.Sequences{1} = varargin{1};
-                   obj.Sequences{2} = varargin{2};
-               else
-                   disp('Error: Input must be one or two NucleicAcid objects');
-               end
+                for n = 1:2
+                    if isa(varargin{n},'NucleicAcid')
+                        obj.Sequences{n} = varargin{n};
+                    elseif isa(varargin{n},'string') || isa(varargin{n},'char') || isa(varargin{n},'cell')
+                        obj.Sequences{n} = NucleicAcid(varargin{n});
+                    else
+                        disp('Error: Input must be one or two NucleicAcid objects, chars, strings, or sequences');
+                    end
+                end
             end
             if sum(contains(obj.Sequences{2}.Sequence,'r'))<sum(contains(obj.Sequences{1}.Sequence,'r'))
                 obj.Sequences = flipud(obj.Sequences); % If either sequence has RNA, ensure Sequence 2 has more RNA residues
@@ -54,10 +59,8 @@ classdef NucleicAcidPair
             schema = cell(2,obj.Sequences{2}.len + (obj.Sequences{1}.len-1)*2);
             schema(2,obj.Sequences{1}.len:obj.Sequences{1}.len+obj.Sequences{2}.len-1) = obj.Sequences{2}.reverse().Sequence;
             schema(1,nbest:nbest+obj.Sequences{1}.len-1) = obj.Sequences{1}.Sequence;
-            % Trim schema beyond first unpaired nucleotides at termini
-            ind = movmax(comp_best,3); % Maximal region
-            ind2 = any(~cellfun(@isempty,schema),1); % Region occupied by at least one nucleotide from maximal region
-            ind = ind & ind2; % Trim region
+            % Trim schema of any padding
+            ind = any(~cellfun(@isempty,schema),1);
             startpos = find(ind,1,'first');
             endpos = find(ind,1,'last');
             schema = schema(:, startpos:endpos); % trim
