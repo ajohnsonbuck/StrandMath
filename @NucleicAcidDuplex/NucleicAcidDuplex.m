@@ -2,8 +2,7 @@ classdef NucleicAcidDuplex
     % Add mismatch treatment - only create paired Nearest Neighbor code if n and n+1 of
     % PairingState are 'p'; add codes for terminal mismatches
     properties
-        Sequences = cell(2,1); % Cell array of strings or char with two (full) strand sequences
-        SequenceNames = cell(2,1); % Cell array of strings or char with two strand names
+        Sequences = {NucleicAcid(); NucleicAcid()}; % Cell array of two NucleicAcid objects
         Schema = cell(2,0); % 2xN cell array showing register of two sequences in interaction
         PairingState = {}; % 1xN cell array showing pairing state ('p'=paired, 'w'=wobble,''=mismatch,'d'= dangling/overhang)
         NearestNeighbors = {};
@@ -22,8 +21,6 @@ classdef NucleicAcidDuplex
                 for n = 1:2:length(varargin)
                     if strcmpi(varargin{n},'Sequences')
                         obj.Sequences = varargin{n+1};
-                    elseif strcmpi(varargin{n},'SequenceNames')
-                        obj.SequenceNames = varargin{n+1};
                     elseif strcmpi(varargin{n},'PairingState')
                         obj.PairingState = varargin{n+1};
                     elseif strcmpi(varargin{n}, 'Nbp')
@@ -288,34 +285,41 @@ classdef NucleicAcidDuplex
             end
             obj.fGC = nGC/obj.Nbp;
         end
-        function print(obj)
+        function print(objArray)
+            for m = 1:numel(objArray)
+            fprintf('\n%s',objArray(m).Sequences{1}.Name);
             line1 = '\n5-';
             line2 = '\n  ';
             line3 = '\n3-';
-            for n = 1:size(obj.Schema,2)
-                if length(obj.Schema{1,n})==2
-                    line1 = [line1,obj.Schema{1,n}];
-                elseif length(obj.Schema{1,n})==1
-                    line1 = [line1,' ',obj.Schema{1,n}];
+            for n = 1:size(objArray(m).Schema,2)
+                if length(objArray(m).Schema{1,n})==2
+                    line1 = [line1,objArray(m).Schema{1,n}];
+                elseif length(objArray(m).Schema{1,n})==1
+                    line1 = [line1,' ',objArray(m).Schema{1,n}];
                 else 
-                    line1 = [line1,'  ',obj.Schema{1,n}];
+                    line1 = [line1,'  ',objArray(m).Schema{1,n}];
                 end
-                if length(obj.Schema{2,n})==2
-                    line3 = [line3,obj.Schema{2,n}];
-                elseif length(obj.Schema{2,n})==1
-                    line3 = [line3,' ',obj.Schema{2,n}];
+                if length(objArray(m).Schema{2,n})==2
+                    line3 = [line3,objArray(m).Schema{2,n}];
+                elseif length(objArray(m).Schema{2,n})==1
+                    line3 = [line3,' ',objArray(m).Schema{2,n}];
                 else
-                    line3 = [line3,'  ',obj.Schema{2,n}];
+                    line3 = [line3,'  ',objArray(m).Schema{2,n}];
                 end
-                if obj.PairingState{n}=='p'
+                if objArray(m).PairingState{n}=='p'
                     line2 = [line2,' |'];
-                elseif obj.PairingState{n}=='w'
+                elseif objArray(m).PairingState{n}=='w'
                     line2 = [line2,' o'];
                 else
                     line2 = [line2,'  '];
                 end
             end
-            fprintf(1,strcat(line1,line2,line3,'\n\n'));
+            line1 = [line1,'-3'];
+            line3 = [line3,'-5'];
+            fprintf(1,strcat(line1,line2,line3,'\n'));
+            fprintf('\n%s\n',objArray(m).Sequences{2}.Name);
+            end
+            fprintf(1,'\n')
         end
     end
 end

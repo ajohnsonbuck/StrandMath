@@ -16,26 +16,28 @@ classdef NucleicAcid
     end
     methods
         function obj = NucleicAcid(varargin) % Constructor
-            if strcmpi(varargin{1},'random')
-                L = 10;
-                fGC = 0.5;
-                if length(varargin)>1
-                    for n = 2:2:length(varargin)
-                        if strcmpi(varargin{n},'length') || strcmpi(varargin{n},'size')
-                            L = varargin{n+1};
-                        elseif strcmpi(varargin{n},'GCcontent') || strcmpi(varargin{n},'GC_content') || strcmpi(varargin{n},'fGC')
-                            fGC = varargin{n+1};
+            if numel(varargin)>0
+                if strcmpi(varargin{1},'random')
+                    L = 10;
+                    fGC = 0.5;
+                    if length(varargin)>1
+                        for n = 2:2:length(varargin)
+                            if strcmpi(varargin{n},'length') || strcmpi(varargin{n},'size')
+                                L = varargin{n+1};
+                            elseif strcmpi(varargin{n},'GCcontent') || strcmpi(varargin{n},'GC_content') || strcmpi(varargin{n},'fGC')
+                                fGC = varargin{n+1};
+                            end
                         end
                     end
-                end
-                seq = randomSequence(obj, L, fGC);
-                obj = fromString(obj, seq);
-            else
-                seq = varargin{1};
-                if isa(seq,'char') || isa(seq,'string')
+                    seq = randomSequence(obj, L, fGC);
                     obj = fromString(obj, seq);
                 else
-                    obj = fromSequence(obj, seq);
+                    seq = varargin{1};
+                    if isa(seq,'char') || isa(seq,'string')
+                        obj = fromString(obj, seq);
+                    else
+                        obj = fromSequence(obj, seq);
+                    end
                 end
             end
             if length(varargin)>1
@@ -271,6 +273,15 @@ classdef NucleicAcid
                 objArray(n) = objArray(n).fromSequence;
                 objArray(n).UnmaskedString = str1; % Retain unmasked sequence for reference
             end
+        end
+        function print(objArray)
+            for n = 1:numel(objArray)
+                if ~isempty(objArray(n).Name)
+                    fprintf(1,'\n%s',objArray(n).Name);
+                end
+                fprintf(1,['\n5-',objArray(n).String,'-3\n']);
+            end
+            fprintf(1,'\n');
         end
     end
 end

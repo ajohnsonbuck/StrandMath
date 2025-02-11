@@ -1,4 +1,4 @@
-function [seqs, seq_names] = walter_lab_miRNAs()
+function N = walter_lab_miRNAs()
     seqs = cell(7,1);
     seq_names{1} = 'hsa-miR-141';
     seqs{1} = rna2dna('UAACACUGUCUGGUAAAGAUGG');
@@ -14,4 +14,8 @@ function [seqs, seq_names] = walter_lab_miRNAs()
     seqs{6} = rna2dna('UAGCAGCACGUAAAUAUUGGCG');
     seq_names{7} = 'hsa-miR-21';
     seqs{7} = rna2dna('UAGCUUAUCAGACUGAUGUUGA');
+    
+    for n = 1:numel(seqs)
+        N(n) = NucleicAcid(seqs{n},'name',seq_names{n}).toRNA;
+    end
 end

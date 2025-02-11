@@ -63,7 +63,7 @@ classdef NucleicAcidPair
             schema = schema(:, startpos:endpos); % trim
             schema(cellfun(@isempty,schema))={''}; % Replace empty cell elements with empty char
             % Create duplex object
-            obj.Duplexes{1} = NucleicAcidDuplex(schema);
+            obj.Duplexes{1} = NucleicAcidDuplex(schema,'Sequences',obj.Sequences);
         end
         function duplex = longestDuplex(obj)
             duplex = obj.Duplexes{1};
@@ -72,6 +72,24 @@ classdef NucleicAcidPair
             for n = 1:2
                 fprintf(1,'Sequence %d: %s\n',n,obj.Sequences{n}.String);
             end
+        end
+        function Tm = estimateTm(obj,varargin)
+            args = varargin;
+            duplex = obj.longestDuplex();
+            if ~isempty(varargin)
+                Tm = duplex.estimateTm(args{:});
+            else
+                Tm = duplex.estimateTm();
+            end
+        end
+        function print(objArray)
+            for m = 1:numel(objArray)
+                for n = 1:numel(objArray(m).Sequences)
+                    fprintf(1,'\n Sequence %d: %s',n,objArray(m).Sequences{n}.Name)
+                    fprintf(1,['\n5-',objArray(m).Sequences{n}.String,'-3\n']);
+                end
+            end
+            fprintf(1,'\n');
         end
     end
 end
