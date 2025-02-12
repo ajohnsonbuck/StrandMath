@@ -52,8 +52,8 @@ classdef NucleicAcidPair
             for m = 1:numel(objArray)
                 % Create schema with padding (empty cells) for all possible registers
                 schema = cell(2,objArray(m).Sequences{2}.len + (objArray(m).Sequences{1}.len-1)*2);
-                schema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = objArray(m).Sequences{2}.toDNA.reverseComplement.BareSequence; % Reverse complement of bare DNA version of first sequence
-                seq1 = objArray(m).Sequences{1}.toDNA.BareSequence; % first sequence to be slid across second sequence and compared
+                schema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = objArray(m).Sequences{2}.toDNA.reverseComplement.bareSequence; % Reverse complement of bare DNA version of first sequence
+                seq1 = objArray(m).Sequences{1}.toDNA.bareSequence; % first sequence to be slid across second sequence and compared
                 ncomp_best = 0; % highest number of complementary base pairs
                 comp_best = zeros(1,size(schema,2)); % matrix of complementary base pairs
                 % Determine register of schema with most base pairs

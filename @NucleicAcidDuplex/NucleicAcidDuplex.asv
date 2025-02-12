@@ -319,11 +319,11 @@ classdef NucleicAcidDuplex
                 % Find positions to place sequence names
                 name1start = find(~cellfun(@isempty,objArray(m).Schema(1,:)),1,'first');
                 name2start = find(~cellfun(@isempty,objArray(m).Schema(2,:)),1,'first');
-                line0 = '\n';
+                line0 = '\n  ';
                 line1 = '\n5-';
                 line2 = '\n  ';
                 line3 = '\n3-';
-                line4 = '\n';
+                line4 = '\n  ';
                 for n = 1:size(objArray(m).Schema,2)
                     if length(objArray(m).Schema{1,n})==2
                         line1 = [line1,objArray(m).Schema{1,n}];

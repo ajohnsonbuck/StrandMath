@@ -26,14 +26,13 @@ classdef NucleicAcid
                             end
                         end
                     end
-                    seq = NucleicAcid.randomSequence(L, fGC);
+                    seq = randomSequence(objArray(1), L, fGC);
                     objArray(1) = fromString(objArray(1), seq);
                 else
                     seq = varargin{1};
                     if isa(seq,'char') || isa(seq,'string')
                         objArray(1) = fromString(objArray(1), seq);
                     elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argumeent is a vertical cell, assume those cells contain sequences
-                        objArray(1,numel(seq)) = NucleicAcid(); % preallocate object array
                         for n = 1:numel(seq)
                             objArray(n) = fromString(objArray(1), seq{n,1});
                         end
@@ -49,12 +48,8 @@ classdef NucleicAcid
                             objArray(p).Mask = varargin{n+1};
                         end
                     elseif strcmpi(varargin{n},'Name')
-                        if numel(objArray)==1
-                            objArray(1).Name = varargin{n+1};
-                        else
                         for p = 1:numel(objArray)
                             objArray(p).Name = varargin{n+1}{p};
-                        end
                         end
                     end
                 end
@@ -73,10 +68,9 @@ classdef NucleicAcid
         function obj = fromString(obj,str1) % Populate object from input char or string
             obj.String = char(str1); % Convert string to char
             obj.Sequence = cell(1,length(obj.bareString));
-            mods = obj.modifications;
-            str1 = obj.bareString;
+            mods = obj
             for n = 1:length(obj.Sequence)
-                obj.Sequence{n} = [obj.modifications{n}, str1(n)];
+                obj.Sequence{n} = obj.bareString(n);
             end
         end
         function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
@@ -126,6 +120,22 @@ classdef NucleicAcid
             if numel(objArray) == 1
                 mods = mods{1};
             end
+        end
+        function seq = randomSequence(L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
+            AT = {'A','T'};
+            GC = {'G','C'};
+            nGC = round(fGC*L);
+            nAT = L-nGC;
+            ind = unidrnd(2,nGC,1);
+            seq = '';
+            for n = 1:nGC % Add specified number of Gs and/or Cs
+                seq = [seq, GC{ind(n)}];
+            end
+            ind = unidrnd(2,nAT,1);
+            for n = 1:nAT % Populate remainder of sequence with As and Ts
+                seq = [seq, AT{ind(n)}];
+            end
+            seq = seq(randperm(length(seq))); % Shuffle sequence
         end
         function objArray = toDNA(objArray)
             for n = 1:numel(objArray)
@@ -243,7 +253,7 @@ classdef NucleicAcid
                 if strcmpi(outputType,'char')
                     rc{j} = horzcat(rc{j}{:}); % Convert to string (actually 1D char)
                 elseif strcmpi(outputType,'NucleicAcid')
-                    rcNA(j) = NucleicAcid(rc{j},'name',rcNA(j).Name);
+                    rcNA(j) = NucleicAcid(rc{j});
                 end
             end
             if strcmpi(outputType,'NucleicAcid')
@@ -288,15 +298,7 @@ classdef NucleicAcid
                     end
                 end
                 objArray(n) = objArray(n).fromSequence;
-                objArray(n).Mask = mask;
                 objArray(n).UnmaskedString = str1; % Retain unmasked sequence for reference
-            end
-        end
-        function objArray = unmask(objArray)
-            for n = 1:numel(objArray)
-                str1 = objArray(n).UnmaskedString;
-                objArray(n) = objArray(n).fromString(str1);
-                objArray(n).Mask = replace(objArray(n).Mask,'-','n');
             end
         end
         function print(objArray,varargin)
@@ -320,24 +322,6 @@ classdef NucleicAcid
                 fprintf(1,['\n5-',str1,'-3\n']);
             end
             fprintf(1,'\n');
-        end
-    end
-    methods (Static)
-        function seq = randomSequence(L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
-            AT = {'A','T'};
-            GC = {'G','C'};
-            nGC = round(fGC*L);
-            nAT = L-nGC;
-            ind = unidrnd(2,nGC,1);
-            seq = '';
-            for n = 1:nGC % Add specified number of Gs and/or Cs
-                seq = [seq, GC{ind(n)}];
-            end
-            ind = unidrnd(2,nAT,1);
-            for n = 1:nAT % Populate remainder of sequence with As and Ts
-                seq = [seq, AT{ind(n)}];
-            end
-            seq = seq(randperm(length(seq))); % Shuffle sequence
         end
     end
 end
