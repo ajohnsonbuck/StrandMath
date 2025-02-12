@@ -19,7 +19,9 @@ classdef NucleicAcidPair
                 end
                 for n = 1:numel(objArray)
                     objArray(n).Sequences{2} = objArray(n).Sequences{1}.reverseComplement; % Create reverse complement
-                    objArray(n).Sequences{2}.Name = [objArray(n).Sequences{1}.Name,'_reverseComplement'];
+                    if ~isempty(objArray(n).Sequences{1}.Name)
+                        objArray(n).Sequences{2}.Name = [objArray(n).Sequences{1}.Name,'_reverseComplement'];
+                    end
                 end
             elseif length(args) == 2
                 for n = 1:2

@@ -198,6 +198,7 @@ classdef NucleicAcid
         function rc = reverseComplement(objArray, varargin)
             type = 'DNA';
             outputType = 'NucleicAcid'; % Default: provide reverse complement as NucleicAcid unless otherwise provided as argument
+            keepName = false; % Default: wipe name of reverse complement unless 'keepname' specified
             rc = cell(size(objArray));
             if ~isempty(varargin)
                 for n = 1:length(varargin)
@@ -207,6 +208,8 @@ classdef NucleicAcid
                         outputType = 'char';
                     elseif strcmpi(varargin{n},'sequence') || strcmpi(varargin{n},'cell')
                         outputType = 'sequence';
+                    elseif strcmpi(varargin{n},'keepName')
+                        keepName = true;
                     end
                 end
             end
@@ -243,7 +246,12 @@ classdef NucleicAcid
                 if strcmpi(outputType,'char')
                     rc{j} = horzcat(rc{j}{:}); % Convert to string (actually 1D char)
                 elseif strcmpi(outputType,'NucleicAcid')
-                    rcNA(j) = NucleicAcid(rc{j},'name',rcNA(j).Name);
+                    if keepName
+                        name = rcNA(j).Name;
+                    else
+                        name = [rcNA(j).Name,'_reverseComplement'];
+                    end
+                    rcNA(j) = NucleicAcid(rc{j},'name',name);
                 end
             end
             if strcmpi(outputType,'NucleicAcid')
@@ -326,7 +334,7 @@ classdef NucleicAcid
                 obj = NucleicAcid();
                 str1 = strcat(obj1.String,obj2.String);
                 obj = obj.fromString(str1);
-                if ~isempty(obj2.Name)
+                if ~isempty(obj1.Name) && ~isempty(obj2.Name)
                     obj.Name = [obj1.Name,' + ', obj2.Name];
                 else
                     obj.Name = obj1.Name;

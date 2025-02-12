@@ -161,7 +161,21 @@ classdef NucleicAcidDuplex
                 obj.NearestNeighbors = ['DNARNAinit', obj.NearestNeighbors];
             elseif rBases==2
                 % RNA/RNA
-                disp('Warning: Initiation and symmetry parameters for RNA/RNA duplexes not yet in database. Initiation and symmetry will be ignored.')
+                ind = find(contains(obj.PairingState,'p'));
+                ind = [min(ind), max(ind)];
+                ind = contains(obj.Schema(1,ind),'A','IgnoreCase',true) | contains(obj.Schema(1,ind),'U','IgnoreCase',true);
+                nAUterm = sum(ind);
+                obj.NearestNeighbors = ['RNAinit', obj.NearestNeighbors];
+                if nAUterm > 0
+                    for n = 1:nAUterm
+                        obj.NearestNeighbors = ['RNAinitAU', obj.NearestNeighbors];
+                    end
+                end
+                % Check for and apply symmetry
+                ind = find(contains(obj.PairingState,'p'));
+                if sum(~strcmp(obj.Schema(1,ind),fliplr(obj.Schema(2,ind))))==0
+                    obj.NearestNeighbors = ['RNAsymmetry', obj.NearestNeighbors];
+                end
             end
         end
         function obj = estimateThermodynamics(obj,parameters)
@@ -241,8 +255,14 @@ classdef NucleicAcidDuplex
             end
             R = 1.987204258; % Gas constant, cal/(mol K)
             for m = 1:numel(objArray)
+                % Check for symmetry
+                if sum(contains(objArray(m).NearestNeighbors,'symm'))>0
+                    a = 1; % for self-complementary duplexes
+                else
+                    a = 4; % for non-self-complementary duplexes
+                end
                 % Calculate Tm from entropy, enthalpy, and concentration
-                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(conc/4))-273.15;
+                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(conc/a))-273.15;
                 % Apply salt correction
                 Tm(m) = objArray(m).salt_correction(Tm(m),Na,Mg);
             end
