@@ -71,7 +71,7 @@ classdef NucleicAcid
             end
         end
         function obj = fromString(obj,str1) % Populate object from input char or string
-            obj.String = char(str1); % Convert string to char
+            obj.String = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
             obj.Sequence = cell(1,length(obj.bareString));
             mods = obj.modifications;
             str1 = obj.bareString;
@@ -317,13 +317,37 @@ classdef NucleicAcid
                 else
                     str1 = objArray(n).String;
                 end
-                fprintf(1,['\n5-',str1,'-3\n']);
+                fprintf(1,[char("\n5'-"),str1,char("-3'\n")]);
             end
             fprintf(1,'\n');
+        end
+        function obj = plus(obj1,obj2)
+            if isa(obj1,'NucleicAcid') && isa(obj2,'NucleicAcid')
+                obj = NucleicAcid();
+                str1 = strcat(obj1.String,obj2.String);
+                obj = obj.fromString(str1);
+                if ~isempty(obj2.Name)
+                    obj.Name = [obj1.Name,' + ', obj2.Name];
+                else
+                    obj.Name = obj1.Name;
+                end
+            end
+        end
+        function obj = mtimes(obj1,c)
+            obj = NucleicAcid();
+            if isa(obj1,'NucleicAcid') && isnumeric(c) && (round(c,0)==c) && c > 0
+                str = '';
+                for n = 1:c
+                    str = [str,obj1.String];
+                end
+                obj = obj.fromString(str);
+                obj.Name = [obj1.Name,' x ',num2str(c)];
+            end
         end
     end
     methods (Static)
         function seq = randomSequence(L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
+
             AT = {'A','T'};
             GC = {'G','C'};
             nGC = round(fGC*L);
