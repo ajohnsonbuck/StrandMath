@@ -223,7 +223,8 @@ classdef NucleicAcidDuplex
             % Calculate deltaG
             obj.dG0 = obj.dH0 - 310.15*obj.dS0;
         end
-        function Tm = estimateTm(obj, varargin)
+        function Tm = estimateTm(objArray, varargin)
+            Tm = zeros(numel(objArray),1);
             conc = 0.2E-6;
             Na = 1;
             Mg = 0;
@@ -238,12 +239,13 @@ classdef NucleicAcidDuplex
                     fprintf(1,'Warning: NucleicAcidDuplex.estimateTm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
                 end
             end
-            % Calculate Tm under standard conditions
             R = 1.987204258; % Gas constant, cal/(mol K)
-            % Calculate Tm from entropy, enthalpy, and concentration
-            Tm = obj.dH0/(obj.dS0 + R*log(conc/4))-273.15;
-            % Apply salt correction
-            Tm = obj.salt_correction(Tm,Na,Mg);
+            for m = 1:numel(objArray)
+                % Calculate Tm from entropy, enthalpy, and concentration
+                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(conc/4))-273.15;
+                % Apply salt correction
+                Tm(m) = objArray(m).salt_correction(Tm(m),Na,Mg);
+            end
         end
         function Tm = salt_correction(obj, Tm_1MNa, Na, Mg)
             % Convert from Celsius to Kelvin

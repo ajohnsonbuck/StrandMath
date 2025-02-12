@@ -8,9 +8,12 @@ classdef NucleicAcidPair
             args = varargin;
             if length(args) == 1
                 if isa(args{1},'NucleicAcid')
-                    objArray(1,numel(args{1})) = NucleicAcidPair();
-                    for n = 1:numel(args{1})
-                        objArray(n).Sequences{1} = args{1}(n);
+                    objArray(1).Sequences{1} = args{1}(1);
+                    if numel(args{1})>1
+                        for n = 2:numel(args{1})
+                            objArray = NucleicAcidPair();
+
+                        end
                     end
                 elseif isa(args{1},'string') || isa(args{1},'char') || isa(args{1},'cell')
                     objArray(1).Sequences{1} = NucleicAcid(args{1});
@@ -33,19 +36,17 @@ classdef NucleicAcidPair
                     end
                 end
             end
+            if sum(contains(objArray(1).Sequences{2}.Sequence,'r'))<sum(contains(objArray(1).Sequences{1}.Sequence,'r'))
+                objArray(1).Sequences = flipud(objArray(1).Sequences); % If either sequence has RNA, ensure Sequence 2 has more RNA residues
+            end
+            if sum(contains(objArray(1).Sequences{2}.Sequence,'+'))>sum(contains(objArray(1).Sequences{1}.Sequence,'+'))
+                objArray(1).Sequences = flipud(objArray(1).Sequences); % If either sequence has LNA, ensure Sequence 1 has more LNA residues
+            end
+            if sum(contains(objArray(1).Sequences{2}.Sequence,'b'))>sum(contains(objArray(1).Sequences{1}.Sequence,'b'))
+                objArray(1).Sequences = flipud(objArray(1).Sequences); % If either sequence has BNA, ensure Sequence 1 has more BNA residues
+            end
             for n = 1:numel(objArray)
-                if sum(contains(objArray(n).Sequences{2}.Sequence,'r'))<sum(contains(objArray(n).Sequences{1}.Sequence,'r'))
-                    objArray(n).Sequences = flipud(objArray(n).Sequences); % If either sequence has RNA, ensure Sequence 2 has more RNA residues
-                end
-                if sum(contains(objArray(n).Sequences{2}.Sequence,'+'))>sum(contains(objArray(n).Sequences{1}.Sequence,'+'))
-                    objArray(n).Sequences = flipud(objArray(n).Sequences); % If either sequence has LNA, ensure Sequence 1 has more LNA residues
-                end
-                if sum(contains(objArray(n).Sequences{2}.Sequence,'b'))>sum(contains(objArray(n).Sequences{1}.Sequence,'b'))
-                    objArray(n).Sequences = flipud(objArray(n).Sequences); % If either sequence has BNA, ensure Sequence 1 has more BNA residues
-                end
-                if ~isempty(objArray(n).Sequences{1}.String)
-                    objArray(n) = findLongestDuplex(objArray(n));
-                end
+                objArray(n) = findLongestDuplex(objArray(n));
             end
         end
         function objArray = findLongestDuplex(objArray) % Find duplex with largest number of base pairs
@@ -83,8 +84,8 @@ classdef NucleicAcidPair
             end
         end
         function duplex = longestDuplex(objArray)
-            for n = 1:numel(objArray) 
-                duplex(n) = objArray(n).Duplexes{1};
+            for n = numel(objArray) 
+                duplex = objArray(n).Duplexes{1};
             end
         end
         function list(obj) % List nucleic acid sequences in pair as strings
@@ -92,16 +93,13 @@ classdef NucleicAcidPair
                 fprintf(1,'Sequence %d: %s\n',n,obj.Sequences{n}.String);
             end
         end
-        function Tm = estimateTm(objArray,varargin)
+        function Tm = estimateTm(obj,varargin)
             args = varargin;
-            Tm = zeros(numel(objArray),1);
-            for n = 1:numel(objArray)
-                duplex = objArray(n).longestDuplex();
-                if ~isempty(varargin)
-                    Tm(n) = duplex.estimateTm(args{:});
-                else
-                    Tm(n) = duplex.estimateTm();
-                end
+            duplex = obj.longestDuplex();
+            if ~isempty(varargin)
+                Tm = duplex.estimateTm(args{:});
+            else
+                Tm = duplex.estimateTm();
             end
         end
         function print(objArray)

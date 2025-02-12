@@ -15,7 +15,7 @@ classdef NucleicAcid
         Modlist = {'+','b','r'};
     end
     methods
-        function obj = NucleicAcid(varargin) % Constructor
+        function objArray = NucleicAcid(varargin) % Constructor
             if numel(varargin)>0
                 if strcmpi(varargin{1},'random')
                     L = 10;
@@ -29,32 +29,44 @@ classdef NucleicAcid
                             end
                         end
                     end
-                    seq = randomSequence(obj, L, fGC);
-                    obj = fromString(obj, seq);
+                    seq = randomSequence(objArray(1), L, fGC);
+                    objArray(1) = fromString(objArray(1), seq);
                 else
                     seq = varargin{1};
                     if isa(seq,'char') || isa(seq,'string')
-                        obj = fromString(obj, seq);
+                        objArray(1) = fromString(objArray(1), seq);
+                    elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argumeent is a vertical cell, assume those cells contain sequences
+                        for n = 1:numel(seq)
+                            objArray(n) = fromString(objArray(1), seq{n,1});
+                        end
                     else
-                        obj = fromSequence(obj, seq);
+                        objArray(1) = fromSequence(objArray(1), seq);
                     end
                 end
             end
             if length(varargin)>1
                 for n = 2:2:length(varargin)
                     if strcmpi(varargin{n},'Mask')
-                       obj.Mask = varargin{n+1};
+                        for p = 1:numel(objArray)
+                            objArray(p).Mask = varargin{n+1};
+                        end
                     elseif strcmpi(varargin{n},'Name')
-                       obj.Name = varargin{n+1};
+                        for p = 1:numel(objArray)
+                            objArray(p).Name = varargin{n+1}{p};
+                        end
                     end
                 end
             end
-            if isempty(obj.Mask)
-                for n = 1:obj.len
-                    obj.Mask = [obj.Mask, 'n'];
+            for m = 1:numel(objArray)
+                if isempty(objArray(m).Mask)
+                    for n = 1:objArray(m).len
+                        objArray(m).Mask = [objArray(m).Mask, 'n'];
+                    end
                 end
             end
-            obj = applyMask(obj,obj.Mask);
+            for p = 1:numel(objArray)
+                objArray(p) = applyMask(objArray(p),objArray(p).Mask);
+            end
         end
         function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
             if ~isempty(varargin)
@@ -148,7 +160,9 @@ classdef NucleicAcid
             for m = 1:numel(objArray)
                 seq1 = replace(objArray(m).BareSequence, 'T', 'U');
                 for n = 1:length(seq1)
-                    seq1{n} = strcat('r',seq1{n});
+                    if contains(seq1{n}(end),{'A','T','U','G','C'})
+                        seq1{n} = strcat('r',seq1{n});
+                    end
                 end
                 objArray(m).Sequence = seq1;
                 objArray(m) = objArray(m).fromSequence();
