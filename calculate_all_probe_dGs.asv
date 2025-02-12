@@ -17,8 +17,7 @@ probes = NucleicAcid(probe_targets').reverseComplement.toLNA;
 
 for m = 1:numel(targets)
     for n = 1:numel(probes)
-        pair(m,n) = NucleicAcidPair(targets(m),probes(n));
-        dG(m,n) = pair(m,n).longestDuplex.estimateDeltaG('temperature',T);
+        pair(m,n) = NucleicAcidPair(targets(m),probes(n)).longestDuplex.estimateDeltaG('temperature',T);
     end
 end
 
