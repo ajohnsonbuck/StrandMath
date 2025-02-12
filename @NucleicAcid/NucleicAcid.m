@@ -352,6 +352,14 @@ classdef NucleicAcid
                 obj.Name = [obj1.Name,' x ',num2str(c)];
             end
         end
+        function ans = isSymmetric(objArray)
+           for n = 1:numel(objArray)
+                ans(n) = false;
+                if cellfun(@strcmp,objArray(n).toDNA.Sequence,objArray(n).reverseComplement.toDNA.Sequence)
+                    ans(n) = true;
+                end
+           end
+        end
     end
     methods (Static)
         function seq = randomSequence(L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
