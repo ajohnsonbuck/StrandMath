@@ -17,17 +17,30 @@ classdef NucleicAcid
                 if strcmpi(varargin{1},'random')
                     L = 10;
                     fGC = 0.5;
+                    type = 'DNA';
                     if length(varargin)>1
                         for n = 2:2:length(varargin)
                             if strcmpi(varargin{n},'length') || strcmpi(varargin{n},'size')
                                 L = varargin{n+1};
                             elseif strcmpi(varargin{n},'GCcontent') || strcmpi(varargin{n},'GC_content') || strcmpi(varargin{n},'fGC')
                                 fGC = varargin{n+1};
+                            elseif strcmpi(varargin{n},'type')
+                                type = varargin{n+1};
+                            else
+                                msg1 = strcat("Did not recognize input argument '",num2str(varargin{n}),"'.");
+                                error(msg1);
                             end
                         end
                     end
                     seq = NucleicAcid.randomSequence(L, fGC);
                     objArray(1) = fromString(objArray(1), seq);
+                    if strcmpi(type,'RNA')
+                        objArray(1) = objArray(1).toRNA;
+                    elseif strcmpi(type,'LNA')
+                        objArray(1) = objArray(1).toLNA;
+                    elseif strcmpi(type,'BNA')
+                        objArray(1) = objArray(1).toBNA;
+                    end
                 else
                     seq = varargin{1};
                     if isa(seq,'char') || isa(seq,'string')
@@ -425,7 +438,6 @@ classdef NucleicAcid
     end
     methods (Static)
         function seq = randomSequence(L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
-
             AT = {'A','T'};
             GC = {'G','C'};
             nGC = round(fGC*L);
