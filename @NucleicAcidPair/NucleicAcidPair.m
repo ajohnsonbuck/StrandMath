@@ -15,7 +15,7 @@ classdef NucleicAcidPair
                 elseif isa(args{1},'string') || isa(args{1},'char') || isa(args{1},'cell')
                     objArray(1).Sequences{1} = NucleicAcid(args{1});
                 else
-                    disp('Error: Input must be one or two NucleicAcid objects, chars, strings, or sequences');
+                    error('Input must be one or two NucleicAcid objects, chars, strings, or sequences');
                 end
                 for n = 1:numel(objArray)
                     objArray(n).Sequences{2} = objArray(n).Sequences{1}.reverseComplement; % Create reverse complement
@@ -32,7 +32,7 @@ classdef NucleicAcidPair
                     elseif isa(args{n},'string') || isa(args{n},'char') || isa(args{n},'cell')
                         objArray(1).Sequences{n} = NucleicAcid(args{n});
                     else
-                        disp('Error: Input must be one or two NucleicAcid objects, chars, strings, or sequences');
+                        error('Input must be one or two NucleicAcid objects, chars, strings, or sequences');
                     end
                 end
             end
@@ -51,8 +51,10 @@ classdef NucleicAcidPair
                 end
             end
         end
-        function objArray = findLongestDuplex(objArray) % Find duplex with largest number of base pairs
+        function a = findLongestDuplex(a) % Find duplex with largest number of base pairs
+            objArray = a;
             for m = 1:numel(objArray)
+                objArray(m) = applyMask(objArray(m));
                 % Create schema with padding (empty cells) for all possible registers
                 schema = cell(2,objArray(m).Sequences{2}.len + (objArray(m).Sequences{1}.len-1)*2);
                 schema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = objArray(m).Sequences{2}.toDNA.reverseComplement.bareSequence; % Reverse complement of bare DNA version of first sequence
@@ -81,8 +83,8 @@ classdef NucleicAcidPair
                 endpos = find(ind,1,'last');
                 schema = schema(:, startpos:endpos); % trim
                 schema(cellfun(@isempty,schema))={''}; % Replace empty cell elements with empty char
-                % Create duplex object
-                objArray(m).Duplexes{1} = NucleicAcidDuplex(schema,'Sequences',objArray(m).Sequences);
+                % Create duplex object and place in original NucleicAcidPair array
+                a(m).Duplexes{1} = NucleicAcidDuplex(schema,'Sequences',objArray(m).Sequences);
             end
         end
         function duplex = longestDuplex(objArray)
@@ -104,6 +106,21 @@ classdef NucleicAcidPair
                     Tm(n) = duplex.estimateTm(args{:});
                 else
                     Tm(n) = duplex.estimateTm();
+                end
+            end
+        end
+        function objArray = applyMask(objArray)
+            for m = 1:numel(objArray)
+                for n = 1:numel(objArray(m).Sequences)
+                    mask = objArray(m).Sequences{n}.Mask;
+                    str1 = objArray(m).Sequences{n}.String;
+                    for p = 1:objArray(m).Sequences{n}.len
+                        if strcmp(mask(p),'-')
+                            objArray(m).Sequences{n}.Sequence{p}='-';
+                        end
+                    end
+                    objArray(m).Sequences{n} = objArray(m).Sequences{n}.fromSequence;
+                    objArray(m).Sequences{n}.UnmaskedString = str1;
                 end
             end
         end

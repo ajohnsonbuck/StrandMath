@@ -66,9 +66,6 @@ classdef NucleicAcid
                     end
                 end
             end
-            for p = 1:numel(objArray)
-                objArray(p) = applyMask(objArray(p),objArray(p).Mask);
-            end
         end
         function obj = fromString(obj,str1) % Populate object from input char or string
             obj.String = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
@@ -196,15 +193,12 @@ classdef NucleicAcid
             end
         end
         function rc = reverseComplement(objArray, varargin)
-            type = 'DNA';
             outputType = 'NucleicAcid'; % Default: provide reverse complement as NucleicAcid unless otherwise provided as argument
-            keepName = false; % Default: wipe name of reverse complement unless 'keepname' specified
+            keepName = false; % Default: append _reverseComplement to Name unless 'keepName' specified
             rc = cell(size(objArray));
             if ~isempty(varargin)
                 for n = 1:length(varargin)
-                    if strcmpi(varargin{n},'RNA')
-                        type = 'RNA';
-                    elseif strcmpi(varargin{n},'char') || strcmpi(varargin{n},'string')
+                    if strcmpi(varargin{n},'char') || strcmpi(varargin{n},'string')
                         outputType = 'char';
                     elseif strcmpi(varargin{n},'sequence') || strcmpi(varargin{n},'cell')
                         outputType = 'sequence';
@@ -217,7 +211,8 @@ classdef NucleicAcid
                 rcNA = objArray; % copy object array initially
             end
             for j = 1:numel(objArray)
-                rc{j} = objArray(j).bareSequence;
+                rc{j} = objArray(j).Sequence;
+                mods = objArray(j).modifications;
                 for m = 1:length(rc{j})
                     n = length(rc{j})-m+1;
                     base = objArray(j).bareSequence{n};
@@ -230,18 +225,13 @@ classdef NucleicAcid
                     elseif strcmpi(base, 'U')
                         comp = 'A';
                     elseif strcmpi(base,'A')
-                        if strcmpi(type,'RNA')
+                        if strcmp(mods{m},'r')
                             comp = 'U';
                         else
                             comp = 'T';
                         end
                     end
-                    rc{j}{m}=comp;
-                end
-                if strcmpi(type,'RNA')
-                    for m = 1:length(rc{j})
-                        rc{j}{m} = ['r',rc{j}{m}];
-                    end
+                    rc{j}{m}=[mods{m}, comp];
                 end
                 if strcmpi(outputType,'char')
                     rc{j} = horzcat(rc{j}{:}); % Convert to string (actually 1D char)
@@ -289,15 +279,7 @@ classdef NucleicAcid
         end
         function objArray = applyMask(objArray,mask)
             for n = 1:numel(objArray)
-                str1 = objArray(n).String;
-                for p = 1:objArray(n).len
-                    if strcmp(mask(p),'-')
-                       objArray(n).Sequence{p}='-';
-                    end
-                end
-                objArray(n) = objArray(n).fromSequence;
                 objArray(n).Mask = mask;
-                objArray(n).UnmaskedString = str1; % Retain unmasked sequence for reference
             end
         end
         function objArray = unmask(objArray)
@@ -329,34 +311,114 @@ classdef NucleicAcid
             end
             fprintf(1,'\n');
         end
-        function obj = plus(obj1,obj2)
-            if isa(obj1,'NucleicAcid') && isa(obj2,'NucleicAcid')
-                obj = NucleicAcid();
-                str1 = strcat(obj1.String,obj2.String);
-                obj = obj.fromString(str1);
-                if ~isempty(obj1.Name) && ~isempty(obj2.Name)
-                    obj.Name = [obj1.Name,' + ', obj2.Name];
+        function c = plus(a,b) % Adding two NucleicAcid arrays concatenates their corresponding sequences
+            if isa(a,'NucleicAcid') && isa(b,'NucleicAcid')
+                if numel(a) == numel(b) % Add sequences in pairwise fashion if arrays are the same size
+                    c(1,numel(a)) = NucleicAcid();
+                    for n = 1:numel(a)
+                        str1 = strcat(a(n).String,b(n).String);
+                        c(n) = c(n).fromString(str1);
+                        if ~isempty(a(n).Name) && ~isempty(b(n).Name)
+                            c(n).Name = [a(n).Name,' + ', b(n).Name];
+                        else
+                            c(n).Name = a(n).Name;
+                        end
+                    end
+                elseif numel(a) == 1 % If one array has a single element, concatenate that to each element of the second array
+                    c(1,numel(b)) = NucleicAcid();
+                    for n = 1:numel(b)
+                        str1 = strcat(a.String,b(n).String);
+                        c(n) = c(n).fromString(str1);
+                        if ~isempty(a.Name) && ~isempty(b(n).Name)
+                            c(n).Name = [a.Name,' + ', b(n).Name];
+                        else
+                            c(n).Name = a.Name;
+                        end
+                    end
+                elseif numel(b) == 1 % If one array has a single element, concatenate that to each element of the second array
+                    c(1,numel(a)) = NucleicAcid();
+                    for n = 1:numel(a)
+                        str1 = strcat(a(n).String,b.String);
+                        c(n) = c(n).fromString(str1);
+                        if ~isempty(a(n).Name) && ~isempty(b.Name)
+                            c(n).Name = [a(n).Name,' + ', b.Name];
+                        else
+                            c(n).Name = a(n).Name;
+                        end
+                    end
                 else
-                    obj.Name = obj1.Name;
+                    error("Operator '+' is undefined for two NucleicAcid arrays of different lengths > 1");
                 end
             end
         end
-        function obj = mtimes(obj1,c)
-            obj = NucleicAcid();
-            if isa(obj1,'NucleicAcid') && isnumeric(c) && (round(c,0)==c) && c > 0
-                str = '';
-                for n = 1:c
-                    str = [str,obj1.String];
+        function c = times(a,b)
+            if isa(a,'NucleicAcid') && isa(b, 'NucleicAcid')
+                if numel(a) == numel(b)
+                    c(1,numel(a)) = NucleicAcidPair();
+                    for n = 1:numel(a)
+                        c(n) = NucleicAcidPair(a(n),b(n));
+                    end
+                else
+                    warning("Operator '.*' is only defined for two NucleicAcid arrays of the same size, or a NucleicAcid array and a constant")
                 end
-                obj = obj.fromString(str);
-                obj.Name = [obj1.Name,' x ',num2str(c)];
+            elseif (isnumeric(b) && (round(b,0)==b) && b > 0) || (isnumeric(a) && (round(a,0)==a) && a > 0)
+                c = a*b; % revert to mtimes in case one or both is a constant
             end
         end
-        function ans = isSymmetric(objArray)
+        function c = mtimes(a,b) % Multiplying two NucleicAcid arrays of size m and n results in a NucleicAcidDuplex array of size (m x n)
+            if isa(a,'NucleicAcid') && isa(b,'NucleicAcid')
+                c(numel(a),numel(b)) = NucleicAcidPair();
+                for n = 1:numel(a)
+                    for p = 1:numel(b)
+                        c(n,p) = NucleicAcidPair(a(n),b(p));
+                    end
+                end
+            elseif isa(a,'NucleicAcid') && isnumeric(b) && (round(b,0)==b) && b > 0 % Multiplying a NucleicAcid array by a constant b concatenates the sequence b times
+                c(1,numel(a)) = NucleicAcid();
+                for n = 1:numel(a)
+                    str = '';
+                    for p = 1:b
+                        str = [str,a(n).String];
+                    end
+                    c(n) = c(n).fromString(str);
+                    c(n).Name = [a(n).Name,' x ',num2str(b)];
+                end
+            elseif isnumeric(a) && (round(a,0)==a) && a>0 && isa(b,'NucleicAcid') 
+                c(1,numel(b)) = NucleicAcid();
+                for n = 1:numel(b)
+                    str = '';
+                    for p = 1:a
+                        str = [str,b(n).String];
+                    end
+                    c(n) = c(n).fromString(str);
+                    c(n).Name = [b(n).Name,' x ',num2str(a)];
+                end
+            end
+        end
+        function b = ctranspose(a) % a' = a.reverseComplement
+            if isa(a,"NucleicAcid")
+                b = a.reverseComplement();
+            end
+        end
+        function c = eq(a,b) % Two NucleicAcid arrays are equal if they have the same number of elements and all their corresponding elements have the same String property
+            if isa(a,'NucleicAcid') && isa(b,'NucleicAcid')
+                c = true;
+                if numel(a) == numel(b)
+                    for n = 1:numel(a)
+                        if ~strcmp(a(n).String,b(n).String)
+                            c = false;
+                        end
+                    end
+                else
+                    c = false;
+                end
+            end
+        end
+        function out = isSymmetric(objArray) % true if sequence is self-complementary
            for n = 1:numel(objArray)
-                ans(n) = false;
+                out(n) = false;
                 if cellfun(@strcmp,objArray(n).toDNA.Sequence,objArray(n).reverseComplement.toDNA.Sequence)
-                    ans(n) = true;
+                    out(n) = true;
                 end
            end
         end

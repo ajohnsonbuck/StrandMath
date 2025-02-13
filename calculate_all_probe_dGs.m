@@ -14,16 +14,11 @@ targets = targets.applyMask(mask); % apply mask
 probe_targets = {'UGGC'; 'GUUG';'AUCG'};
 probe_names = {'BNA_FP1'; 'BNA_FP2'; 'BNA_FP3'};
 
-probes = NucleicAcid(probe_targets,'name',probe_names).reverseComplement.toLNA;
+probes = NucleicAcid(probe_targets,'name',probe_names).reverseComplement('keepName').toLNA; % Generate set of LNA probes, which are reverse complements of the probe_targets sequences
 
-for m = 1:numel(targets)
-    for n = 1:numel(probes)
-        pair(m,n) = NucleicAcidPair(targets(m),probes(n));
-        dG(m,n) = pair(m,n).longestDuplex.estimateDeltaG('temperature',T);
-    end
-end
-
-% imshow(-dG/max(max(-dG)),'InitialMagnification',2000);
+pair = targets*probes; % Hybridize all targets to all probes to create a pair array
+dG = pair.longestDuplex.estimateDeltaG('temperature',T); % Estimate deltaG of longest duplex for each pair
+dG = reshape(dG,size(pair)); % Reshape output to size of pair array
 
 dG = dG/1000;
 dG = round(dG,2);

@@ -188,25 +188,25 @@ classdef NucleicAcidDuplex
             for n = 1:length(obj.NearestNeighbors)
                 ind = strcmpi(obj.NearestNeighbors{n},codes);
                 if sum(ind) == 0
-                    % Try approximating RNA as DNA
-                    nn = erase(obj.NearestNeighbors{n},'r');
-                    nn = replace(nn,'U','T');
+                    % Try approximating LNA and BNA as RNA
+                    nn = replace(obj.NearestNeighbors{n},{'b','+'},'r');
+                    ind = strcmpi(nn,codes);
                     ind = strcmpi(nn,codes);
                     if sum(ind) == 0
                         % Try approximating RNA, LNA and BNA as DNA
-                        nn = erase(nn,{'b','+'});
+                        nn = erase(obj.NearestNeighbors{n},{'r','b','+'});
                         ind = strcmpi(nn,codes);
                         if sum(ind) == 0
                             % Try approximating terminal mismatches as
                             % internal mismatches
-                            nn = erase(nn,{'5t','3t'});
+                            nn = erase(obj.NearestNeighbors{n},{'5t','3t'});
                             ind = strcmpi(nn,codes);
                             if sum(ind) == 0
-                                % Try approximating LNA and BNA as RNA
-                                nn = replace(obj.NearestNeighbors{n},{'b','+'},'r');
-                                ind = strcmpi(nn,codes);
+                                % Try approximating RNA as DNA
+                                nn = erase(obj.NearestNeighbors{n},'r');
+                                nn = replace(nn,'U','T');
                                 if sum(ind) == 0
-                                    fprintf(1,'Error: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
+                                    fprintf(1,'Warning: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
                                 else
                                     dH0 = dH0 + dH0s(ind);
                                     dS0 = dS0 + dS0s(ind);
@@ -287,7 +287,7 @@ classdef NucleicAcidDuplex
             % Convert from Kelvin back to Celsius
             Tm = Tm-273.15;
         end
-        function dG = estimateDeltaG(obj,varargin)
+        function dG = estimateDeltaG(objArray,varargin)
             R = 1.987204258;% Gas constant, cal/(mol K)
             T = 37; % Temperature default 37 C
             c = 1; % Concentration default 1 M
@@ -303,7 +303,10 @@ classdef NucleicAcidDuplex
                 end
             end
             T = T+273.15;
-            dG = obj.dH0 - T*obj.dS0 - R*T*log(c/4);
+            dG = zeros(size(objArray));
+            for n = 1:numel(objArray)
+                dG(n) = objArray(n).dH0 - T*objArray(n).dS0 - R*T*log(c/4);
+            end
         end
         function obj = gcContent(obj)
             % Calculate GC content of interaction

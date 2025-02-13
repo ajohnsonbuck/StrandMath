@@ -161,7 +161,21 @@ classdef NucleicAcidDuplex
                 obj.NearestNeighbors = ['DNARNAinit', obj.NearestNeighbors];
             elseif rBases==2
                 % RNA/RNA
-                disp('Warning: Initiation and symmetry parameters for RNA/RNA duplexes not yet in database. Initiation and symmetry will be ignored.')
+                ind = find(contains(obj.PairingState,'p'));
+                ind = [min(ind), max(ind)];
+                ind = contains(obj.Schema(1,ind),'A','IgnoreCase',true) | contains(obj.Schema(1,ind),'U','IgnoreCase',true);
+                nAUterm = sum(ind);
+                obj.NearestNeighbors = ['RNAinit', obj.NearestNeighbors];
+                if nAUterm > 0
+                    for n = 1:nAUterm
+                        obj.NearestNeighbors = ['RNAinitAU', obj.NearestNeighbors];
+                    end
+                end
+                % Check for and apply symmetry
+                ind = find(contains(obj.PairingState,'p'));
+                if sum(~strcmp(obj.Schema(1,ind),fliplr(obj.Schema(2,ind))))==0
+                    obj.NearestNeighbors = ['RNAsymmetry', obj.NearestNeighbors];
+                end
             end
         end
         function obj = estimateThermodynamics(obj,parameters)
@@ -174,25 +188,25 @@ classdef NucleicAcidDuplex
             for n = 1:length(obj.NearestNeighbors)
                 ind = strcmpi(obj.NearestNeighbors{n},codes);
                 if sum(ind) == 0
-                    % Try approximating RNA as DNA
-                    nn = erase(obj.NearestNeighbors{n},'r');
-                    nn = replace(nn,'U','T');
+                    % Try approximating LNA and BNA as RNA
+                    nn = replace(obj.NearestNeighbors{n},{'b','+'},'r');
+                    ind = strcmpi(nn,codes);
                     ind = strcmpi(nn,codes);
                     if sum(ind) == 0
                         % Try approximating RNA, LNA and BNA as DNA
-                        nn = erase(nn,{'b','+'});
+                        nn = erase(obj.NearestNeighbors{n},{'r','b','+'});
                         ind = strcmpi(nn,codes);
                         if sum(ind) == 0
                             % Try approximating terminal mismatches as
                             % internal mismatches
-                            nn = erase(nn,{'5t','3t'});
+                            nn = erase(obj.NearestNeighbors{n},{'5t','3t'});
                             ind = strcmpi(nn,codes);
                             if sum(ind) == 0
-                                % Try approximating LNA and BNA as RNA
-                                nn = replace(obj.NearestNeighbors{n},{'b','+'},'r');
-                                ind = strcmpi(nn,codes);
+                                % Try approximating RNA as DNA
+                                nn = erase(obj.NearestNeighbors{n},'r');
+                                nn = replace(nn,'U','T');
                                 if sum(ind) == 0
-                                    fprintf(1,'Error: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
+                                    fprintf(1,'Warning: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
                                 else
                                     dH0 = dH0 + dH0s(ind);
                                     dS0 = dS0 + dS0s(ind);
@@ -241,8 +255,14 @@ classdef NucleicAcidDuplex
             end
             R = 1.987204258; % Gas constant, cal/(mol K)
             for m = 1:numel(objArray)
+                % Check for symmetry
+                if sum(contains(objArray(m).NearestNeighbors,'symm'))>0
+                    a = 1; % for self-complementary duplexes
+                else
+                    a = 4; % for non-self-complementary duplexes
+                end
                 % Calculate Tm from entropy, enthalpy, and concentration
-                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(conc/4))-273.15;
+                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(conc/a))-273.15;
                 % Apply salt correction
                 Tm(m) = objArray(m).salt_correction(Tm(m),Na,Mg);
             end
@@ -267,7 +287,7 @@ classdef NucleicAcidDuplex
             % Convert from Kelvin back to Celsius
             Tm = Tm-273.15;
         end
-        function dG = estimateDeltaG(obj,varargin)
+        function dG = estimateDeltaG(objArray,varargin)
             R = 1.987204258;% Gas constant, cal/(mol K)
             T = 37; % Temperature default 37 C
             c = 1; % Concentration default 1 M
@@ -283,7 +303,10 @@ classdef NucleicAcidDuplex
                 end
             end
             T = T+273.15;
-            dG = obj.dH0 - T*obj.dS0 - R*T*log(c/4);
+            dG = zeros(size(objArray));
+            for n = 1:height
+                dG(n) = objArray(n).dH0 - T*objArray(n).dS0 - R*T*log(c/4);
+            end
         end
         function obj = gcContent(obj)
             % Calculate GC content of interaction
@@ -319,11 +342,11 @@ classdef NucleicAcidDuplex
                 % Find positions to place sequence names
                 name1start = find(~cellfun(@isempty,objArray(m).Schema(1,:)),1,'first');
                 name2start = find(~cellfun(@isempty,objArray(m).Schema(2,:)),1,'first');
-                line0 = '\n  ';
-                line1 = '\n5-';
-                line2 = '\n  ';
-                line3 = '\n3-';
-                line4 = '\n  ';
+                line0 = '\n ';
+                line1 = char("\n5'-");
+                line2 = '\n   ';
+                line3 = char("\n3'-");
+                line4 = '\n ';
                 for n = 1:size(objArray(m).Schema,2)
                     if length(objArray(m).Schema{1,n})==2
                         line1 = [line1,objArray(m).Schema{1,n}];
@@ -347,8 +370,8 @@ classdef NucleicAcidDuplex
                         line2 = [line2,'  '];
                     end
                 end
-                line1 = [line1,'-3'];
-                line3 = [line3,'-5'];
+                line1 = [line1,char("-3'")];
+                line3 = [line3,char("-5'")];
                 for n = 1:name1start
                     line0 = [line0, '  '];
                 end
