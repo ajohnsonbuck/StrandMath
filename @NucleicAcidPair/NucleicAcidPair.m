@@ -113,6 +113,9 @@ classdef NucleicAcidPair
             for m = 1:numel(objArray)
                 for n = 1:numel(objArray(m).Sequences)
                     mask = objArray(m).Sequences{n}.Mask;
+                    if isempty(mask)
+                        mask = repmat('n',1,objArray(m).Sequences{n}.len);
+                    end
                     str1 = objArray(m).Sequences{n}.String;
                     for p = 1:objArray(m).Sequences{n}.len
                         if strcmp(mask(p),'-')
