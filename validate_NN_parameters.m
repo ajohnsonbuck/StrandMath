@@ -7,7 +7,7 @@ function rmsd = validate_NN_parameters()
     load('validation_Xia_etal_1998.mat'); % RNA/RNA
 
     for n = 1:numel(SugimotoTable2.seqs)
-        SugimotoTable2.Tm_pred(n) = estimate_Tm(SugimotoTable2.seqs(n),'conc',100E-6);
+        SugimotoTable2.Tm_pred(n) = estimate_Tm(SugimotoTable2.seqs(n),'target',toDNA(SugimotoTable2.seqs(n)'),'conc',100E-6);
     end
 
     for n = 1:numel(OwczarzyTable4.seqs)

@@ -1,8 +1,6 @@
-% Find deltaG for all probes binding to all miRNA targets in a defined list
+% Find deltaG0 for all probes binding to all miRNA targets in a defined list
 
 % NEED TO INCORPORATE MISMATCHES INTO CODE, INCLUDING TERMINAL MISMATCHES
-
-T = 37; % temp in Celsius
 
 mask = '-----------nnnnnnnnnnnnnnnnnnnn'; % only g12-end
 % mask = '------------nnnnnnnnnnnnnnnnnnn'; % only g13-end
@@ -17,7 +15,7 @@ probe_names = {'BNA_FP1'; 'BNA_FP2'; 'BNA_FP3'};
 probes = NucleicAcid(probe_targets,'name',probe_names).reverseComplement('keepName').toLNA; % Generate set of LNA probes, which are reverse complements of the probe_targets sequences
 
 pair = targets*probes; % Hybridize all targets to all probes to create a pair array
-dG = pair.longestDuplex.estimateDeltaG('temperature',T); % Estimate deltaG of longest duplex for each pair
+dG = [pair.longestDuplex.dG0]; % Estimate deltaG of longest duplex for each pair
 dG = reshape(dG,size(pair)); % Reshape output to size of pair array
 
 dG = dG/1000;

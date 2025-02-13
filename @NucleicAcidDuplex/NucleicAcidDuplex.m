@@ -38,7 +38,7 @@ classdef NucleicAcidDuplex
             end
             parameters = readtable(obj.ParametersFile); % Load nearest neighbor parameters
             obj = obj.findNearestNeighbors(); % Find nearest neighbors
-            obj = determineSymmetryAndInitiation(obj); % Determine symmetry and initiation factors and add them to obj.NearestNeighbor property
+            obj = determineSymmetryAndInitiation(obj); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
             obj = obj.estimateThermodynamics(parameters); % Estimate deltaS, deltaH, deltaG
             obj = obj.gcContent();
             % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
@@ -49,11 +49,11 @@ classdef NucleicAcidDuplex
             for n = 1:length(obj.PairingState)
                 if contains(obj.Schema{1,n},'A') || contains(obj.Schema{1,n},'a')
                     if contains(obj.Schema{2,n},'T') || contains(obj.Schema{2,n},'t') || contains(obj.Schema{2,n},'U') || contains(obj.Schema{2,n},'u')
-                        obj.PairingState{n} = 'p';
+                        obj.PairingState{n} = 'p'; % paired
                     elseif isempty(obj.Schema{2,n})
-                        obj.PairingState{n} = 'd';
+                        obj.PairingState{n} = 'd'; % dangling end/overhang
                     else
-                        obj.PairingState{n} = '-';
+                        obj.PairingState{n} = '-'; % unpaired
                     end
                 elseif contains(obj.Schema{1,n},'C') || contains(obj.Schema{1,n},'c')
                     if contains(obj.Schema{2,n},'G') || contains(obj.Schema{2,n},'g')
@@ -67,7 +67,7 @@ classdef NucleicAcidDuplex
                     if contains(obj.Schema{2,n},'C') || contains(obj.Schema{2,n},'c')
                         obj.PairingState{n} = 'p';
                     elseif contains(obj.Schema{2,n},'U') || contains(obj.Schema{2,n},'u')
-                        obj.PairingState{n} = 'w';
+                        obj.PairingState{n} = 'w'; % wobble
                     elseif isempty(obj.Schema{2,n})
                         obj.PairingState{n} = 'd';
                     else
@@ -114,11 +114,27 @@ classdef NucleicAcidDuplex
                 char1 = strcat(char1, subcell{1,1}, subcell{1,2},'/', subcell{2,1}, subcell{2,2});
                 nn = [nn, char1];
             end
+            % Handle special cases with more than 2 nearest neighbors
+            % Internal RNA mismatches and loops
+            for n = 1:numel(nn)-1
+                if contains(schema{1,n+1},{'r','+','b'}) && contains(schema{2,n+1},{'r','+','b'}) && strcmp(pairingState{n+1},'-') && strcmp(pairingState{n},'p') % if RNA internal mismatch
+                    p = 1;
+                    while strcmp(pairingState{n+p},'-')
+                        p = p+1;
+                    end
+                    nn{n} = strcat(erase(char(join(schema(1,n:n+p))),' '),'/',erase(char(join(schema(2,n:n+p))),' '));
+                    for q = 1:p-1
+                        nn{n+q}=''; % eliminate duplicate nn entries covered by the larger entry
+                    end
+                end
+            end
+            nn(cellfun(@isempty,nn))=[]; % Clear any empty cells of nn
             obj.NearestNeighbors = nn;
         end
         function [schema,pairingState] = trimSchema(obj)
             % Trim schema beyond first unpaired nucleotides at termini
             schema = obj.Schema;
+            schema = replace(schema,'-',''); % Replace masked cell elements with empty char
             pairingState = obj.PairingState;
             comp = cellfun(@(x) any(ismember(x, {'p','w'})), pairingState); % identify 
             ind = movmax(comp,3); % Maximal region
@@ -134,13 +150,16 @@ classdef NucleicAcidDuplex
             rBases = sum(contains(obj.Schema,'r'),2);
             rBases = rBases>0;
             rBases = sum(rBases);
+            dBases = sum(~cellfun(@isempty,obj.Schema) & ~contains(obj.Schema,{'r','+','b'}),2);
+            dBases = dBases>0;
+            dBases = sum(dBases);
             if rBases==0
                 % DNA/DNA
                 ind = find(contains(obj.PairingState,'p'));
                 ind = [min(ind), max(ind)];
                 ind = contains(obj.Schema(1,ind),'G','IgnoreCase',true) | contains(obj.Schema(1,ind),'C','IgnoreCase',true);
                 nGCterm = sum(ind);
-                nATterm = 2 - nGCterm;
+                nATterm = 2 - nGCterm; % Note: this nATterm also includes GU wobbles, as these should be penalized the same as terminal AUs
                 if nGCterm > 0
                     for n = 1:nGCterm
                         obj.NearestNeighbors = ['DNAinitGC', obj.NearestNeighbors];
@@ -156,11 +175,11 @@ classdef NucleicAcidDuplex
                 if sum(~strcmp(obj.Schema(1,ind),fliplr(obj.Schema(2,ind))))==0
                     obj.NearestNeighbors = ['DNAsymmetry', obj.NearestNeighbors];
                 end
-            elseif rBases==1
+            elseif rBases==1 && dBases==1
                 % RNA/DNA
                 obj.NearestNeighbors = ['DNARNAinit', obj.NearestNeighbors];
-            elseif rBases==2
-                % RNA/RNA
+            else
+                % RNA/RNA, LNA/RNA, BNA/RNA
                 ind = find(contains(obj.PairingState,'p'));
                 ind = [min(ind), max(ind)];
                 ind = contains(obj.Schema(1,ind),'A','IgnoreCase',true) | contains(obj.Schema(1,ind),'U','IgnoreCase',true);
@@ -190,6 +209,7 @@ classdef NucleicAcidDuplex
                 if sum(ind) == 0
                     % Try approximating LNA and BNA as RNA
                     nn = replace(obj.NearestNeighbors{n},{'b','+'},'r');
+                    nn = replace(nn,'T','U');
                     ind = strcmpi(nn,codes);
                     ind = strcmpi(nn,codes);
                     if sum(ind) == 0
@@ -305,7 +325,12 @@ classdef NucleicAcidDuplex
             T = T+273.15;
             dG = zeros(size(objArray));
             for n = 1:numel(objArray)
-                dG(n) = objArray(n).dH0 - T*objArray(n).dS0 - R*T*log(c/4);
+                if sum(contains(objArray(n).NearestNeighbors,'symm'))>0
+                    a = 1; % for self-complementary duplexes
+                else
+                    a = 4; % for non-self-complementary duplexes
+                end
+                dG(n) = objArray(n).dH0 - T*objArray(n).dS0 - R*T*log(c/a);
             end
         end
         function obj = gcContent(obj)
@@ -323,6 +348,14 @@ classdef NucleicAcidDuplex
                 end
             end
             obj.fGC = nGC/obj.Nbp;
+        end
+        function NN = nn(objArray)
+            for n = 1:numel(objArray)
+                NN{n} = objArray(n).NearestNeighbors;
+            end
+            if numel(objArray)==1
+                NN = NN{:};
+            end
         end
         function print(objArray,varargin)
             flipSequences=false; % put bottom sequence on top
@@ -347,6 +380,7 @@ classdef NucleicAcidDuplex
                 line2 = '\n   ';
                 line3 = char("\n3'-");
                 line4 = '\n ';
+                line5 = '\n dG0 = ';
                 for n = 1:size(objArray(m).Schema,2)
                     if length(objArray(m).Schema{1,n})==2
                         line1 = [line1,objArray(m).Schema{1,n}];
@@ -381,6 +415,7 @@ classdef NucleicAcidDuplex
                 fprintf(1,[line0, '%s'],objArray(m).Sequences{1}.Name);
                 fprintf(1,[line1,line2,line3],'\n');
                 fprintf(1,[line4,'%s\n'],objArray(m).Sequences{2}.Name);
+                fprintf(1,[line5,'%.1f kJ/mol\n'],objArray(m).dG0/1000);
             end
             fprintf(1,'\n')
         end
