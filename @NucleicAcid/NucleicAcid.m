@@ -281,7 +281,7 @@ classdef NucleicAcid
         function fGC = gcContent(obj)
             nGC = 0;
             for n = 1:length(obj.bareSequence)
-                if strcmpi(obj.bareSequence(n),'G') || strcmpi(obj.bareSequence(n),'C')
+                if strcmpi(obj.bareSequence{n},'G') || strcmpi(obj.bareSequence{n},'C')
                     nGC = nGC + 1;
                 end
             end
@@ -407,6 +407,12 @@ classdef NucleicAcid
                     c(n).Name = [b(n).Name,' x ',num2str(a)];
                 end
             end
+        end
+        function b = uminus(a)
+            b = a.reverse;
+        end
+        function c = minus(a,b)
+            c = a + uminus(b);
         end
         function b = ctranspose(a) % a' = a.reverseComplement
             if isa(a,"NucleicAcid")

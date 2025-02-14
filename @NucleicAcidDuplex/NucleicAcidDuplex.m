@@ -415,7 +415,7 @@ classdef NucleicAcidDuplex
                 fprintf(1,[line0, '%s'],objArray(m).Sequences{1}.Name);
                 fprintf(1,[line1,line2,line3],'\n');
                 fprintf(1,[line4,'%s\n'],objArray(m).Sequences{2}.Name);
-                fprintf(1,[line5,'%.1f kJ/mol\n'],objArray(m).dG0/1000);
+                fprintf(1,[line5,'%.1f kcal/mol\n'],objArray(m).dG0/1000);
             end
             fprintf(1,'\n')
         end

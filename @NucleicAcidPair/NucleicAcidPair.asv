@@ -59,6 +59,7 @@ classdef NucleicAcidPair
                 schema = cell(2,objArray(m).Sequences{2}.len + (objArray(m).Sequences{1}.len-1)*2);
                 schema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = objArray(m).Sequences{2}.toDNA.reverseComplement.bareSequence; % Reverse complement of bare DNA version of first sequence
                 seq1 = objArray(m).Sequences{1}.toDNA.bareSequence; % first sequence to be slid across second sequence and compared
+                nbest = 0;
                 ncomp_best = 0; % highest number of complementary base pairs
                 comp_best = zeros(1,size(schema,2)); % matrix of complementary base pairs
                 % Determine register of schema with most base pairs
@@ -72,6 +73,9 @@ classdef NucleicAcidPair
                         comp_best = comp;
                         nbest = n;
                     end
+                end
+                if nbest == 0
+                    pause;
                 end
                 % Reconstruct schema with largest number of base pairs
                 schema = cell(2,objArray(m).Sequences{2}.len + (objArray(m).Sequences{1}.len-1)*2);
@@ -112,14 +116,18 @@ classdef NucleicAcidPair
         function objArray = applyMask(objArray)
             for m = 1:numel(objArray)
                 for n = 1:numel(objArray(m).Sequences)
+                    mask = objArray(m).Sequences{n}.Mask;
+                    if isempty(mask)
+                        mask = repmat('n',1,objArray(m).Sequences{n}.len);
+                    end
                     str1 = objArray(m).Sequences{n}.String;
                     for p = 1:objArray(m).Sequences{n}.len
                         if strcmp(mask(p),'-')
                             objArray(m).Sequences{n}.Sequence{p}='-';
                         end
                     end
-                    objArray(m).Sequences{n]} = objArray(m).Sequences{n}.fromSequence;
-                    objArray(m).UnmaskedString = str1;
+                    objArray(m).Sequences{n} = objArray(m).Sequences{n}.fromSequence;
+                    objArray(m).Sequences{n}.UnmaskedString = str1;
                 end
             end
         end

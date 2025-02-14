@@ -14,9 +14,9 @@ probe_names = {'BNA_FP1'; 'BNA_FP2'; 'BNA_FP3'};
 
 probes = NucleicAcid(probe_targets,'name',probe_names).reverseComplement('keepName').toLNA; % Generate set of LNA probes, which are reverse complements of the probe_targets sequences
 
-pair = targets*probes; % Hybridize all targets to all probes to create a pair array
-dG = [pair.longestDuplex.dG0]; % Estimate deltaG of longest duplex for each pair
-dG = reshape(dG,size(pair)); % Reshape output to size of pair array
+pairs = targets*probes; % Hybridize all targets to all probes to create a pair array
+dG = [pairs.longestDuplex.dG0]; % Estimate deltaG of longest duplex for each pair
+dG = reshape(dG,size(pairs)); % Reshape output to size of pair array
 
 dG = dG/1000;
 dG = round(dG,2);
