@@ -1,8 +1,8 @@
-classdef NucleicAcidDuplex
+classdef Duplex
     % Add mismatch treatment - only create paired Nearest Neighbor code if n and n+1 of
     % PairingState are 'p'; add codes for terminal mismatches
     properties
-        Sequences = {NucleicAcid(); NucleicAcid()}; % Cell array of two NucleicAcid objects
+        Sequences = {Strand(); Strand()}; % Cell array of two Strand objects
         Schema = cell(2,0); % 2xN cell array showing register of two sequences in interaction
         PairingState = {}; % 1xN cell array showing pairing state ('p'=paired, 'w'=wobble,''=mismatch,'d'= dangling/overhang)
         NearestNeighbors = {};
@@ -15,7 +15,7 @@ classdef NucleicAcidDuplex
         ParametersFile = "NN_Parameters.csv";
     end
     methods
-        function obj = NucleicAcidDuplex(schema,varargin) % Constructor
+        function obj = Duplex(schema,varargin) % Constructor
             obj.Schema = schema;
             if ~isempty(varargin) % Parse initialization arguments
                 for n = 1:2:length(varargin)
@@ -270,7 +270,7 @@ classdef NucleicAcidDuplex
                 elseif strcmpi(varargin{n}, 'concentration') || strcmpi(varargin{n}, 'conc')
                     conc = varargin{n+1};
                 else
-                    fprintf(1,'Warning: NucleicAcidDuplex.estimateTm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
+                    fprintf(1,'Warning: Duplex.estimateTm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
                 end
             end
             R = 1.987204258; % Gas constant, cal/(mol K)
@@ -318,7 +318,7 @@ classdef NucleicAcidDuplex
                     elseif strcmpi(varargin{n},'concentration') || strcmpi(varargin{n}, 'conc')
                         c = varargin{n+1};
                     else
-                        fprintf(1,'Warning: NucleicAcidDuplex.estimateDeltaG() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
+                        fprintf(1,'Warning: Duplex.estimateDeltaG() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
                     end
                 end
             end

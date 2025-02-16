@@ -4,10 +4,10 @@ function Tm = estimate_Tm(probe,varargin)
     % the target is assumed to be fully complementary.
     % ------------------------
     % First argument:
-    % Probe sequence (type: NucleicAcid object, char, string, or cell array)
+    % Probe sequence (type: Strand object, char, string, or cell array)
     % Name-value pair arguments:
     % 'Target'
-    % Target sequence (type: NucleicAcid object, char, string, or cell array)
+    % Target sequence (type: Strand object, char, string, or cell array)
     % 'concentration' or 'conc'
     % Probe concentration, in mol/L (type: float)
     % 'Na'
@@ -16,13 +16,13 @@ function Tm = estimate_Tm(probe,varargin)
     % Sodium concentration, in mol/L (type: float)
 
     % Parse input arguments
-    if ~isa(probe,'NucleicAcid')
-        probe = NucleicAcid(probe);
+    if ~isa(probe,'Strand')
+        probe = Strand(probe);
     end
     args = varargin;
     [type, conc, Na, Mg, target] = parse_input(probe, args);
 
-    pair = NucleicAcidPair(probe,target); % Generate nucleic acid pair
+    pair = Multistrand(probe,target); % Generate nucleic acid pair
 
     Tm = pair.longestDuplex.estimateTm('concentration',conc,'Na',Na,'Mg',Mg); % estimate Tm of longest duplex
 
@@ -47,8 +47,8 @@ function [type, conc, Na, Mg, target] = parse_input(probe, args)
             Mg = args{n+1};
         elseif strcmpi(args{n}, 'target')
             target = args{n+1};
-            if ~isa(target,'NucleicAcid')
-                target = NucleicAcid(target);
+            if ~isa(target,'Strand')
+                target = Strand(target);
             end
         else
             fprintf(1,'Warning: estimate_Tm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(args{n}));

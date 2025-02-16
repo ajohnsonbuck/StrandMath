@@ -1,4 +1,4 @@
-classdef NucleicAcid
+classdef Strand
     properties
         Name = '';
         String = '';
@@ -12,7 +12,7 @@ classdef NucleicAcid
         Modlist = {'+','b','r'};
     end
     methods
-        function objArray = NucleicAcid(varargin) % Constructor
+        function objArray = Strand(varargin) % Constructor
             if numel(varargin)>0
                 if strcmpi(varargin{1},'random')
                     L = 10;
@@ -32,7 +32,7 @@ classdef NucleicAcid
                             end
                         end
                     end
-                    seq = NucleicAcid.randomSequence(L, fGC);
+                    seq = Strand.randomSequence(L, fGC);
                     objArray(1) = fromString(objArray(1), seq);
                     if strcmpi(type,'RNA')
                         objArray(1) = objArray(1).toRNA;
@@ -46,7 +46,7 @@ classdef NucleicAcid
                     if isa(seq,'char') || isa(seq,'string')
                         objArray(1) = fromString(objArray(1), seq);
                     elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argumeent is a vertical cell, assume those cells contain sequences
-                        objArray(1,numel(seq)) = NucleicAcid(); % preallocate object array
+                        objArray(1,numel(seq)) = Strand(); % preallocate object array
                         for n = 1:numel(seq)
                             objArray(n) = fromString(objArray(1), seq{n,1});
                         end
@@ -174,7 +174,7 @@ classdef NucleicAcid
             end
         end
         function r = reverse(objArray,varargin)
-            outputType = 'NucleicAcid'; % Default: provide reverse complement as NucleicAcid unless otherwise provided as argument
+            outputType = 'Strand'; % Default: provide reverse complement as Strand unless otherwise provided as argument
             r = cell(size(objArray));
             if ~isempty(varargin)
                 for n = 1:length(varargin)
@@ -185,7 +185,7 @@ classdef NucleicAcid
                     end
                 end
             end
-            if strcmp(outputType,'NucleicAcid')
+            if strcmp(outputType,'Strand')
                 rNA = objArray; % copy object array initially
             end
             for n = 1:numel(objArray)
@@ -194,11 +194,11 @@ classdef NucleicAcid
                     r{n} = horzcat(seq{:});
                 elseif strcmpi(outputType,'sequence')
                     r{n} = seq;
-                elseif strcmp(outputType,'NucleicAcid')
-                    rNA(n) = NucleicAcid(seq);
+                elseif strcmp(outputType,'Strand')
+                    rNA(n) = Strand(seq);
                 end
             end
-            if strcmpi(outputType,'NucleicAcid')
+            if strcmpi(outputType,'Strand')
                 r = rNA;
             end
             if isa(r,'cell') && numel(objArray)==1
@@ -206,7 +206,7 @@ classdef NucleicAcid
             end
         end
         function rc = reverseComplement(objArray, varargin)
-            outputType = 'NucleicAcid'; % Default: provide reverse complement as NucleicAcid unless otherwise provided as argument
+            outputType = 'Strand'; % Default: provide reverse complement as Strand unless otherwise provided as argument
             keepName = false; % Default: append _reverseComplement to Name unless 'keepName' specified
             rc = cell(size(objArray));
             if ~isempty(varargin)
@@ -220,7 +220,7 @@ classdef NucleicAcid
                     end
                 end
             end
-            if strcmp(outputType,'NucleicAcid')
+            if strcmp(outputType,'Strand')
                 rcNA = objArray; % copy object array initially
             end
             for j = 1:numel(objArray)
@@ -248,16 +248,16 @@ classdef NucleicAcid
                 end
                 if strcmpi(outputType,'char')
                     rc{j} = horzcat(rc{j}{:}); % Convert to string (actually 1D char)
-                elseif strcmpi(outputType,'NucleicAcid')
+                elseif strcmpi(outputType,'Strand')
                     if keepName
                         name = rcNA(j).Name;
                     else
                         name = [rcNA(j).Name,'_reverseComplement'];
                     end
-                    rcNA(j) = NucleicAcid(rc{j},'name',name);
+                    rcNA(j) = Strand(rc{j},'name',name);
                 end
             end
-            if strcmpi(outputType,'NucleicAcid')
+            if strcmpi(outputType,'Strand')
                 rc = rcNA;
             end
             if isa(rc,'cell') && numel(objArray)==1
@@ -268,7 +268,7 @@ classdef NucleicAcid
             for n = 1:numel(objArray)
                 seq = objArray(n).Sequence;
                 name = objArray(n).Name;
-                objArray(n) = NucleicAcid(seq(randperm(numel(objArray(n).Sequence))));
+                objArray(n) = Strand(seq(randperm(numel(objArray(n).Sequence))));
                 objArray(n).Name = strcat(name,'_scrambled');
             end
         end
@@ -324,10 +324,10 @@ classdef NucleicAcid
             end
             fprintf(1,'\n');
         end
-        function c = plus(a,b) % Adding two NucleicAcid arrays concatenates their corresponding sequences
-            if isa(a,'NucleicAcid') && isa(b,'NucleicAcid')
+        function c = plus(a,b) % Adding two Strand arrays concatenates their corresponding sequences
+            if isa(a,'Strand') && isa(b,'Strand')
                 if numel(a) == numel(b) % Add sequences in pairwise fashion if arrays are the same size
-                    c(1,numel(a)) = NucleicAcid();
+                    c(1,numel(a)) = Strand();
                     for n = 1:numel(a)
                         str1 = strcat(a(n).String,b(n).String);
                         c(n) = c(n).fromString(str1);
@@ -338,7 +338,7 @@ classdef NucleicAcid
                         end
                     end
                 elseif numel(a) == 1 % If one array has a single element, concatenate that to each element of the second array
-                    c(1,numel(b)) = NucleicAcid();
+                    c(1,numel(b)) = Strand();
                     for n = 1:numel(b)
                         str1 = strcat(a.String,b(n).String);
                         c(n) = c(n).fromString(str1);
@@ -349,7 +349,7 @@ classdef NucleicAcid
                         end
                     end
                 elseif numel(b) == 1 % If one array has a single element, concatenate that to each element of the second array
-                    c(1,numel(a)) = NucleicAcid();
+                    c(1,numel(a)) = Strand();
                     for n = 1:numel(a)
                         str1 = strcat(a(n).String,b.String);
                         c(n) = c(n).fromString(str1);
@@ -360,34 +360,34 @@ classdef NucleicAcid
                         end
                     end
                 else
-                    error("Operator '+' is undefined for two NucleicAcid arrays of different lengths > 1");
+                    error("Operator '+' is undefined for two Strand arrays of different lengths > 1");
                 end
             end
         end
         function c = times(a,b)
-            if isa(a,'NucleicAcid') && isa(b, 'NucleicAcid')
+            if isa(a,'Strand') && isa(b, 'Strand')
                 if numel(a) == numel(b)
-                    c(1,numel(a)) = NucleicAcidPair();
+                    c(1,numel(a)) = Multistrand();
                     for n = 1:numel(a)
-                        c(n) = NucleicAcidPair(a(n),b(n));
+                        c(n) = Multistrand(a(n),b(n));
                     end
                 else
-                    warning("Operator '.*' is only defined for two NucleicAcid arrays of the same size, or a NucleicAcid array and a constant")
+                    warning("Operator '.*' is only defined for two Strand arrays of the same size, or a Strand array and a constant")
                 end
             elseif (isnumeric(b) && (round(b,0)==b) && b > 0) || (isnumeric(a) && (round(a,0)==a) && a > 0)
                 c = a*b; % revert to mtimes in case one or both is a constant
             end
         end
-        function c = mtimes(a,b) % Multiplying two NucleicAcid arrays of size m and n results in a NucleicAcidDuplex array of size (m x n)
-            if isa(a,'NucleicAcid') && isa(b,'NucleicAcid')
-                c(numel(a),numel(b)) = NucleicAcidPair();
+        function c = mtimes(a,b) % Multiplying two Strand arrays of size m and n results in a NucleicAcidDuplex array of size (m x n)
+            if isa(a,'Strand') && isa(b,'Strand')
+                c(numel(a),numel(b)) = Multistrand();
                 for n = 1:numel(a)
                     for p = 1:numel(b)
-                        c(n,p) = NucleicAcidPair(a(n),b(p));
+                        c(n,p) = Multistrand(a(n),b(p));
                     end
                 end
-            elseif isa(a,'NucleicAcid') && isnumeric(b) && (round(b,0)==b) && b > 0 % Multiplying a NucleicAcid array by a constant b concatenates the sequence b times
-                c(1,numel(a)) = NucleicAcid();
+            elseif isa(a,'Strand') && isnumeric(b) && (round(b,0)==b) && b > 0 % Multiplying a Strand array by a constant b concatenates the sequence b times
+                c(1,numel(a)) = Strand();
                 for n = 1:numel(a)
                     str = '';
                     for p = 1:b
@@ -396,8 +396,8 @@ classdef NucleicAcid
                     c(n) = c(n).fromString(str);
                     c(n).Name = [a(n).Name,' x ',num2str(b)];
                 end
-            elseif isnumeric(a) && (round(a,0)==a) && a>0 && isa(b,'NucleicAcid') 
-                c(1,numel(b)) = NucleicAcid();
+            elseif isnumeric(a) && (round(a,0)==a) && a>0 && isa(b,'Strand') 
+                c(1,numel(b)) = Strand();
                 for n = 1:numel(b)
                     str = '';
                     for p = 1:a
@@ -415,12 +415,12 @@ classdef NucleicAcid
             c = a + uminus(b);
         end
         function b = ctranspose(a) % a' = a.reverseComplement
-            if isa(a,"NucleicAcid")
+            if isa(a,"Strand")
                 b = a.reverseComplement();
             end
         end
-        function c = eq(a,b) % Two NucleicAcid arrays are equal if they have the same number of elements and all their corresponding elements have the same String property
-            if isa(a,'NucleicAcid') && isa(b,'NucleicAcid')
+        function c = eq(a,b) % Two Strand arrays are equal if they have the same number of elements and all their corresponding elements have the same String property
+            if isa(a,'Strand') && isa(b,'Strand')
                 c = true;
                 if numel(a) == numel(b)
                     for n = 1:numel(a)

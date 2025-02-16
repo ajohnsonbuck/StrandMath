@@ -1,21 +1,21 @@
-classdef NucleicAcidPair
+classdef Multistrand
     properties
-        Sequences = {NucleicAcid(); NucleicAcid()}; % Cell array of two NucleicAcid objects
-        Duplexes = {}; % Cell array of NucleicAcidDuplex objects describing one or more duplexes formed by the pair. By default, the first is the longest.
+        Sequences = {Strand(); Strand()}; % Cell array of two Strand objects
+        Duplexes = {}; % Cell array of Duplex objects describing one or more duplexes formed by the pair. By default, the first is the longest.
     end
     methods
-        function objArray = NucleicAcidPair(varargin) % Constructor
+        function objArray = Multistrand(varargin) % Constructor
             args = varargin;
             if length(args) == 1
-                if isa(args{1},'NucleicAcid')
-                    objArray(1,numel(args{1})) = NucleicAcidPair();
+                if isa(args{1},'Strand')
+                    objArray(1,numel(args{1})) = Multistrand();
                     for n = 1:numel(args{1})
                         objArray(n).Sequences{1} = args{1}(n);
                     end
                 elseif isa(args{1},'string') || isa(args{1},'char') || isa(args{1},'cell')
-                    objArray(1).Sequences{1} = NucleicAcid(args{1});
+                    objArray(1).Sequences{1} = Strand(args{1});
                 else
-                    error('Input must be one or two NucleicAcid objects, chars, strings, or sequences');
+                    error('Input must be one or two Strand objects, chars, strings, or sequences');
                 end
                 for n = 1:numel(objArray)
                     objArray(n).Sequences{2} = objArray(n).Sequences{1}.reverseComplement; % Create reverse complement
@@ -25,14 +25,14 @@ classdef NucleicAcidPair
                 end
             elseif length(args) == 2
                 for n = 1:2
-                    if isa(args{n},'NucleicAcid')
+                    if isa(args{n},'Strand')
                         for p = 1:numel(args{1})
                             objArray(p).Sequences{n} = args{n}(p);
                         end
                     elseif isa(args{n},'string') || isa(args{n},'char') || isa(args{n},'cell')
-                        objArray(1).Sequences{n} = NucleicAcid(args{n});
+                        objArray(1).Sequences{n} = Strand(args{n});
                     else
-                        error('Input must be one or two NucleicAcid objects, chars, strings, or sequences');
+                        error('Input must be one or two Strand objects, chars, strings, or sequences');
                     end
                 end
             end
@@ -84,8 +84,8 @@ classdef NucleicAcidPair
                 endpos = find(ind,1,'last');
                 schema = schema(:, startpos:endpos); % trim
                 schema(cellfun(@isempty,schema))={''}; % Replace empty cell elements with empty char
-                % Create duplex object and place in original NucleicAcidPair array
-                a(m).Duplexes{1} = NucleicAcidDuplex(schema,'Sequences',objArray(m).Sequences);
+                % Create duplex object and place in original Multistrand array
+                a(m).Duplexes{1} = Duplex(schema,'Sequences',objArray(m).Sequences);
             end
         end
         function duplex = longestDuplex(objArray)
