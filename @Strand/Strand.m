@@ -381,10 +381,21 @@ classdef Strand
         function c = mtimes(a,b) % Multiplying two Strand arrays of size m and n results in a NucleicAcidDuplex array of size (m x n)
             if isa(a,'Strand') && isa(b,'Strand')
                 c(numel(a),numel(b)) = Multistrand();
+                if numel(c) > 100
+                    wb1 = waitbar(0,'Creating multi-strand objects and calculating duplexes...');
+                end
+                count = 0;
                 for n = 1:numel(a)
                     for p = 1:numel(b)
+                        count = count+1;
+                        if numel(c) > 100 && mod(count,10)==0
+                            waitbar((count)/numel(c),wb1,['Creating multi-strand object ',num2str(count),' of ',num2str(numel(c))]);
+                        end
                         c(n,p) = Multistrand(a(n),b(p));
                     end
+                end
+                if numel(c) > 100
+                    close(wb1);
                 end
             elseif isa(a,'Strand') && isnumeric(b) && (round(b,0)==b) && b > 0 % Multiplying a Strand array by a constant b concatenates the sequence b times
                 c(1,numel(a)) = Strand();

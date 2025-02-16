@@ -215,6 +215,8 @@ classdef Duplex < handle
                     nn = replace(nn,'T','U');
                     ind = strcmpi(nn,codes);
                     ind = strcmpi(nn,codes);
+                    ignoreString = '';
+                    approxString = '';
                     if sum(ind) == 0
                         % Try approximating RNA, LNA and BNA as DNA
                         nn = erase(obj.NearestNeighbors{n},{'r','b','+'});
@@ -229,34 +231,32 @@ classdef Duplex < handle
                                 nn = erase(obj.NearestNeighbors{n},'r');
                                 nn = replace(nn,'U','T');
                                 if sum(ind) == 0
-                                        fprintf(1,'Warning: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
+                                    ignoreString = ['Warning: code ',obj.NearestNeighbors{n}, ' was not found in the lookup table of Parameters.  Ignoring this motif.\n'];
                                 else
                                     dH0 = dH0 + dH0s(ind);
                                     dS0 = dS0 + dS0s(ind);
-                                    if showApproximations
-                                    fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                                    end
+                                    approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                                 end
                             else
                                 dH0 = dH0 + dH0s(ind);
                                 dS0 = dS0 + dS0s(ind);
-                                if showApproximations
-                                    fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                                end
+                                approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                             end
                         else
                             dH0 = dH0 + dH0s(ind);
                             dS0 = dS0 + dS0s(ind);
-                            if showApproximations
-                                fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                            end
+                            approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                         end
                     else
                         dH0 = dH0 + dH0s(ind);
                         dS0 = dS0 + dS0s(ind);
-                        if showApproximations
-                            fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                        end
+                        approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
+                    end
+                    if Duplex.options('get','showIgnored') && ~isempty(ignoreString)
+                        fprintf(1,ignoreString);
+                    end
+                    if Duplex.options('get','showApproximations') && ~isempty(approxString)
+                        fprintf(1,approxString)
                     end
                 else
                     dH0 = dH0 + dH0s(ind);
@@ -432,30 +432,39 @@ classdef Duplex < handle
         end
     end
     methods (Static, Access=public)
-        function out = options(action, field, varargin)
-            if ~isempty(varargin)
-                value = varargin{1};
-            else
-                value = [];
-            end
+        function out = options(action, varargin)
+            % if ~isempty(varargin)
+            %     value = varargin{1};
+            % else
+            %     value = [];
+            % end
             persistent Options
             if isempty(Options)
-                Options = struct('showApproximations',true); % Default options
+                Options = struct('showApproximations',true,'showIgnored',true); % Default options
             end
             switch action
                 case 'set'
-                    if isfield(Options,field)
-                        Options.(field) = value;
+                    if ~isempty(varargin)
+                        for n = 1:2:numel(varargin)
+                            if isfield(Options,varargin{n})
+                                Options.(varargin{n}) = varargin{n+1};
+                            else
+                                error('Unknown field passed to Duplex.options');
+                            end
+                        end
                     else
-                        error('Unknown field passed to Duplex.options');
+                        error('Duplex.options with action=set expected a field-value pair but none was provided.');
                     end
                     out = [];
                 case 'get'
-                    switch field
-                        case 'showApproximations'
-                            out = Options.showApproximations;
-                        otherwise
-                            error('Unknown field passed to Duplex.options');
+                    if numel(varargin) == 1
+                        if isfield(Options,varargin{1})
+                                out = Options.(varargin{1});
+                        else
+                                error('Unknown field passed to Duplex.options');
+                        end
+                    else
+                        error('Duplex.options with action=get expects exactly one field variable to follow the "get" command');
                     end
                 otherwise
                     error('Unknown action passed to Duplex.options')

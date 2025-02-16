@@ -36,13 +36,11 @@ classdef Multistrand
                     end
                 end
             end
-            if numel(objArray) > 100
+            if numel(objArray) > 10
                 wb1 = waitbar(0,'Creating multi-strand objects and calculating duplexes...');
             end
             for n = 1:numel(objArray)
-                if numel(objArray) > 100 && mod(n,100)==0
-                waitbar(n/numel(objArray),wb1,['Created multi-strand object ',num2str(n),' of ',num2str(numel(objArray))]);
-                end
+                wb1 = waitbar(n/numel(objArray),['Created multi-strand object ',]))
                 if sum(contains(objArray(n).Sequences{2}.Sequence,'r'))<sum(contains(objArray(n).Sequences{1}.Sequence,'r'))
                     objArray(n).Sequences = flipud(objArray(n).Sequences); % If either sequence has RNA, ensure Sequence 2 has more RNA residues
                 end

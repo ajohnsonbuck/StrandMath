@@ -206,6 +206,7 @@ classdef Duplex < handle
             % Apply parameters
             dH0 = 0;
             dS0 = 0;
+            showApproximations = Duplex.options('get','showApproximations');
             for n = 1:length(obj.NearestNeighbors)
                 ind = strcmpi(obj.NearestNeighbors{n},codes);
                 if sum(ind) == 0
@@ -214,6 +215,8 @@ classdef Duplex < handle
                     nn = replace(nn,'T','U');
                     ind = strcmpi(nn,codes);
                     ind = strcmpi(nn,codes);
+                    ignoreString = '';
+                    approxString = '';
                     if sum(ind) == 0
                         % Try approximating RNA, LNA and BNA as DNA
                         nn = erase(obj.NearestNeighbors{n},{'r','b','+'});
@@ -228,34 +231,32 @@ classdef Duplex < handle
                                 nn = erase(obj.NearestNeighbors{n},'r');
                                 nn = replace(nn,'U','T');
                                 if sum(ind) == 0
-                                        fprintf(1,'Warning: code %s was not found in the lookup table of Parameters.  Ignoring this motif.\n',obj.NearestNeighbors{n});
+                                    ignoreString = ['Warning: code ',obj.NearestNeighbors{n}, ' was not found in the lookup table of Parameters.  Ignoring this motif.\n'];
                                 else
                                     dH0 = dH0 + dH0s(ind);
                                     dS0 = dS0 + dS0s(ind);
-                                    if Duplex.Options.showApproximations
-                                    fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                                    end
+                                    approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                                 end
                             else
                                 dH0 = dH0 + dH0s(ind);
                                 dS0 = dS0 + dS0s(ind);
-                                if Duplex.Options.showApproximations
-                                    fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                                end
+                                approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                             end
                         else
                             dH0 = dH0 + dH0s(ind);
                             dS0 = dS0 + dS0s(ind);
-                            if Duplex.Options.showApproximations
-                                fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                            end
+                            approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                         end
                     else
                         dH0 = dH0 + dH0s(ind);
                         dS0 = dS0 + dS0s(ind);
-                        if Duplex.Options.showApproximations
-                            fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
-                        end
+                        approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
+                    end
+                    if Duplex.options('get','showIgnore') && ~isempty(ignoreString)
+                        fprintf(1,approxString);
+                    end
+                    if Duplex.options('get','showApproximations') && ~isempty(approxString)
+                        fprintf(1,approxString)
                     end
                 else
                     dH0 = dH0 + dH0s(ind);
@@ -430,31 +431,41 @@ classdef Duplex < handle
             fprintf(1,'\n')
         end
     end
-    methods (Static, Access=private)
-        function out = options(action, field, value)
+    methods (Static, Access=public)
+        function out = options(action, field, varargin)
+            % if ~isempty(varargin)
+            %     value = varargin{1};
+            % else
+            %     value = [];
+            % end
             persistent Options
             if isempty(Options)
-                Options = struct('showApproximations',true); % Default options
+                Options = struct('showApproximations',true,'showIgnored',true); % Default options
             end
             switch action
                 case 'set'
-                    switch field
-                        case 'showApproximations'
-                            Options.showApproximations = value;
-                        otherwise
-                            error('Unknown field passed to options');
+                    if ~isempty(varargin)
+                        for n = 1:2:numel(varargin)
+                            if isfield(Options,varargin{n})
+                                Options.(varargin{n}) = varargin{n+1};
+                            else
+                                error('Unknown field passed to Duplex.options');
+                            end
+                        end
+                    else
+                        error('Duplex.options with action=set expected a field-value pair but none was provided.');
                     end
                     out = [];
                 case 'get'
-                    switch field
+                    if numel(varargin) == 2
+                    switch varargin{1}
                         case 'showApproximations'
-                            Options.showApproximations = value;
+                            out = Options.(varargin{1});
                         otherwise
-                            error('Unknown field passed to options')
+                            error('Unknown field passed to Duplex.options');
                     end
-
-            end
-                
+                otherwise
+                    error('Unknown action passed to Duplex.options')
             end
         end
     end
