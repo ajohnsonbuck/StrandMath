@@ -12,7 +12,9 @@ classdef Duplex
         dS0 = -Inf; % Entropy of hybridization at standard conditions
         dH0 = Inf; % Enthalpy of hybridization at standard conditions
         dG0 = Inf; % Free energy of hybridization at standard conditions
-        ParametersFile = "NN_Parameters.csv";
+    end
+    properties (Constant)
+        parameters = readtable("NN_Parameters.csv"); % Load nearest neighbor parameters;
     end
     methods
         function obj = Duplex(schema,varargin) % Constructor
@@ -36,10 +38,10 @@ classdef Duplex
                 nMismatches = sum(strcmp(obj.PairingState,'-'));
                 obj.Nbp = length(obj.PairingState)-nOverhangs-nMismatches;
             end
-            parameters = readtable(obj.ParametersFile); % Load nearest neighbor parameters
+            % parameters = readtable(obj.ParametersFile); % Load nearest neighbor parameters
             obj = obj.findNearestNeighbors(); % Find nearest neighbors
             obj = determineSymmetryAndInitiation(obj); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
-            obj = obj.estimateThermodynamics(parameters); % Estimate deltaS, deltaH, deltaG
+            obj = obj.estimateThermodynamics(Duplex.parameters); % Estimate deltaS, deltaH, deltaG
             obj = obj.gcContent();
             % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
             obj.Length = length(obj.PairingState); % 
