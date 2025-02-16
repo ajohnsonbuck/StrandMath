@@ -206,7 +206,6 @@ classdef Duplex < handle
             % Apply parameters
             dH0 = 0;
             dS0 = 0;
-            showApproximations = Duplex.options('get','showApproximations');
             for n = 1:length(obj.NearestNeighbors)
                 ind = strcmpi(obj.NearestNeighbors{n},codes);
                 if sum(ind) == 0
@@ -233,28 +232,28 @@ classdef Duplex < handle
                                 else
                                     dH0 = dH0 + dH0s(ind);
                                     dS0 = dS0 + dS0s(ind);
-                                    if showApproximations
+                                    if Duplex.Options.showApproximations
                                     fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
                                     end
                                 end
                             else
                                 dH0 = dH0 + dH0s(ind);
                                 dS0 = dS0 + dS0s(ind);
-                                if showApproximations
+                                if Duplex.Options.showApproximations
                                     fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
                                 end
                             end
                         else
                             dH0 = dH0 + dH0s(ind);
                             dS0 = dS0 + dS0s(ind);
-                            if showApproximations
+                            if Duplex.Options.showApproximations
                                 fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
                             end
                         end
                     else
                         dH0 = dH0 + dH0s(ind);
                         dS0 = dS0 + dS0s(ind);
-                        if showApproximations
+                        if Duplex.Options.showApproximations
                             fprintf(1, 'Code %s was not found in the lookup table of Parameters.  Approximating as %s.\n', obj.NearestNeighbors{n}, char(codes(ind)));
                         end
                     end
@@ -431,34 +430,31 @@ classdef Duplex < handle
             fprintf(1,'\n')
         end
     end
-    methods (Static, Access=public)
-        function out = options(action, field, varargin)
-            if ~isempty(varargin)
-                value = varargin{1};
-            else
-                value = [];
-            end
+    methods (Static, Access=private)
+        function out = options(action, field, value)
             persistent Options
             if isempty(Options)
                 Options = struct('showApproximations',true); % Default options
             end
             switch action
                 case 'set'
-                    if isfield(Options,field)
-                        Options.(field) = value;
-                    else
-                        error('Unknown field passed to Duplex.options');
+                    switch field
+                        case 'showApproximations'
+                            Options.showApproximations = value;
+                        otherwise
+                            error('Unknown field passed to options');
                     end
                     out = [];
                 case 'get'
                     switch field
                         case 'showApproximations'
-                            out = Options.showApproximations;
+                            Options.showApproximations = value;
                         otherwise
-                            error('Unknown field passed to Duplex.options');
+                            error('Unknown field passed to options')
                     end
-                otherwise
-                    error('Unknown action passed to Duplex.options')
+
+            end
+                
             end
         end
     end
