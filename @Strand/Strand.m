@@ -388,6 +388,11 @@ classdef Strand
             end
         end
         function c = times(a,b)
+            if isa(a,'char') || isa(a,'string') % If one argument is a char or string, interpret it as a Strand sequence
+                a = Strand(a);
+            elseif isa(b,'char') || isa(b,'string')
+                b = Strand(b);
+            end
             if isa(a,'Strand') && isa(b, 'Strand')
                 if numel(a) == numel(b)
                     c(1,numel(a)) = Multistrand();
@@ -402,6 +407,11 @@ classdef Strand
             end
         end
         function c = mtimes(a,b) % Multiplying two Strand arrays of size m and n results in a NucleicAcidDuplex array of size (m x n)
+            if isa(a,'char') || isa(a,'string') % If one argument is a char or string, interpret it as a Strand sequence
+                a = Strand(a);
+            elseif isa(b,'char') || isa(b,'string')
+                b = Strand(b);
+            end
             if isa(a,'Strand') && isa(b,'Strand')
                 c(numel(a),numel(b)) = Multistrand();
                 if numel(c) > 100
