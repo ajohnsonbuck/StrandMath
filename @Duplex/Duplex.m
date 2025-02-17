@@ -152,7 +152,7 @@ classdef Duplex < handle
             rBases = sum(contains(obj.Schema,'r'),2);
             rBases = rBases>0;
             rBases = sum(rBases);
-            dBases = sum(~cellfun(@isempty,obj.Schema) & ~contains(obj.Schema,{'r','+','b'}),2);
+            dBases = sum(~cellfun(@isempty,obj.Schema) & ~contains(obj.Schema,horzcat(obj.Sequences{1}.Modlist,'-')),2);
             dBases = dBases>0;
             dBases = sum(dBases);
             if rBases==0
@@ -177,14 +177,14 @@ classdef Duplex < handle
                 if sum(~strcmp(obj.Schema(1,ind),fliplr(obj.Schema(2,ind))))==0
                     obj.NearestNeighbors = ['DNAsymmetry', obj.NearestNeighbors];
                 end
-            elseif rBases==1 && dBases==1
+            elseif rBases==1 && dBases==1 
                 % RNA/DNA
                 obj.NearestNeighbors = ['DNARNAinit', obj.NearestNeighbors];
             else
                 % RNA/RNA, LNA/RNA, BNA/RNA
-                ind = find(contains(obj.PairingState,'p'));
+                ind = find(contains(obj.PairingState,'p') | contains(obj.PairingState,'w'));
                 ind = [min(ind), max(ind)];
-                ind = contains(obj.Schema(1,ind),'A','IgnoreCase',true) | contains(obj.Schema(1,ind),'U','IgnoreCase',true);
+                ind = contains(obj.Schema(1,ind),'A','IgnoreCase',true) | contains(obj.Schema(1,ind),'U','IgnoreCase',true) | contains(obj.PairingState(1,ind),'w','IgnoreCase',true);
                 nAUterm = sum(ind);
                 obj.NearestNeighbors = ['RNAinit', obj.NearestNeighbors];
                 if nAUterm > 0

@@ -1,7 +1,7 @@
 classdef Strand
     properties
         Name = '';
-        % String = '';
+        String = '';
         Sequence = {};
     end
     properties (Hidden)
@@ -301,7 +301,13 @@ classdef Strand
         end
         function objArray = applyMask(objArray,mask)
             for n = 1:numel(objArray)
-                objArray(n).Mask = mask;
+                if isa(mask,"cell")
+                   if numel(mask)==1
+                       mask = mask{:};
+                   elseif numel(mask) == numel(objArray)
+                       objArray(n).Mask = mask{n}; 
+                   end
+                end
             end
         end
         function objArray = unmask(objArray)

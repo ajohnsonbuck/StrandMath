@@ -63,20 +63,19 @@ classdef Multistrand
                 objArray(m) = applyMask(objArray(m));
                 % Create schema with padding (empty cells) for all possible registers
                 schema = cell(2,objArray(m).Sequences{2}.len + (objArray(m).Sequences{1}.len-1)*2);
-                schema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = objArray(m).Sequences{2}.toDNA.reverseComplement.bareSequence; % Reverse complement of bare DNA version of first sequence
-                seq1 = objArray(m).Sequences{1}.toDNA.bareSequence; % first sequence to be slid across second sequence and compared
+                % schema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = objArray(m).Sequences{2}.reverse.bareSequence; % Reverse of bare version of first sequence
+                encodedSchema = schema; encodedSchema(:)={1}; % Initialize with 1 (code for empty position)
+                encodedSchema(2,objArray(m).Sequences{1}.len:objArray(m).Sequences{1}.len+objArray(m).Sequences{2}.len-1) = Multistrand.encodeSequence(objArray(m).Sequences{2}.reverse.bareSequence); % Encoded bare version of first sequence
+                seq1 = Multistrand.encodeSequence(objArray(m).Sequences{1}.bareSequence); % encoded first sequence to be slid across second sequence and compared
                 nbest = objArray(m).Sequences{1}.len;
-                ncomp_best = 0; % highest number of complementary base pairs
-                comp_best = zeros(1,size(schema,2)); % matrix of complementary base pairs
+                score_best = 0; % highest complementarity score
                 % Determine register of schema with most base pairs
                 for n=1:size(schema,2)-objArray(m).Sequences{1}.len+1
-                    schema(1,:) = cell(1,size(schema,2)); % empty first row
-                    schema(1,n:n+objArray(m).Sequences{1}.len-1) = seq1;
-                    comp = cellfun(@strcmp,schema(1,:),schema(2,:));
-                    ncomp = sum(comp);
-                    if ncomp > ncomp_best
-                        ncomp_best = ncomp;
-                        comp_best = comp;
+                    encodedSchema(1,:) = {1}; % Empty first row
+                    encodedSchema(1,n:n+objArray(m).Sequences{1}.len-1) = seq1; % place encoded Sequence{1} into first row of encodedSchema at position n
+                    score = Multistrand.scoreBasePairs(encodedSchema); % score base pairs of encodedSchema
+                    if score > score_best
+                        score_best = score;
                         nbest = n;
                     end
                 end
@@ -142,6 +141,38 @@ classdef Multistrand
                 end
             end
             fprintf(1,'\n');
+        end
+    end
+    methods (Static)
+        function score = scoreBasePairs(encodedSchema) 
+            persistent scoreMat
+            if isempty(scoreMat)
+                scoreMat = [0,	0,	0,	0,	0,	0;... % Rows and cols are: (empty), A, C, G, T, U; Score: G-C = 6, A-U/T = 4, G-U = 3, G-T = 2
+                            0,	0,	0,	0,	4,	4;...
+                            0,	0,	0,	6,	0,	0;...
+                            0,	0,	6,	0,	2,	3;...
+                            0,	4,	0,	2,	0,	0;...
+                            0,	4,	0,	3,	0,	0];
+                scoreMat = single(scoreMat);
+            end
+            score = 0;
+            for n = 1:width(encodedSchema)
+                try
+                score = score + scoreMat(encodedSchema{1,n},encodedSchema{2,n});
+                catch
+                    pause;
+                end
+            end
+        end
+        function seq = encodeSequence(seq)
+            seq(cellfun(@isempty,seq))={1}; % Mark all empty cells as 1
+            seq(strcmp(seq,'-'))={1}; % Mark all masked positions as 1
+            % Encode other positions
+            seq(strcmp(seq,'A'))={2};
+            seq(strcmp(seq,'C'))={3};
+            seq(strcmp(seq,'G'))={4};
+            seq(strcmp(seq,'T'))={5};
+            seq(strcmp(seq,'U'))={6};
         end
     end
 end

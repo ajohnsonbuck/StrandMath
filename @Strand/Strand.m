@@ -301,7 +301,15 @@ classdef Strand
         end
         function objArray = applyMask(objArray,mask)
             for n = 1:numel(objArray)
-                objArray(n).Mask = mask;
+                if isa(mask,"cell")
+                   if numel(mask)==1
+                       objArray(n).Mask = mask{:};
+                   elseif numel(mask) == numel(objArray)
+                       objArray(n).Mask = mask{n}; 
+                   else
+                       error('Mask must be a string, char, or cell array with either 1 element or the same number of elements as the String array it is applied to.');
+                   end
+                end
             end
         end
         function objArray = unmask(objArray)
