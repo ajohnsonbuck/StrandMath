@@ -86,17 +86,18 @@ classdef Strand
             mods = obj.modifications;
             str1 = obj.bareString;
             for n = 1:length(obj.Sequence)
-                obj.Sequence{n} = [obj.modifications{n}, str1(n)];
+                obj.Sequence{n} = [mods{n}, str1(n)];
             end
         end
         function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
             if ~isempty(varargin)
                 obj.Sequence = varargin{1};
             end
-            obj.String = '';
-            for n = 1:length(obj.Sequence)
-                obj.String = strcat(obj.String,obj.Sequence{n});
-            end
+            % obj.String = '';
+            obj.String = strcat(obj.Sequence{:});
+            % for n = 1:length(obj.Sequence)
+            %     obj.String = strcat(obj.String,obj.Sequence{n});
+            % end
         end
         function str = string(objArray)
             str = cell(numel(objArray),1);
@@ -405,7 +406,7 @@ classdef Strand
                 for n = 1:numel(a)
                     for p = 1:numel(b)
                         count = count+1;
-                        if numel(c) > 100 && mod(count,10)==0
+                        if numel(c) > 100 && mod(count,50)==0
                             waitbar((count)/numel(c),wb1,['Creating multi-strand object ',num2str(count),' of ',num2str(numel(c))]);
                         end
                         c(n,p) = Multistrand(a(n),b(p));
