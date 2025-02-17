@@ -343,6 +343,11 @@ classdef Strand
             fprintf(1,'\n');
         end
         function c = plus(a,b) % Adding two Strand arrays concatenates their corresponding sequences
+            if isa(a,'char') || isa(a,'string')
+                a = Strand(a);
+            elseif isa(b,'char') || isa(b,'string')
+                b = Strand(b);
+            end
             if isa(a,'Strand') && isa(b,'Strand')
                 if numel(a) == numel(b) % Add sequences in pairwise fashion if arrays are the same size
                     c(1,numel(a)) = Strand();
@@ -441,6 +446,11 @@ classdef Strand
             b = a.reverse;
         end
         function c = minus(a,b)
+            if isa(a,'char') || isa(a,'string')
+                a = Strand(a);
+            elseif isa(b,'char') || isa(b,'string')
+                b = Strand(b);
+            end
             c = a + uminus(b);
         end
         function b = ctranspose(a) % a' = a.reverseComplement
