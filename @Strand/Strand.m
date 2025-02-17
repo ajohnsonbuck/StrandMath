@@ -83,10 +83,18 @@ classdef Strand
         function obj = fromString(obj,str1) % Populate object from input char or string
             obj.String = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
             obj.Sequence = cell(1,length(obj.bareString));
+            toUpper = false; % Need to convert nucleobases to upper-case
             mods = obj.modifications;
             str1 = obj.bareString;
+            if ~strcmp(str1,upper(str1))
+                str1 = upper(str1);
+                toUpper = true;
+            end
             for n = 1:length(obj.Sequence)
                 obj.Sequence{n} = [mods{n}, str1(n)];
+            end
+            if toUpper 
+                obj.String = strcat(obj.Sequence{:});
             end
         end
         function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
