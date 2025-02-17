@@ -1,7 +1,7 @@
 classdef Strand
     properties
         Name = '';
-        String = '';
+        % String = '';
         Sequence = {};
     end
     properties (Hidden)
