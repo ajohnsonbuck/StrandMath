@@ -138,6 +138,12 @@ classdef Strand
                 bareSeqs = bareSeqs{1};
             end
         end
+        function objArray = crop(objArray,ind)
+            for n = 1:numel(objArray)
+               objArray(n).Sequence = objArray(n).Sequence(ind);
+               objArray(n) = objArray(n).fromSequence;
+            end
+        end
         function mods = modifications(objArray)
             mods = cell(numel(objArray),1);
             for n = 1:numel(objArray)
