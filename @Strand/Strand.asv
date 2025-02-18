@@ -298,10 +298,10 @@ classdef Strand
         end
         function objArray = removeDuplicates(objArray)
             if numel(objArray) > 1
-                disp('R')
+                disp('Removing duplicates from Strand array...');
                 c = 1;
                 while c < numel(objArray)
-                    names = '';
+                    names = objArray(c).Name;
                     toRemove = [];
                     for d = c+1:numel(objArray)
                         if objArray(c) == objArray(d)
@@ -310,6 +310,7 @@ classdef Strand
                         end
                     end
                     objArray(toRemove) = [];
+                    objArray(c).Name = [
                     c = c+1;
                 end
             else

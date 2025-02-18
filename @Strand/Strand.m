@@ -275,8 +275,10 @@ classdef Strand
                 elseif strcmpi(outputType,'Strand')
                     if keepName
                         name = rcNA(j).Name;
-                    else
+                    elseif ~isempty(rcNA(j).Name)
                         name = [rcNA(j).Name,'_reverseComplement'];
+                    else
+                        name = '';
                     end
                     rcNA(j) = Strand(rc{j},'name',name);
                 end
@@ -301,7 +303,7 @@ classdef Strand
                 disp('Removing duplicates from Strand array...');
                 c = 1;
                 while c < numel(objArray)
-                    names = '';
+                    names = objArray(c).Name;
                     toRemove = [];
                     for d = c+1:numel(objArray)
                         if objArray(c) == objArray(d)
@@ -310,6 +312,7 @@ classdef Strand
                         end
                     end
                     objArray(toRemove) = [];
+                    objArray(c).Name = names;
                     c = c+1;
                 end
             else
