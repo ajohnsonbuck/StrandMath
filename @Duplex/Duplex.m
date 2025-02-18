@@ -369,7 +369,7 @@ classdef Duplex < handle
             end
         end
         function print(objArray,varargin)
-            flipSequences=false; % put bottom sequence on top
+            flipSequences=false; % if true, put bottom sequence on top
             if numel(varargin)>0
                 for n = 1:numel(varargin)
                     if strcmp(varargin{n},'flip')
@@ -378,7 +378,7 @@ classdef Duplex < handle
                 end
             end
             for m = 1:numel(objArray)
-                if flipSequences == true
+                if flipSequences
                     objArray(m).Sequences = flipud(objArray(m).Sequences);
                     objArray(m).Schema = rot90(objArray(m).Schema,2);
                     objArray(m).PairingState = fliplr(objArray(m).PairingState);

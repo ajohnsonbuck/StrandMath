@@ -133,14 +133,35 @@ classdef Multistrand
                 end
             end
         end
-        function print(objArray)
-            for m = 1:numel(objArray)
-                for n = 1:numel(objArray(m).Sequences)
-                    fprintf(1,'\n Sequence %d: %s',n,objArray(m).Sequences{n}.Name)
-                    fprintf(1,[char("\n5'-"),objArray(m).Sequences{n}.String,char("-3'\n")]);
+        function print(objArray, varargin)
+            if numel(varargin)==0
+                objArray.longestDuplex.print;
+            else
+                if strcmpi(varargin{1}, 'longestDuplex')
+                    if numel(varargin)==2
+                        if strcmpi(varargin{2},'flip')
+                            objArray.longestDuplex.print('flip');
+                        else
+                            error(['Unknown second argument ', num2string(varargin{2}), ' passed to Multistrand.print.']);
+                        end
+                    else
+                        objArray.longestDuplex.print;
+                    end
+                elseif strcmpi(varargin{1},'flip')
+                    A = objArray.longestDuplex;
+                    A.print('flip');
+                elseif strcmpi(varargin{1},'strands')
+                    for m = 1:numel(objArray)
+                        for n = 1:numel(objArray(m).Sequences)
+                            fprintf(1,'\n Sequence %d: %s',n,objArray(m).Sequences{n}.Name)
+                            fprintf(1,[char("\n5'-"),objArray(m).Sequences{n}.String,char("-3'\n")]);
+                        end
+                    end
+                    fprintf(1,'\n');
+                else 
+                    error("Unknown argument passed to Multistrand.print; allowed arguments are 'strands' or 'longestDuplex'");
                 end
             end
-            fprintf(1,'\n');
         end
     end
     methods (Static)
