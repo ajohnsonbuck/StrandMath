@@ -1,7 +1,7 @@
 classdef Multistrand
     properties
         Strands(2,1) = Strand(); % 2x1 Strand array
-        Duplexes = {}; % Cell array of Duplex objects describing one or more duplexes formed by the pair. By default, the first is the longest.
+        Duplexes(1,1) = Duplex(); % Array of Duplex objects describing one or more duplexes formed by the pair. By default, the first is the longest.
     end
     methods
         function objArray = Multistrand(varargin) % Constructor
@@ -89,12 +89,12 @@ classdef Multistrand
                 schema = schema(:, startpos:endpos); % trim
                 schema(cellfun(@isempty,schema))={''}; % Replace empty cell elements with empty char
                 % Create duplex object and place in original Multistrand array
-                a(m).Duplexes{1} = Duplex(schema,'Strands',objArray(m).Strands);
+                a(m).Duplexes(1) = Duplex(schema,'Strands',objArray(m).Strands);
             end
         end
         function duplex = longestDuplex(objArray)
             for n = 1:numel(objArray) 
-                duplex(n) = objArray(n).Duplexes{1};
+                duplex(n) = objArray(n).Duplexes(1);
             end
         end
         function list(obj) % List nucleic acid sequences in pair as strings

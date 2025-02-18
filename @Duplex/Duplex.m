@@ -17,34 +17,40 @@ classdef Duplex < handle
         parameters = readtable("NN_Parameters.csv"); % Load nearest neighbor parameters;
     end
     methods
-        function obj = Duplex(schema,varargin) % Constructor
-            obj.Schema = schema;
-            if ~isempty(varargin) % Parse initialization arguments
-                for n = 1:2:length(varargin)
+        function objArray = Duplex(varargin) % Constructor
+            for m = 1:numel(objArray)
+                if ~isempty(varargin)
+                    objArray(m).Schema = varargin{1};
+                else
+                    objArray(m).Schema = {'null';'null'}; % Create 'null' schema if none is provided
+                end
+            if numel(varargin)>1 % Parse initialization arguments
+                for n = 2:2:length(varargin)
                     if strcmpi(varargin{n},'Strands')
-                        obj.Strands = varargin{n+1};
+                        objArray(m).Strands = varargin{n+1};
                     elseif strcmpi(varargin{n},'PairingState')
-                        obj.PairingState = varargin{n+1};
+                        objArray(m).PairingState = varargin{n+1};
                     elseif strcmpi(varargin{n}, 'Nbp')
-                        obj.Nbp = varargin{n+1};
+                        objArray(m).Nbp = varargin{n+1};
                     end
                 end
             end
-            if isempty(obj.PairingState) % Determine pairing state if not provided
-                obj = determinePairingState(obj);
+            if isempty(objArray(m).PairingState) % Determine pairing state if not provided
+                objArray(m) = determinePairingState(objArray(m));
             end
-            if isempty(obj.Nbp) % Determine number of base pairs if not provided
-                nOverhangs = sum(strcmp(obj.PairingState,'d'));
-                nMismatches = sum(strcmp(obj.PairingState,'-'));
-                obj.Nbp = length(obj.PairingState)-nOverhangs-nMismatches;
+            if isempty(objArray(m).Nbp) % Determine number of base pairs if not provided
+                nOverhangs = sum(strcmp(objArray(m).PairingState,'d'));
+                nMismatches = sum(strcmp(objArray(m).PairingState,'-'));
+                objArray(m).Nbp = length(objArray(m).PairingState)-nOverhangs-nMismatches;
             end
             % parameters = readtable(obj.ParametersFile); % Load nearest neighbor parameters
-            obj = obj.findNearestNeighbors(); % Find nearest neighbors
-            obj = determineSymmetryAndInitiation(obj); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
-            obj = obj.estimateThermodynamics(Duplex.parameters); % Estimate deltaS, deltaH, deltaG
-            obj = obj.gcContent();
+            objArray(m) = objArray(m).findNearestNeighbors(); % Find nearest neighbors
+            objArray(m) = determineSymmetryAndInitiation(objArray(m)); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
+            objArray(m) = objArray(m).estimateThermodynamics(Duplex.parameters); % Estimate deltaS, deltaH, deltaG
+            objArray(m) = objArray(m).gcContent();
             % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
-            obj.Length = length(obj.PairingState); % 
+            objArray(m).Length = length(objArray(m).PairingState); % 
+            end
         end
         function obj = determinePairingState(obj)
             obj.PairingState = cell(1,size(obj.Schema,2));
