@@ -296,6 +296,26 @@ classdef Strand
                 objArray(n).Name = strcat(name,'_scrambled');
             end
         end
+        function objArray = removeDuplicates(objArray)
+            if numel(objArray) > 1
+                disp('Removing duplicates from Strand array...');
+                c = 1;
+                while c < numel(objArray)
+                    names = '';
+                    toRemove = [];
+                    for d = c+1:numel(objArray)
+                        if objArray(c) == objArray(d)
+                            toRemove = cat(1,toRemove,d);
+                            names = [names, '+', objArray(d).Name];
+                        end
+                    end
+                    objArray(toRemove) = [];
+                    c = c+1;
+                end
+            else
+                disp('Cannot remove duplicates since the Strand array contains only one entry.');
+            end
+        end
         function L = len(objArray)
             L = zeros(size(objArray));
             for n = 1:numel(objArray)
