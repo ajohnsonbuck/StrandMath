@@ -2,7 +2,7 @@ classdef Duplex < handle
     % Add mismatch treatment - only create paired Nearest Neighbor code if n and n+1 of
     % PairingState are 'p'; add codes for terminal mismatches
     properties
-        Sequences = {Strand(); Strand()}; % Cell array of two Strand objects
+        Strands = {Strand(); Strand()}; % Cell array of two Strand objects
         Schema = cell(2,0); % 2xN cell array showing register of two sequences in interaction
         PairingState = {}; % 1xN cell array showing pairing state ('p'=paired, 'w'=wobble,''=mismatch,'d'= dangling/overhang)
         NearestNeighbors = {};
@@ -21,8 +21,8 @@ classdef Duplex < handle
             obj.Schema = schema;
             if ~isempty(varargin) % Parse initialization arguments
                 for n = 1:2:length(varargin)
-                    if strcmpi(varargin{n},'Sequences')
-                        obj.Sequences = varargin{n+1};
+                    if strcmpi(varargin{n},'Strands')
+                        obj.Strands = varargin{n+1};
                     elseif strcmpi(varargin{n},'PairingState')
                         obj.PairingState = varargin{n+1};
                     elseif strcmpi(varargin{n}, 'Nbp')
@@ -152,7 +152,7 @@ classdef Duplex < handle
             rBases = sum(contains(obj.Schema,'r'),2);
             rBases = rBases>0;
             rBases = sum(rBases);
-            dBases = sum(~cellfun(@isempty,obj.Schema) & ~contains(obj.Schema,horzcat(obj.Sequences{1}.Modlist,'-')),2);
+            dBases = sum(~cellfun(@isempty,obj.Schema) & ~contains(obj.Schema,horzcat(obj.Strands{1}.Modlist,'-')),2);
             dBases = dBases>0;
             dBases = sum(dBases);
             if rBases==0
@@ -379,7 +379,7 @@ classdef Duplex < handle
             end
             for m = 1:numel(objArray)
                 if flipSequences
-                    objArray(m).Sequences = flipud(objArray(m).Sequences);
+                    objArray(m).Strands = flipud(objArray(m).Strands);
                     objArray(m).Schema = rot90(objArray(m).Schema,2);
                     objArray(m).PairingState = fliplr(objArray(m).PairingState);
                 end
@@ -423,9 +423,9 @@ classdef Duplex < handle
                 for n = 1:name2start
                     line4 = [line4, '  '];
                 end
-                fprintf(1,[line0, '%s'],objArray(m).Sequences{1}.Name);
+                fprintf(1,[line0, '%s'],objArray(m).Strands{1}.Name);
                 fprintf(1,[line1,line2,line3],'\n');
-                fprintf(1,[line4,'%s\n'],objArray(m).Sequences{2}.Name);
+                fprintf(1,[line4,'%s\n'],objArray(m).Strands{2}.Name);
                 fprintf(1,[line5,'%.1f kcal/mol\n'],objArray(m).dG0/1000);
             end
             fprintf(1,'\n')
