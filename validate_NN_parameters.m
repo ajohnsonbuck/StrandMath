@@ -1,4 +1,4 @@
-function rmsd = validate_NN_parameters()
+function status = validate_NN_parameters()
     rmsd = zeros(3,1) + Inf;
 
     % Load datasets
@@ -35,5 +35,11 @@ function rmsd = validate_NN_parameters()
     % Sugimoto  0.0250
     % Owczarzy  0.0189
     % Xia       0.0365
+
+    if  sum(rmsd < 0.05)==3 % Return OK if all RMSD values are under 0.05 deg C 
+        status = 'OK';
+    else
+        status = 'Not OK';
+    end
     
 end

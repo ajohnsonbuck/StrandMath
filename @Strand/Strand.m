@@ -1,15 +1,15 @@
 classdef Strand
     properties
         Name = '';
-        String = '';
         Sequence = {};
     end
     properties (Hidden)
         Mask = '';
-        UnmaskedString = '';
+        UnmaskedSequence = {};
     end
-    properties (Hidden, SetAccess = private)
+    properties (Hidden, Constant)
         Modlist = {'+','b','r'};
+        Nucleotides = {'A','C','G','T','U','a','c','g','t','u'};
     end
     methods
         function objArray = Strand(varargin) % Constructor
@@ -81,31 +81,32 @@ classdef Strand
             end
         end
         function obj = fromString(obj,str1) % Populate object from input char or string
-            obj.String = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
-            obj.Sequence = cell(1,length(obj.bareString));
-            toUpper = false; % Need to convert nucleobases to upper-case
-            mods = obj.modifications;
-            str1 = obj.bareString;
-            if ~strcmp(str1,upper(str1))
-                str1 = upper(str1);
+            str1 = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
+            str1bare = erase(str1,obj.Modlist);
+            obj.Sequence = cell(1,length(str1bare));
+            toUpper = false; % If true, need to convert nucleobases to upper-case
+            if ~strcmp(str1bare,upper(str1bare))
                 toUpper = true;
             end
-            for n = 1:length(obj.Sequence)
-                obj.Sequence{n} = [mods{n}, str1(n)];
-            end
-            if toUpper 
-                obj.String = strcat(obj.Sequence{:});
+            c = 1;
+            m = 1;
+            while m <= length(str1)
+               n = m;
+               while ~ismember(str1(n),obj.Nucleotides)
+                   n = n+1;
+               end
+               obj.Sequence{c} = str1(m:n);
+               if toUpper
+                    obj.Sequence{c}(end)=upper(obj.Sequence{c}(end));
+               end
+               m = n+1;
+               c = c+1;
             end
         end
         function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
             if ~isempty(varargin)
                 obj.Sequence = varargin{1};
             end
-            % obj.String = '';
-            obj.String = strcat(obj.Sequence{:});
-            % for n = 1:length(obj.Sequence)
-            %     obj.String = strcat(obj.String,obj.Sequence{n});
-            % end
         end
         function str = string(objArray)
             str = cell(numel(objArray),1);
@@ -119,7 +120,7 @@ classdef Strand
         function str = bareString(objArray)
             str = cell(numel(objArray),1);
             for n = 1:numel(objArray)
-                str{n} = erase(objArray(n).String,objArray(n).Modlist); % Remove modification prefixes from sequences
+                str{n} = erase(objArray(n).string,objArray(n).Modlist); % Remove modification prefixes from sequences
             end
             if numel(str)==1
                 str = str{:};
@@ -145,16 +146,11 @@ classdef Strand
             end
         end
         function mods = modifications(objArray)
-            mods = cell(numel(objArray),1);
+            mods = cell(numel(objArray),1); % Preallocate cell array - one set of mods for each element in Strand
             for n = 1:numel(objArray)
                 mods{n} = cell(1,objArray(n).len);
-                c = 1;
-                for p = 1:length(objArray(n).String)
-                    if ismember(objArray(n).String(p),objArray(n).Modlist)
-                        mods{n}{c} = objArray(n).String(p);
-                    else
-                        c = c+1;
-                    end
+                for p = 1:objArray(n).len
+                    mods{n}{p} = erase(objArray(n).Sequence{p},objArray(n).Nucleotides);
                 end
             end
             if numel(objArray) == 1
@@ -164,7 +160,7 @@ classdef Strand
         function objArray = toDNA(objArray)
             for n = 1:numel(objArray)
                 str1 = replace(objArray(n).bareString, 'U', 'T');
-                objArray(n) = fromString(objArray(n),str1);
+                objArray(n) = objArray(n).fromString(str1);
             end
         end
         function objArray = toLNA(objArray)
@@ -322,7 +318,7 @@ classdef Strand
         function L = len(objArray)
             L = zeros(size(objArray));
             for n = 1:numel(objArray)
-                L(n) = length(objArray(n).bareString);
+                L(n) = numel(objArray(n).Sequence);
             end
         end
         function fGC = gcContent(obj)
@@ -352,9 +348,10 @@ classdef Strand
         end
         function objArray = unmask(objArray)
             for n = 1:numel(objArray)
-                str1 = objArray(n).UnmaskedString;
-                objArray(n) = objArray(n).fromString(str1);
-                objArray(n).Mask = replace(objArray(n).Mask,'-','n');
+                if ~isempty(objArray(n).UnmaskedSequence)
+                    objArray(n).Sequence = objArray(n).UnmaskedSequence;
+                    objArray(n).Mask = replace(objArray(n).Mask,'-','n');
+                end
             end
         end
         function print(objArray,varargin)
@@ -373,7 +370,7 @@ classdef Strand
                 if printBare
                     str1 = objArray(n).bareString;
                 else
-                    str1 = objArray(n).String;
+                    str1 = objArray(n).string;
                 end
                 fprintf(1,[char("\n5'-"),str1,char("-3'\n")]);
             end
@@ -389,8 +386,7 @@ classdef Strand
                 if numel(a) == numel(b) % Add sequences in pairwise fashion if arrays are the same size
                     c(1,numel(a)) = Strand();
                     for n = 1:numel(a)
-                        str1 = strcat(a(n).String,b(n).String);
-                        c(n) = c(n).fromString(str1);
+                        c(n).Sequence = horzcat(a(n).Sequence,b(n).Sequence);
                         if ~isempty(a(n).Name) && ~isempty(b(n).Name)
                             c(n).Name = [a(n).Name,' + ', b(n).Name];
                         else
@@ -400,8 +396,7 @@ classdef Strand
                 elseif numel(a) == 1 % If one array has a single element, concatenate that to each element of the second array
                     c(1,numel(b)) = Strand();
                     for n = 1:numel(b)
-                        str1 = strcat(a.String,b(n).String);
-                        c(n) = c(n).fromString(str1);
+                        c(n).Sequence = horzcat(a.Sequence,b(n).Sequence);
                         if ~isempty(a.Name) && ~isempty(b(n).Name)
                             c(n).Name = [a.Name,' + ', b(n).Name];
                         else
@@ -411,8 +406,7 @@ classdef Strand
                 elseif numel(b) == 1 % If one array has a single element, concatenate that to each element of the second array
                     c(1,numel(a)) = Strand();
                     for n = 1:numel(a)
-                        str1 = strcat(a(n).String,b.String);
-                        c(n) = c(n).fromString(str1);
+                        c(n).Sequence = horzcat(a(n).Sequence,b.Sequence);
                         if ~isempty(a(n).Name) && ~isempty(b.Name)
                             c(n).Name = [a(n).Name,' + ', b.Name];
                         else
@@ -470,21 +464,21 @@ classdef Strand
             elseif isa(a,'Strand') && isnumeric(b) && (round(b,0)==b) && b > 0 % Multiplying a Strand array by a constant b concatenates the sequence b times
                 c(1,numel(a)) = Strand();
                 for n = 1:numel(a)
-                    str = '';
+                    L = a(n).len; % Length of original sequence
+                    c(n).Sequence = cell(1,b*L); % Preallocate cell of correct size for new sequence
                     for p = 1:b
-                        str = [str,a(n).String];
+                        c(n).Sequence(p*L-L+1:p*L) = a(n).Sequence;
                     end
-                    c(n) = c(n).fromString(str);
                     c(n).Name = [a(n).Name,' x ',num2str(b)];
                 end
             elseif isnumeric(a) && (round(a,0)==a) && a>0 && isa(b,'Strand') 
                 c(1,numel(b)) = Strand();
                 for n = 1:numel(b)
-                    str = '';
+                    L = b(n).len; % Length of original sequence
+                    c(n).Sequence = cell(1,a*L); % Preallocate cell of correct size for new sequence
                     for p = 1:a
-                        str = [str,b(n).String];
+                        c(n).Sequence(p*L-L+1:p*L) = b(n).Sequence;
                     end
-                    c(n) = c(n).fromString(str);
                     c(n).Name = [b(n).Name,' x ',num2str(a)];
                 end
             end
@@ -508,15 +502,25 @@ classdef Strand
         function c = eq(a,b) % Two Strand arrays are equal if they have the same number of elements and all their corresponding elements have the same String property
             if isa(a,'Strand') && isa(b,'Strand')
                 c = true;
-                if numel(a) == numel(b)
+                if numel(a) == numel(b) % Indicate false + abort comparison if a and b have different numbers of Strand
                     for n = 1:numel(a)
-                        if ~strcmp(a(n).String,b(n).String)
+                        if numel(a(n).Sequence) == numel(b(n).Sequence) % Indicate false + abort comparison if Sequence fields of different size
+                            for m = 1:numel(a(n).Sequence)
+                                if ~strcmp(a(n).Sequence{m},b(n).Sequence{m}) % Indicate false + abort comparison at first Sequence difference
+                                    c = false;
+                                    return
+                                end
+                            end
+                        else
                             c = false;
+                            return
                         end
                     end
                 else
                     c = false;
                 end
+            else
+                c = false;
             end
         end
         function out = isSymmetric(objArray) % true if sequence is self-complementary

@@ -52,7 +52,7 @@ classdef Multistrand
                 if sum(contains(objArray(n).Strands(2).Sequence,'b'))>sum(contains(objArray(n).Strands(1).Sequence,'b'))
                     objArray(n).Strands = flipud(objArray(n).Strands); % If either sequence has BNA, ensure Sequence 1 has more BNA residues
                 end
-                if ~isempty(objArray(n).Strands(1).String)
+                if ~isempty(objArray(n).Strands(1).Sequence)
                     objArray(n) = findLongestDuplex(objArray(n));
                 end
             end
@@ -99,7 +99,7 @@ classdef Multistrand
         end
         function list(obj) % List nucleic acid sequences in pair as strings
             for n = 1:2
-                fprintf(1,'Sequence %d: %s\n',n,obj.Strands(n).String);
+                fprintf(1,'Sequence %d: %s\n',n,obj.Strands(n).string);
             end
         end
         function Tm = estimateTm(objArray,varargin)
@@ -121,14 +121,12 @@ classdef Multistrand
                     if isempty(mask)
                         mask = repmat('n',1,objArray(m).Strands(n).len);
                     end
-                    str1 = objArray(m).Strands(n).String;
+                    objArray(m).Strands(n).UnmaskedSequence = objArray(m).Strands(n).Sequence;
                     for p = 1:objArray(m).Strands(n).len
                         if strcmp(mask(p),'-')
                             objArray(m).Strands(n).Sequence{p}='-';
                         end
                     end
-                    objArray(m).Strands(n) = objArray(m).Strands(n).fromSequence;
-                    objArray(m).Strands(n).UnmaskedString = str1;
                 end
             end
         end
@@ -153,7 +151,7 @@ classdef Multistrand
                     for m = 1:numel(objArray)
                         for n = 1:numel(objArray(m).Strands)
                             fprintf(1,'\n Sequence %d: %s',n,objArray(m).Strands(n).Name)
-                            fprintf(1,[char("\n5'-"),objArray(m).Strands(n).String,char("-3'\n")]);
+                            fprintf(1,[char("\n5'-"),objArray(m).Strands(n).string,char("-3'\n")]);
                         end
                     end
                     fprintf(1,'\n');
