@@ -2,9 +2,10 @@
 
 ## Description
 Library of classes for the high-throughput handling of 
-oligonucleotides including DNA, RNA, and LNA.  Unlike other publicly 
-available tools, symboligo allows the rapid manipulation of **thousands
-of sequences in parallel** through built-in class methods, implemented as intuitive
+oligonucleotides including DNA, RNA, and LNA.  
+
+Unlike other freely available tools, symboligo allows the rapid manipulation of thousands
+of sequences in parallel through built-in class methods, implemented as intuitive
 symbolic operations.
 
 Current functionality includes:
@@ -59,12 +60,13 @@ Current functionality includes:
           dG0 = -23.4 kcal/mol
 
 ### Tm estimation
-Standard Tm prediction conditions are 0.2 uM oligo, 1 M Na+, and 0 M Mg2+.  However, other conditions can be specified.
-     Tm = P.estimateTm      % Estimate Tm for pair P at 1 M Na+ and 0.2 uM oligo.
+Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  However, other conditions can be specified.
+
+     Tm = P.estimateTm      % Estimate Tm for pair P at 1 M Na+ and 0.2 μM oligo.
 
           Tm = 67.4881
           
-     Tm = estimate_Tm('ATAGCGCCTAAT','Na',0.1,'conc',1E-6)      % Estimate Tm, in degrees Celsius, for specified sequence and its reverse complement at 100 mM Na+ and 1 uM oligo
+     Tm = estimate_Tm('ATAGCGCCTAAT','Na',0.1,'conc',1E-6)      % Estimate Tm, in degrees Celsius, for specified sequence and its reverse complement at 100 mM Na+ and 1 μM oligo
 
           Tm = 40.3000
 
@@ -72,7 +74,7 @@ Standard Tm prediction conditions are 0.2 uM oligo, 1 M Na+, and 0 M Mg2+.  Howe
     load('validation_Sugimoto_etal_1995.mat');      % Load DNA/RNA validation set
     N = SugimotoTable2.seqs;      % Store sequences from Table 2 as an array of Strand objects
     P= N .* (N.toDNA)';      % Perform element-wise hybridization of each of the 64 sequences in Sugimoto et al Table 2 to its DNA reverse complement
-    Tm = P.Tm;      % Estimate Tm for all 64 duplexes
+    Tm = P.estimateTm('conc', 100-6);      % Estimate Tm for all 64 duplexes at 100 μM oligo and 1 M Na+
     P(1:4).print;      % Show the first four RNA/DNA duplexes and their predicted standard Gibbs free energies
 
      5'- C G G C T-3'
@@ -170,3 +172,6 @@ Predictions of Tm, free energy, enthalpy, and energy of hybridization use neares
 - **LNA/DNA hybrids:** McTigue et al. Biochemistry 2004, 43, 18, 5388–5405; Owczarzy,R et al., Biochemistry, 50, 9352
 
 Parameters for LNA/RNA duplexes are approximated, as these parameters are unavailable empirically.
+
+### Validation
+By running the included script `validate_NN_parameters.m`, you can confirm that the predictions of the model match those shown in Sugimoto et al. 1995 (RNA/DNA), Oczarzy et al. 2011 (DNA/DNA, DNA mismatches, LNA, and LNA mismatches) and Xia et al. 1998 (RNA/RNA) to within 0.1 degree Celsius.
