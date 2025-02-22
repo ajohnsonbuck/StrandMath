@@ -2,7 +2,7 @@
 
 ## Description
 Library of classes for the convenient, high-throughput handling of 
-oligonucleotids including DNA, RNA, and LNA.  Unlike other publicly 
+oligonucleotides including DNA, RNA, and LNA.  Unlike other publicly 
 available tools, symboligo allows the intuitive handling of **thousands
 of sequences in parallel** through built-in class methods, implemented as an intuitive
 symbolic operations.
