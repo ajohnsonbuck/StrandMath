@@ -1,7 +1,7 @@
 # symboligo
 
 ## Description
-Library of classes for the high-throughput handling of 
+Library for the high-throughput handling of 
 oligonucleotides including DNA, RNA, and LNA.  
 
 Unlike other freely available tools, symboligo allows the rapid manipulation of thousands
@@ -22,12 +22,11 @@ Current functionality includes:
 2. Place the repository folder and its subfolders on your Matlab path
 
 ## Example usage
-### Generate a sequence
+### Creating an oligo (Strand)
      N = Strand('ACAGAGATTAGAAACCCAG');      % Create a nucleic acid Strand object
-     N = N.toRNA      % Convert to RNA sequence
      N.print;      % Show result
 
-          5'-rArCrArGrArGrArUrUrArGrArArArCrCrCrArG-3'
+          5'-ACAGAGATTAGAAACCCAG-3'
 
 ### Random sequence generation
      A = Strand('random', 'length', 20, 'GCcontent', 0.4);      % Generate a random DNA 20-mer with 40% GC content
@@ -43,7 +42,7 @@ Current functionality includes:
 
 ### Reverse complement
      C = A';      % Create a new strand C that is the reverse complement of A
-     C = A.reverseComplement;      % Another equivalent way to get the reverse complement
+     C = A.reverseComplement;      % Another way to get the same result
      H = toRNA(A + 'GAAA' + A');      % Create a hairpin-forming sequence with the RNA equivalent of A and its reverse complement separated by a GAAA tetraloop
      H.print;
 
@@ -162,14 +161,14 @@ By passing the argument `'bare'` to the print method, any modification prefixes 
 
 ## Sources of thermodynamic nearest-neighbor parameters
 Predictions of Tm, free energy, enthalpy, and energy of hybridization use nearest-neighbor models and parameters published in the following papers:
-- **RNA/DNA hybrids:** Sugimoto,N. et al., Biochemistry, 34, 11211
-- **RNA/RNA hybrids:** Xia et al. Biochemistry 1998, 37, 42, 14719–14735
-- **RNA dangling ends:** Serra, M.J. and Turner, D.H. (1995) Predicting Thermodynamic Properties of RNA. Methods Enzymol., 259, 242-261.
-- **RNA mismatches:** Mathews et al. JMB Volume 288, Issue 5, 21 May 1999, Pages 911-940.; Xia, T., Mathews, D.H. and Turner, D.H. (1999) In Söll, D. G., Nishimura, S. and Moore, P. B. (eds.), Prebiotic Chemistry, Molecular Fossils, Nucleosides, and RNA. Elsevier, New York, pp. 21-47.; Mathews et al. (2004) Proc. Natl. Acad. Sci. USA, 101, 7287-7292 & Lu, et al. (2006) Nucleic Acids Res., 34 4912 - 4924.; 
-- **DNA/DNA hybrids:** Allawi,H., SantaLucia,J.,Jr., Biochemistry, 36, 10581
-- **DNA/DNA mismatches:** Peyret et al. Biochemistry 1999, 38, 12, 3468–3477; Hatim T. Allawi and John SantaLucia, Biochemistry 1997 36 (34), 10581-10594; Hatim T. Allawi, John SantaLucia. Volume 26, Issue 11, 1 June 1998, Pages 2694–2701; Allawi and SantaLucia, Biochemistry 1998, 37, 26, 9435–9444
-- **DNA dangling ends:** Bommarito et al. (2000), Nucleic Acids Research 28(9), 1929-1934.
-- **LNA/DNA hybrids:** McTigue et al. Biochemistry 2004, 43, 18, 5388–5405; Owczarzy,R et al., Biochemistry, 50, 9352
+- **RNA/DNA hybrids:** Sugimoto, N. et al. (1995) Biochemistry, 34, 11211.
+- **RNA/RNA hybrids:** Xia et al. (1998) Biochemistry, 37, 42, 14719–14735.
+- **RNA dangling ends:** Serra, M.J. and Turner, D.H. (1995) Methods Enzymol., 259, 242-261.
+- **RNA mismatches:** Mathews et al. (1999) JMB Volume 288, Issue 5, 911-940; Xia, T., Mathews, D.H. and Turner, D.H. (1999) In Söll, D. G., Nishimura, S. and Moore, P. B. (eds.), Prebiotic Chemistry, Molecular Fossils, Nucleosides, and RNA. Elsevier, New York, pp. 21-47.; Mathews et al. (2004) Proc. Natl. Acad. Sci. USA, 101, 7287-7292; Lu, et al. (2006) Nucleic Acids Res., 34 4912-4924.
+- **DNA/DNA hybrids:** Allawi, H., SantaLucia, J., Jr. (1997) Biochemistry, 36, 10581.
+- **DNA/DNA mismatches:** Peyret et al. (1999) Biochemistry, 38, 12, 3468–3477; Allawi, H., SantaLucia, J., Jr. (1997) Biochemistry 36 (34), 10581-10594; Allawi, H., SantaLucia, J., Jr. (1998) Nucleic Acids Res. 26 (11), 2694–2701; Allawi, H., SantaLucia, J., Jr., Biochemistry 1998, 37, 26, 9435–9444.
+- **DNA dangling ends:** Bommarito et al. (2000), Nucleic Acids Res. 28(9), 1929-1934.
+- **LNA/DNA hybrids:** McTigue et al. Biochemistry 2004, 43(18), 5388–5405; Owczarzy, R. et al. (2011) Biochemistry, 50, 9352.
 
 Parameters for LNA/RNA duplexes are approximated, as these parameters are unavailable empirically.
 
