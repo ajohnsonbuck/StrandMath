@@ -1,10 +1,11 @@
 # symboligo
 
 ## Description
-Library for the high-throughput handling of 
+Library for the high-throughput design of
 oligonucleotides including DNA, RNA, and LNA.  
 
-Unlike other freely available tools, symboligo allows the rapid manipulation of thousands
+Unlike other freely available tools, symboligo allows the rapid manipulation of, 
+and calculation of properties for,  thousands
 of sequences in parallel through built-in class methods, implemented as intuitive
 symbolic operations.
 
@@ -43,10 +44,6 @@ Current functionality includes:
 ### Reverse complement
      C = A';      % Create a new strand C that is the reverse complement of A
      C = A.reverseComplement;      % Another way to get the same result
-     H = toRNA(A + 'GAAA' + A');      % Create a hairpin-forming sequence with the RNA equivalent of A and its reverse complement separated by a GAAA tetraloop
-     H.print;
-
-          5'-rUrUrCrArUrUrUrUrCrUrCrCrArArGrGrArGrCrUrGrArArArArGrCrUrCrCrUrUrGrGrArGrArArArArUrGrArA-3'
 
 ### Hybridize
      P = B * C;      % Find base-pairing between B and C
