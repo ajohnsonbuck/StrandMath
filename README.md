@@ -21,12 +21,18 @@ Current functionality includes:
 2. Place the repository folder and its subfolders on your Matlab path
 
 ## Example usage
+### Generate a sequence
+     N = Strand('ACAGAGATTAGAAACCCAG'); % Create a nucleic acid Strand object
+     N = N.toRNA % Convert to RNA sequence
+     N.print; % Show result
+
 ### Random sequence generation
      A = Strand('random', 20); % Generate a random DNA 20-mer
 
 ### Concatenation and reverse
      B = A + polydT(10); % Concatenate a (dT)10 sequence to the 3'-end of sequence A
      D = -B; % Flip sequence B 5'-to-3'
+     H = A + 'GAAA' + A'; % Create a hairpin-forming sequence with A and its reverse complement separated by a GAAA tetraloop
 
 ### Reverse complement and type conversion
      C = B'; % Create a new strand C that is the reverse complement of B
