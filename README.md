@@ -69,9 +69,9 @@ the string will be understood to represent a second Strand.  For example:
 
 Strand objects can also be created by passing an `n x 1` cell array of char or string variables as arguments to Strand().  For example,
 
-     N = Strand({'ATTG';'rCrArGrA';'GGAATTC'});
+     N = Strand({'ATTG';'rCrArGrA';'GGAA+TTC'});
 
-creates a 3-element Strand array containing the three DNA sequences specified.  Note that RNA nucleotides are specified with the `r` prefix.
+creates a 3-element Strand array containing the DNA sequence ATTG, the RNA sequence CAGA, and the DNA sequence containing one LNA residue GGAA+TTC.  Note that RNA nucleotides are specified with the `r` prefix, and LNA residues with the `+` prefix.
 
 Strand sequences are stored internally as cell arrays of char variables representing individual nucleotides, 
 and can be accessed as the Strand.Sequence property (for instance, `N(2).Sequence{3}` would return the char `'rG'` in the above example).
@@ -83,7 +83,7 @@ By passing the argument `'bare'` to the print method, any modification prefixes 
 
      N(2).print('bare');
 
-will return `5'-CAGA` in the above example.
+will return `5'-CAGA-3'` in the above example.
 
 ## Sources of thermodynamic nearest-neighbor parameters
 Predictions of Tm, free energy, enthalpy, and energy of hybridization use nearest-neighbor models and parameters published in the following papers:
