@@ -70,7 +70,7 @@ Strand objects must be initially created with a Strand() call, but afterwards ca
 Furthermore, if an operation is called involving a Strand and a string representing a nucleotide sequence, 
 the string will be understood to represent a second Strand.  For example:
 
-     A = Strand('AAT+CGG+CTG').toLNA;
+     A = Strand('AAT+CGG+CTG');
      B = 'TTTTT' + A; % 'TTTTT' is understood as Strand('TTTTT') since it is being added to another Strand
 
 Strand objects can also be created by passing an `n x 1` cell array of char or string variables as arguments to Strand().  For example,
