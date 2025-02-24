@@ -26,30 +26,37 @@ Current functionality includes:
 
 ## Example usage
 ### Creating an oligo (Strand)
-     N = Strand('ACAGAGATTAGAAACCCAG');      % Create a nucleic acid Strand object
+     % Create a nucleic acid Strand object
+     N = Strand('ACAGAGATTAGAAACCCAG');      
      N.print;      % Show result
 
           5'-ACAGAGATTAGAAACCCAG-3'
 
 ### Random sequence generation
-     A = Strand('random', 'length', 20, 'GCcontent', 0.4);      % Generate a random DNA 20-mer with 40% GC content
+     % Generate a random DNA 20-mer with 40% GC content
+     A = Strand('random', 'length', 20, 'GCcontent', 0.4);      
      A.print;
 
           5'-TTCATTTTCTCCAAGGAGCT-3'
 
 ### Concatenation
-     B = A + polydT(10);      % Concatenate a (dT)10 sequence to the 3'-end of sequence A
+     % Concatenate a (dT)10 sequence to the 3'-end of sequence A
+     B = A + polydT(10);      
      B.print;
 
           5'-TTCATTTTCTCCAAGGAGCTTTTTTTTTTT-3'
 
 ### Reverse complement
-     C = A';      % Create a new strand C that is the reverse complement of A
-     C = A.reverseComplement;      % Another way to get the same result
+     % Create a new strand C that is the reverse complement of A
+     C = A';      
+     % Another way to get the same result
+     C = A.reverseComplement;      
 
 ### Hybridize
-     P = B * C;      % Find base-pairing between B and C
-     P.print;      % Show base-pairing between B and C as well as the standard Gibbs free energy of hybridization
+     % Find base-pairing between B and C
+     P = B * C;      
+     % Show base-pairing between B and C as well as the standard Gibbs free energy of hybridization
+     P.print;      
 
           5'- T T C A T T T T C T C C A A G G A G C T T T T T T T T T T T-3'
               | | | | | | | | | | | | | | | | | | | |                    
@@ -60,11 +67,13 @@ Current functionality includes:
 ### Tm estimation
 Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  However, other conditions can be specified.
 
-     Tm = P.estimateTm      % Estimate Tm for pair P at 1 M Na+ and 0.2 μM oligo.
+     % Estimate Tm for pair P at 1 M Na+ and 0.2 μM oligo.
+     Tm = P.estimateTm      
 
           Tm = 67.4881
           
-     Tm = estimate_Tm('ATAGCGCCTAAT','Na',0.1,'conc',1E-6)      % Estimate Tm, in degrees Celsius, for specified sequence and its reverse complement at 100 mM Na+ and 1 μM oligo
+     % Estimate Tm, in degrees Celsius, for specified sequence and its reverse complement at 100 mM Na+ and 1 μM oligo
+     Tm = estimate_Tm('ATAGCGCCTAAT','Na',0.1,'conc',1E-6)      
 
           Tm = 40.3000
 
