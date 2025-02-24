@@ -25,7 +25,7 @@ Current functionality includes:
 2. Place the repository folder and its subfolders on your Matlab path
 
 ## Example usage
-### Creating an oligo (Strand)
+### Creating an oligo with Strand()
      % Create a nucleic acid Strand object
      N = Strand('ACAGAGATTAGAAACCCAG');
      % Show result
@@ -33,27 +33,27 @@ Current functionality includes:
 
           5'-ACAGAGATTAGAAACCCAG-3'
 
-### Random sequence generation
+### Generating a random sequence with Strand('random')
      % Generate a random DNA 20-mer with 40% GC content
      A = Strand('random', 'length', 20, 'GCcontent', 0.4);      
      A.print;
 
           5'-TTCATTTTCTCCAAGGAGCT-3'
 
-### Concatenation
+### Joining (concatenating) sequences uses the `+` operator
      % Concatenate a (dT)10 sequence to the 3'-end of sequence A
      B = A + polydT(10);      
      B.print;
 
           5'-TTCATTTTCTCCAAGGAGCTTTTTTTTTTT-3'
 
-### Reverse complement
+### Reverse complements are created with the `'` operator
      % Create a new strand C that is the reverse complement of A
      C = A';      
      % Another way to get the same result
      C = A.reverseComplement;      
 
-### Hybridize
+### Hybridization of Strands is performed with the `*` or `.*` operator
      % Find base-pairing between B and C
      P = B * C;      
      % Show base-pairing between B and C as well as the standard Gibbs free energy of hybridization
@@ -65,7 +65,7 @@ Current functionality includes:
 
           dG0 = -23.4 kcal/mol
 
-### Tm estimation
+### Tm estimation is performed with the Strand.estimateTm method
 Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  However, other conditions can be specified.
 
      % Estimate Tm for pair P at 1 M Na+ and 0.2 μM oligo.
@@ -78,7 +78,7 @@ Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  How
 
           Tm = 40.3000
 
-### High-throughput hybridization and thermodynamics
+### High-throughput hybridization and thermodynamics using Strand arrays
     load('validation_Sugimoto_etal_1995.mat');      % Load DNA/RNA validation set
     N = SugimotoTable2.seqs;      % Store sequences from Table 2 as an array of Strand objects
     P= N .* (N.toDNA)';      % Perform element-wise hybridization of each of the 64 sequences in Sugimoto et al Table 2 to its DNA reverse complement
