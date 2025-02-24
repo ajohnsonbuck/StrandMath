@@ -377,6 +377,8 @@ classdef Strand
                    else
                        error('Mask must be a string, char, or cell array with either 1 element or the same number of elements as the String array it is applied to.');
                    end
+                elseif isa(mask,"string") || isa(mask,"char")
+                   objArray(n).Mask = mask;
                 end
             end
         end
