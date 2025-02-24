@@ -9,6 +9,8 @@ and calculation of properties for,  thousands
 of sequences in parallel through built-in class methods, implemented as intuitive
 symbolic operations.
 
+![Alt text](/Tm_grid.png?raw=true "Example visualization of 2500 predited Tms (50 probes x 50 targets)")
+
 Current functionality includes:
 1. Prediction of Tm, standard Gibbs free energy, enthalpy, and entropy of hybridization
 2. Thermodynamic parameters for DNA, RNA, DNA/RNA, LNA/DNA, and (through approximation) LNA/RNA duplexes
