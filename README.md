@@ -131,11 +131,17 @@ The basic class of symbOligo is the Strand.
 Strand objects can contain a single oligonucleotide sequence or an array of sequences, allowing for high-throughput operations.
 
 They can be combined and allowed to interact through
-symbolic operations like `+` (concatenation), `-` (reverse sequence), `*` 
-(combinatorial hybridization), `.*` (element-wise hybridization), and `'` (reverse complement).
+symbolic operations, including:
 
-Sequences can also be concatenated in head-to-tail repeats by multiplying them by a positive integer.
-For example, `Strand('AAG')*20` generates 20 repeats of the DNA sequence AAG.
+| Operation | Example     |     Meaning |
+| --------- | -------     |     ------- |
+| `+`       | `A  + B`    |     Join/concatenate sequences A and B |
+| `-`       | `-A`        |     Reverse/flip sequence A 5'-to-3'   |
+| `'`       | `A'`        |     Reverse complement of A |
+| `*`       | `A * B`     |     Hybridize each strand of A with **each** strand of B |
+|           | `A * c`     |     If c is a positive integer, concatenate c repeats of sequence A |
+| `.*`      | `A .* B`    |     Hybridize each strand of A with **the corresponding** strand of B |
+|           | `A .* c`    |     If c is a positive integer, concatenate c repeats of sequence A |
 
 Strand objects must be initially created with a Strand() call, but afterwards can be manipulated symbolically.
 Furthermore, if an operation is called involving a Strand and a string representing a nucleotide sequence, 
