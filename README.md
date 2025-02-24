@@ -39,18 +39,20 @@ built-in class methods, implemented as intuitive symbolic operations.
 
           5'-TTCATTTTCTCCAAGGAGCT-3'
 
+### Conversion between DNA, RNA, and LNA
+Conversion is handled by the methods Strand.toDNA(), .toRNA(), and .toLNA()
+
+     % Convert to RNA version of sequence A and show result
+     A.toRNA.print;
+     
+          5'-rUrUrCrArUrUrUrUrCrUrCrCrArArGrGrArGrCrU-3'
+
 ### Joining (concatenating) sequences uses the `+` operator
      % Concatenate a (dT)10 sequence to the 3'-end of sequence A
      B = A + polydT(10);      
      B.print;
 
           5'-TTCATTTTCTCCAAGGAGCTTTTTTTTTTT-3'
-
-### Conversion between DNA, RNA, and LNA
-Conversion is handled by the methods Strand.toDNA(), .toRNA(), and .toLNA()
-     % Convert to RNA version of sequence B and show result
-     B.toRNA.print;
-          5'-rUrUrCrArUrUrUrUrCrUrCrCrArArGrGrArGrCrUrUrUrUrUrUrUrUrUrUrU-3'
 
 ### Reverse complements are created with the `'` operator
      % Create a new strand C that is the reverse complement of A
@@ -59,9 +61,9 @@ Conversion is handled by the methods Strand.toDNA(), .toRNA(), and .toLNA()
      C = A.reverseComplement;      
 
 ### Hybridization of Strands is performed with the `*` or `.*` operator
-     % Find base-pairing between B and C
+     % Hybridize B and C, and assign to pair P
      P = B * C;      
-     % Show base-pairing between B and C as well as the standard Gibbs free energy of hybridization
+     % Show base-pairing and free energy of hybridization of pair P
      P.print;      
 
           5'- T T C A T T T T C T C C A A G G A G C T T T T T T T T T T T-3'
