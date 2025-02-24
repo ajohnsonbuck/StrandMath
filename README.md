@@ -1,4 +1,4 @@
-# symboligo
+# symbOligo
 
 ## Description
 Library for the high-throughput design of
