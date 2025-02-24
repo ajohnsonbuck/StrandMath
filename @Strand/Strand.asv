@@ -1,14 +1,13 @@
 classdef Strand
     properties
         Name = '';
-        String = '';
         Sequence = {};
     end
     properties (Hidden)
         Mask = '';
         UnmaskedSequence = {};
     end
-    properties (Hidden, SetAccess = private)
+    properties (Hidden, Constant)
         Modlist = {'+','b','r'};
         Nucleotides = {'A','C','G','T','U','a','c','g','t','u'};
     end
@@ -140,10 +139,34 @@ classdef Strand
                 bareSeqs = bareSeqs{1};
             end
         end
-        function objArray = crop(objArray,ind)
+        function objArray = crop(objArray,varargin)
+            ind = [1 Inf];
+            if numel(varargin)==1
+                if numel(varargin{1})==2 && isnumeric(varargin{1}) && varargin{1}(1) > 0
+                    ind = varargin{1};
+                else
+                    error('Strand.crop() requires either a two-element vector of integers or two arguments specifying the start and end positions to crop the sequence to.');
+                end
+            elseif numel(varargin)==2
+                if varargin{1} >= 1
+                    ind(1) = varargin{1};
+                end
+                if isnumeric(varargin{2})
+                    if varargin{2} >= varargin{1}
+                        ind(2) = varargin{2};
+                    end
+                elseif isa(varargin{2},'string')  || isa(varargin{2}, 'char')
+                    if strcmpi(varargin{2},'end')
+                        ind(2) = Inf;
+                    end
+                end
+            end
             for n = 1:numel(objArray)
-               objArray(n).Sequence = objArray(n).Sequence(ind);
-               objArray(n) = objArray(n).fromSequence;
+                if ind(2) > objArray(n).len
+                    ind(2) = objArray(n).len;
+                end
+                objArray(n).Sequence = objArray(n).Sequence(ind(1):ind(2));
+                objArray(n) = objArray(n).fromSequence;
             end
         end
         function mods = modifications(objArray)
@@ -503,9 +526,9 @@ classdef Strand
         function c = eq(a,b) % Two Strand arrays are equal if they have the same number of elements and all their corresponding elements have the same String property
             if isa(a,'Strand') && isa(b,'Strand')
                 c = true;
-                if numel(a) == numel(b)
+                if numel(a) == numel(b) % Indicate false + abort comparison if a and b have different numbers of Strand
                     for n = 1:numel(a)
-                        if numel(a(n).Sequence) == numel(b(n).Sequence) % If 
+                        if numel(a(n).Sequence) == numel(b(n).Sequence) % Indicate false + abort comparison if Sequence fields of different size
                             for m = 1:numel(a(n).Sequence)
                                 if ~strcmp(a(n).Sequence{m},b(n).Sequence{m}) % Indicate false + abort comparison at first Sequence difference
                                     c = false;
@@ -520,6 +543,8 @@ classdef Strand
                 else
                     c = false;
                 end
+            else
+                c = false;
             end
         end
         function out = isSymmetric(objArray) % true if sequence is self-complementary

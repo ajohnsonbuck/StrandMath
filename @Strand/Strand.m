@@ -139,10 +139,44 @@ classdef Strand
                 bareSeqs = bareSeqs{1};
             end
         end
-        function objArray = crop(objArray,ind)
+        function objArray = crop(objArray,varargin)
+            ind = [1 Inf];
+            if numel(varargin)==1
+                if numel(varargin{1})==2 && isnumeric(varargin{1}) && varargin{1}(1) > 0
+                    ind = varargin{1};
+                else
+                    error('Strand.crop() requires either a two-element vector of integers or two arguments specifying the start and end positions to crop the sequence to.');
+                end
+            elseif numel(varargin)==2
+                if isnumeric(varargin{1}) && varargin{1} >= 1
+                    if round(varargin{1},0)==varargin{1}
+                        ind(1) = varargin{1};
+                    else
+                        error('If two arguments are passed to Strand.crop(), the first must be an integer > 0 specifying the start position to crop the sequence to.');
+                    end
+                else
+                    error('If two arguments are passed to Strand.crop(), the first must be an integer > 0 specifying the start position to crop the sequence to.');
+                end
+                if isnumeric(varargin{2})
+                    if varargin{2} >= varargin{1}
+                        ind(2) = varargin{2};
+                    else
+                        error('If two arguments are passed to Strand.crop(), the second argument must be an integer greater than the first argument or the string "end".');
+                    end
+                elseif isa(varargin{2},'string')  || isa(varargin{2}, 'char')
+                    if strcmpi(varargin{2},'end')
+                        ind(2) = Inf;
+                    else
+                        error('If two arguments are passed to Strand.crop(), the second argument must be an integer greater than the first argument or the string "end".');
+                    end
+                end
+            end
             for n = 1:numel(objArray)
-               objArray(n).Sequence = objArray(n).Sequence(ind);
-               objArray(n) = objArray(n).fromSequence;
+                if ind(2) > objArray(n).len
+                    ind(2) = objArray(n).len;
+                end
+                objArray(n).Sequence = objArray(n).Sequence(ind(1):ind(2));
+                objArray(n) = objArray(n).fromSequence;
             end
         end
         function mods = modifications(objArray)
