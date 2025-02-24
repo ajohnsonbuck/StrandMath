@@ -27,8 +27,9 @@ Current functionality includes:
 ## Example usage
 ### Creating an oligo (Strand)
      % Create a nucleic acid Strand object
-     N = Strand('ACAGAGATTAGAAACCCAG');      
-     N.print;      % Show result
+     N = Strand('ACAGAGATTAGAAACCCAG');
+     % Show result
+     N.print;      
 
           5'-ACAGAGATTAGAAACCCAG-3'
 
