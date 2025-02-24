@@ -72,7 +72,7 @@ Conversion is handled by the methods Strand.toDNA(), .toRNA(), and .toLNA()
 
           dG0 = -23.4 kcal/mol
 
-### Tm estimation is performed with the Strand.estimateTm method
+### Tm estimation is performed with the estimateTm() method
 Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  However, other conditions can be specified.
 
 Tm values are reported in degrees Celsius.
@@ -81,6 +81,11 @@ Tm values are reported in degrees Celsius.
      Tm = P.estimateTm      
 
           Tm = 67.4881
+
+     % Estimate Tm for pair P at 0.25 M Na+, 0.01 M Mg2+ and 10 μM oligo.
+     Tm = P.estimateTm('Na',0.25,'Mg', 0.01, 'concentration', 10E-6)
+
+          Tm = 69.1990
           
      % Estimate Tm, in degrees Celsius, for specified sequence and its reverse complement at 100 mM Na+ and 1 μM oligo
      Tm = estimate_Tm('ATAGCGCCTAAT','Na',0.1,'conc',1E-6)      
