@@ -67,6 +67,8 @@ built-in class methods, implemented as intuitive symbolic operations.
 ### Tm estimation is performed with the Strand.estimateTm method
 Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  However, other conditions can be specified.
 
+Tm values are reported in degrees Celsius.
+
      % Estimate Tm for pair P at 1 M Na+ and 0.2 μM oligo.
      Tm = P.estimateTm      
 
