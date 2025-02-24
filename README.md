@@ -117,7 +117,7 @@ symbolic operations like `+` (concatenation), `-` (reverse sequence), `*`
 (combinatorial hybridization), `.*` (element-wise hybridization), and `'` (reverse complement).
 
 Sequences can also be concatenated in head-to-tail repeats by multiplying them by a positive integer.
-(For example, `Strand('AAG')*20` generates 20 repeats of the DNA sequence AAG)
+For example, `Strand('AAG')*20` generates 20 repeats of the DNA sequence AAG.
 
 Strand objects must be initially created with a Strand() call, but afterwards can be manipulated symbolically.
 Furthermore, if an operation is called involving a Strand and a string representing a nucleotide sequence, 
@@ -134,7 +134,7 @@ Strand objects can also be created by passing an `n x 1` cell array of char or s
      N = Strand({'ATTG';'rCrArGrA';'GGAA+TTC'},'name',{'Sequence 1', 'Sequence 2', 'Sequence 3'});
 
 creates a 3-element Strand array containing the DNA sequence ATTG, the RNA sequence CAGA, and the DNA sequence containing one LNA residue GGAA+TTC. The strands
-are also named by passing 'name' as an argument to Strand. Strand names can be accessed, for instance, by:
+are also named by passing 'name' as an argument to Strand. Strand names can be accessed with Strand.Name:
 
      N(2).Name
 
