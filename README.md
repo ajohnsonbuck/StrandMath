@@ -5,9 +5,8 @@ Library for the high-throughput design of
 oligonucleotides including DNA, RNA, and LNA.  
 
 Unlike other freely available tools, symboligo allows the rapid manipulation of, 
-and calculation of properties for,  thousands
-of sequences in parallel through built-in class methods, implemented as intuitive
-symbolic operations.
+and calculation of properties for,  thousands of interactions in parallel through 
+built-in class methods, implemented as intuitive symbolic operations.
 
 ![Alt text](/Tm_grid.png?raw=true "Example visualization of 2500 predicted Tms (50 probes x 50 targets), showing on- and off-target interactions")
 
