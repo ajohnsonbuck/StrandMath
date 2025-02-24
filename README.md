@@ -46,6 +46,12 @@ built-in class methods, implemented as intuitive symbolic operations.
 
           5'-TTCATTTTCTCCAAGGAGCTTTTTTTTTTT-3'
 
+### Conversion between DNA, RNA, and LNA
+Conversion is handled by the methods Strand.toDNA(), .toRNA(), and .toLNA()
+     % Convert to RNA version of sequence B and show result
+     B.toRNA.print;
+          5'-rUrUrCrArUrUrUrUrCrUrCrCrArArGrGrArGrCrUrUrUrUrUrUrUrUrUrUrU-3'
+
 ### Reverse complements are created with the `'` operator
      % Create a new strand C that is the reverse complement of A
      C = A';      
