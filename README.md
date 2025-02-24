@@ -9,7 +9,7 @@ and calculation of properties for,  thousands
 of sequences in parallel through built-in class methods, implemented as intuitive
 symbolic operations.
 
-![Alt text](/Tm_grid.png?raw=true "Example visualization of 2500 predited Tms (50 probes x 50 targets)")
+![Alt text](/Tm_grid.png?raw=true "Example visualization of 2500 predicted Tms (50 probes x 50 targets), showing on- and off-target interactions")
 
 Current functionality includes:
 1. Prediction of Tm, standard Gibbs free energy, enthalpy, and entropy of hybridization
