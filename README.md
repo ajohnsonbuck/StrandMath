@@ -88,6 +88,9 @@ Tm values are reported in degrees Celsius.
           Tm = 40.3000
 
 ### High-throughput hybridization and thermodynamics using Strand arrays
+Note the important difference between `*` and `.*` when working with Strand arrays; `.*` hybridizes each strand in one array to the corresponding
+strand in the other array, while `*` hybridizes each strand in one array with *every* strand in the other array (combinatorically).
+
     load('validation_Sugimoto_etal_1995.mat');      % Load DNA/RNA validation set
     N = SugimotoTable2.seqs;      % Store sequences from Table 2 as an array of Strand objects
     P= N .* (N.toDNA)';      % Perform element-wise hybridization of each of the 64 sequences in Sugimoto et al Table 2 to its DNA reverse complement
