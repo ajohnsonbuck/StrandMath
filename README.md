@@ -4,7 +4,7 @@
 Library for the high-throughput design of
 oligonucleotides including DNA, RNA, and LNA.  
 
-Unlike other freely available tools, symboligo allows the rapid manipulation of, 
+Unlike other freely available tools, symbOligo allows the rapid manipulation of, 
 and calculation of properties for,  thousands of interactions in parallel through 
 built-in class methods, implemented as intuitive symbolic operations.
 
@@ -108,7 +108,7 @@ Standard Tm prediction conditions are 0.2 μM oligo, 1 M Na+, and 0 M Mg2+.  How
       dG0 = -5.4 kcal/mol
 
 ## Further Description
-The basic class of symboligo is the Strand.  
+The basic class of symbOligo is the Strand.  
 
 Strand objects can contain a single oligonucleotide sequence or an array of sequences, allowing for high-throughput operations.
 
