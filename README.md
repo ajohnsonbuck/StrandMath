@@ -1,6 +1,6 @@
 # symbOligo
 
-## Description
+## Overview
 Library for the high-throughput design of
 oligonucleotides including DNA, RNA, and LNA.  
 
@@ -10,7 +10,7 @@ built-in class methods, implemented as intuitive symbolic operations.
 
 ![Alt text](/Tm_grid.png?raw=true "Example visualization of 2500 predicted Tms (50 probes x 50 targets), showing on- and off-target interactions")
 
-Current functionality includes:
+**Current functionality includes:**
 1. Prediction of Tm, standard Gibbs free energy, enthalpy, and entropy of hybridization
 2. Thermodynamic parameters for DNA, RNA, DNA/RNA, LNA/DNA, and (through approximation) LNA/RNA duplexes
 3. Displaying the longest predicted duplex between two sequences
