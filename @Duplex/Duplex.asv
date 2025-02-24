@@ -240,25 +240,25 @@ classdef Duplex < handle
                                 if sum(ind) == 0
                                     ignoreString = ['Warning: code ',obj.NearestNeighbors{n}, ' was not found in the lookup table of Parameters.  Ignoring this motif.\n'];
                                 else
-                                    ind = find(ind,1,"first");
                                     dH0 = dH0 + dH0s(ind);
                                     dS0 = dS0 + dS0s(ind);
                                     approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                                 end
                             else
-                                ind = find(ind,1,"first");
                                 dH0 = dH0 + dH0s(ind);
                                 dS0 = dS0 + dS0s(ind);
+                                try
                                 approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
+                                catch
+                                    pause;
+                                end
                             end
                         else
-                            ind = find(ind,1,"first");
                             dH0 = dH0 + dH0s(ind);
                             dS0 = dS0 + dS0s(ind);
                             approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
                         end
                     else
-                        ind = find(ind,1,"first");
                         dH0 = dH0 + dH0s(ind);
                         dS0 = dS0 + dS0s(ind);
                         approxString = ['Code ', obj.NearestNeighbors{n},' was not found in the lookup table of Parameters.  Approximating as ', char(codes(ind)),'\n'];
@@ -270,7 +270,6 @@ classdef Duplex < handle
                         fprintf(1,approxString)
                     end
                 else
-                    ind = find(ind,1,"first");
                     dH0 = dH0 + dH0s(ind);
                     dS0 = dS0 + dS0s(ind);
                 end
