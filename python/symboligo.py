@@ -18,6 +18,7 @@ class Strand:
         elif isinstance(sequence,list):
             if all(isinstance(nt,str) for nt in sequence): # If sequence is provided as list of nucleotides
                 self.sequence = self.fromString(sequence)
+        self.name = name
 
     def __repr__(self):
         str1 = "".join(self.sequence)
@@ -63,11 +64,14 @@ class Strand:
         
     def print(self):
         str1 = self.string()
+        if self.name is not None:
+            print(self.name)
         print("5'-" + str1 + "-3'")
 
 # Example usage:
-# A = Strand(["A","C","G","T"])
-a = Strand("rArTrG")
+A = Strand("rArGrCrT",name="strand 1")
+print(A.sequence)
+A.print()
 # b = Strand("CGA")
 # print(a + b)  # Strand('ATGCGA')
 # print(a + [b, Strand("TTT")])  # [Strand('ATGCGA'), Strand('ATGTTT')]
