@@ -17,7 +17,7 @@ class Strand:
             self.sequence = self.fromString(sequence) 
         elif isinstance(sequence,list):
             if all(isinstance(nt,str) for nt in sequence): # If sequence is provided as list of nucleotides
-                self.sequence = self.fromString(sequence)
+                self.sequence = sequence
         self.name = name
 
     def __repr__(self):
@@ -26,7 +26,7 @@ class Strand:
 
     def __add__(self, other: Union['Strand', list]):
         if isinstance(other, Strand):
-            return Strand(self.sequence + other.sequence)
+            return Strand(self.sequence + other.sequence) # Adjust to work with sequences as lists
         elif isinstance(other, list):
             return [self + item for item in other]
         return NotImplemented
@@ -72,6 +72,7 @@ class Strand:
 A = Strand("rArGrCrT",name="strand 1")
 print(A.sequence)
 A.print()
+B = Strand(["C","C","T"])
 # b = Strand("CGA")
 # print(a + b)  # Strand('ATGCGA')
 # print(a + [b, Strand("TTT")])  # [Strand('ATGCGA'), Strand('ATGTTT')]
