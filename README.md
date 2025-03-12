@@ -1,10 +1,10 @@
-# symbOligo
+# StrandMath
 
 ## Overview
 Library for the high-throughput design of
 oligonucleotides including DNA, RNA, and LNA.  
 
-Unlike other freely available tools, symbOligo allows the rapid manipulation of, 
+Unlike other freely available tools, StrandMath allows the rapid manipulation of, 
 and calculation of properties for,  thousands of interactions in parallel through 
 built-in class methods, implemented as intuitive symbolic operations.
 
@@ -126,7 +126,7 @@ strand in the other array, while `*` hybridizes each strand in one array with *e
       dG0 = -5.4 kcal/mol
 
 ## Further Description
-The basic class of symbOligo is the Strand.  
+The basic class of StrandMath is the Strand.  
 
 Strand objects can contain a single oligonucleotide sequence or an array of sequences, allowing for high-throughput operations.
 
