@@ -6,7 +6,7 @@ oligonucleotides including DNA, RNA, and LNA.
 
 Unlike other freely available tools, StrandMath allows the rapid manipulation of, 
 and calculation of properties for,  thousands of interactions in parallel through 
-built-in class methods, implemented as intuitive symbolic operations.
+built-in class methods, implemented as intuitive and concise operations.
 
 ![Alt text](/Tm_grid.png?raw=true "Example visualization of 2500 predicted Tms (50 probes x 50 targets), showing on- and off-target interactions")
 
