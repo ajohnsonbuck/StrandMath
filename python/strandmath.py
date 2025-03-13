@@ -36,6 +36,17 @@ class Strand:
             else:
                 raise TypeError("For multiple input sequences, name must be provided as a list of strings")
 
+    def __getitem__(self,ind):
+        name = self.name[ind]
+        seq = self.sequence[ind]
+        if isinstance(name,str):
+            name = [name]
+            seq = [seq]
+        newStrand = copy.deepcopy(self)
+        newStrand.name = name
+        newStrand.sequence = seq
+        return newStrand
+
     def __repr__(self):
         if self.numel()==1:
             str1 = "".join(self.sequence[0])
@@ -43,7 +54,7 @@ class Strand:
         else:
             return f"Strand({self.numel()} Sequences)"
 
-    def __add__(self, other: Union['Strand',str]):
+    def __add__(self, other: Union['Strand',str]): # Addition of Strands means concatenating their respective sequences
         if isinstance(other, str): 
             other = Strand(other)
         if self.numel()==1:
@@ -91,11 +102,20 @@ class Strand:
     def bareString(self): # String representation, stripped of modifications
         strlist = []
         string = self.string()
+        if isinstance(string,str):
+            string = [string]
         for item in string:
             strlist.append(Strand.removeMods(item))
         if len(strlist) == 1:
             strlist = strlist[0]
         return strlist
+    
+    def bareSequence(self):
+        bareSeq = copy.deepcopy(self.sequence)
+        for seq in range(len(bareSeq)):
+            for nt in range(len(bareSeq[seq])):
+                bareSeq[seq][nt] = Strand.removeMods(bareSeq[seq][nt])
+        return bareSeq
             
     def removeMods(str1: str): # Remove modifications from string representation of sequence
         pattern = '|'.join(map(re.escape,Strand.Modlist))
@@ -108,14 +128,47 @@ class Strand:
     def numel(self): # Number of sequences in Strand object
         return len(self.sequence)
     
+    def toDNA(self): # Convert to DNA sequence
+        self.sequence = self.bareSequence()
+        self.sequence = [[s.replace('U','T') for s in row] for row in self.sequence]
+        return self
+        
+    def toRNA(self): # Convert to DNA sequence
+        self.sequence = self.bareSequence()
+        self.sequence = [[s.replace('T','U') for s in row] for row in self.sequence]
+        self.sequence = [['r' + s for s in row] for row in self.sequence]
+        return self
+    
+    def toLNA(self): # Convert to LNA sequence
+        self.sequence = self.bareSequence()
+        self.sequence = [['+' + s for s in row] for row in self.sequence]
+        return self
+    
+    def toBNA(self): # Convert to BNA sequence
+        self.sequence = self.bareSequence()
+        self.sequence = [['b' + s for s in row] for row in self.sequence]
+        return self
+    
     def len(self): # Number of nucleotides in each sequence
         L = []
         for item in self.sequence:
             L.append(len(item))
         if len(L)==1:
             L = L[0]
-        return L      
-        
+        return L
+
+    def gcContent(self): # Fraction G and C bases for each sequence in Strand object
+        fGC = [] 
+        bareSeq = self.bareString()
+        if isinstance(bareSeq,str):
+            bareSeq = [bareSeq]
+        for item in bareSeq:
+            fGC.append((item.count('G') + item.count('C'))/len(item))
+        return fGC
+    
+    def gc(self):
+        return self.gcContent()
+    
     def print(self): # Display names and sequences of all items in Strand object
         strlist = self.string()
         if isinstance(strlist,str):
@@ -126,8 +179,7 @@ class Strand:
             print("5'-" + stritem + "-3'")
 
 # Example usage:
-# A = Strand("rArGrCrT",name="strand1")
-A = Strand(["rArGrCrT","GACCTA"],name=["strand1","strand2"])
+A = Strand(["rArGrCrU","GACCTA"],name=["strand1","strand2"])
 A.print()
 
 B = Strand('TTTT',name="T4")
@@ -137,6 +189,8 @@ C.print()
 
 D = A + B
 D.print()
+
+A[1].gc()
 
 # b = Strand("CGA")
 # print(a + b)  # Strand('ATGCGA')
