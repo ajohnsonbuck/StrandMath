@@ -77,6 +77,20 @@ class Strand:
         other = Strand(other)
         return other + self
     
+    def __neg__(self):
+        return copy.deepcopy(self).reverse()
+    
+    def __sub__(self,other):
+        if isinstance(other,str):
+            other = Strand(other)
+        return self + (-other)
+    
+    def __rsub__(self,other):
+        return other + (-self)
+    
+    def __invert__(self):
+        return self.reverseComplement()
+    
     def fromString(self,str1: str): # Extract sequence from string input
         str1 = Strand.cleanString(str1) # Remove empty spaces and termini markers
         sequence = []
@@ -129,25 +143,29 @@ class Strand:
         return len(self.sequence)
     
     def toDNA(self): # Convert to DNA sequence
-        self.sequence = self.bareSequence()
-        self.sequence = [[s.replace('U','T') for s in row] for row in self.sequence]
-        return self
+        out = copy.deepcopy(self)
+        out.sequence = out.bareSequence()
+        out.sequence = [[s.replace('U','T') for s in row] for row in out.sequence]
+        return out
         
     def toRNA(self): # Convert to DNA sequence
-        self.sequence = self.bareSequence()
-        self.sequence = [[s.replace('T','U') for s in row] for row in self.sequence]
-        self.sequence = [['r' + s for s in row] for row in self.sequence]
-        return self
+        out = copy.deepcopy(self)
+        out.sequence = out.bareSequence()
+        out.sequence = [[s.replace('T','U') for s in row] for row in out.sequence]
+        out.sequence = [['r' + s for s in row] for row in out.sequence]
+        return out
     
     def toLNA(self): # Convert to LNA sequence
-        self.sequence = self.bareSequence()
-        self.sequence = [['+' + s for s in row] for row in self.sequence]
-        return self
+        out = copy.deepcopy(self)
+        out.sequence = out.bareSequence()
+        out.sequence = [['+' + s for s in row] for row in out.sequence]
+        return out
     
     def toBNA(self): # Convert to BNA sequence
-        self.sequence = self.bareSequence()
-        self.sequence = [['b' + s for s in row] for row in self.sequence]
-        return self
+        out = copy.deepcopy(self)
+        out.sequence = out.bareSequence()
+        out.sequence = [['b' + s for s in row] for row in out.sequence]
+        return out
     
     def len(self): # Number of nucleotides in each sequence
         L = []
@@ -156,6 +174,32 @@ class Strand:
         if len(L)==1:
             L = L[0]
         return L
+    
+    def reverse(self): # reverse sequence(s)
+        out = copy.deepcopy(self)
+        out.sequence = [row[::-1] for row in out.sequence]
+        out.name = [name + '_reverse' for name in out.name]
+        return out
+    
+    def reverseComplement(self): # Create reverse complement of all sequences in Strand
+        out = copy.deepcopy(self)
+        out = out.reverse()
+        for i, seq in enumerate(out.sequence):
+            for j, nt in enumerate(seq):
+                if nt[-1]=="C":
+                    out.sequence[i][j] = out.sequence[i][j].replace("C","G")
+                elif nt[-1]=="G":
+                    out.sequence[i][j] = out.sequence[i][j].replace("G","C")
+                elif nt[-1]=="T":
+                    out.sequence[i][j] = out.sequence[i][j].replace("T","A")
+                elif nt[-1]=="U":
+                    out.sequence[i][j] = out.sequence[i][j].replace("U","A")
+                elif nt[-2:]=="rA":
+                    out.sequence[i][j] = out.sequence[i][j].replace("rA","rU")
+                elif nt[-1]=="A":
+                    out.sequence[i][j] = out.sequence[i][j].replace("A","T")
+        out.name = [name + '_complement' for name in out.name]
+        return out                    
 
     def gcContent(self): # Fraction G and C bases for each sequence in Strand object
         fGC = [] 
@@ -179,19 +223,13 @@ class Strand:
             print("5'-" + stritem + "-3'")
 
 # Example usage:
-A = Strand(["rArGrCrU","GACCTA"],name=["strand1","strand2"])
-A.print()
+A = Strand(["rArGrCrU","GACCTA"],name=["Sequence1","Sequence2"]) # Create a Strand object with two sequences
+A.print() # Show all sequences
 
-B = Strand('TTTT',name="T4")
+B = Strand('TTTTT',name="T5") # Create a strand object with a single sequence (5T linker)
 
-C = B + A
-C.print()
+(B+A).print() # Concatenation
 
-D = A + B
-D.print()
+print(f"GC content of second sequence in Strand object A is {A[1].gc()[0]*100} %") 
 
-A[1].gc()
-
-# b = Strand("CGA")
-# print(a + b)  # Strand('ATGCGA')
-# print(a + [b, Strand("TTT")])  # [Strand('ATGCGA'), Strand('ATGTTT')]
+(~A).print() # Reverse complement
