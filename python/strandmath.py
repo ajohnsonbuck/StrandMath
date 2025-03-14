@@ -8,6 +8,8 @@ This is a temporary script file.
 from typing import Union, Iterable, Optional
 import copy
 import re
+import random
+import numpy as np
 
 class Strand:
     Modlist = ["+","b","r"]
@@ -221,6 +223,23 @@ class Strand:
             if nameitem != "":
                 print(nameitem)
             print("5'-" + stritem + "-3'")
+    
+    def random(length: int, seqtype: str='DNA', gcContent: float=0.5,name: str=''):
+        if name == '':
+            name = f"Random_{seqtype}_{length}nt_{gcContent}GC"
+        nGC = int(np.round(gcContent*length))
+        str1 = "".join(random.choice(["C","G"]) for _ in range(nGC))
+        str2 = "".join(random.choice(["A","T"]) for _ in range(length-nGC))
+        seq = list(str1+str2)
+        random.shuffle(seq)
+        out = Strand("".join(seq),name=name)
+        if seqtype=='RNA':
+            out = out.toRNA()
+        elif seqtype=='LNA':
+            out = out.toLNA()
+        elif seqtype=='BNA':
+            out = out.toBNA()
+        return out
 
 # Example usage:
 A = Strand(["rArGrCrU","GACCTA"],name=["Sequence1","Sequence2"]) # Create a Strand object with two sequences
@@ -233,3 +252,5 @@ B = Strand('TTTTT',name="T5") # Create a strand object with a single sequence (5
 print(f"GC content of second sequence in Strand object A is {A[1].gc()[0]*100} %") 
 
 (~A).print() # Reverse complement
+
+Strand.random(20,seqtype='RNA',gcContent=0.25).print() # Create and print a random RNA sequence of length 20 with 25% GC content
