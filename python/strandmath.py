@@ -203,6 +203,18 @@ class Strand:
         out.name = [name + '_complement' for name in out.name]
         return out                    
 
+    def crop(self,ind: list=(0,'end')):
+        if any(not(isinstance(item, int)) and not(item=='end') for item in ind):
+            raise TypeError("Indices for Strand.crop must be a list of integers or 'end'")
+        if ind[1]=='end':
+            ind[1] = np.inf
+        if not(ind[1]>ind[0]):
+            raise ValueError("Second index of Strand.crop must be larger than the first index")
+        out = copy.deepcopy(self)
+        for i, row in enumerate(out.sequence):
+            out.sequence[i] = out.sequence[i][max([0,ind[0]]):min([len(row),ind[1]])]
+        return out
+    
     def gcContent(self): # Fraction G and C bases for each sequence in Strand object
         fGC = [] 
         bareSeq = self.bareString()
