@@ -8,13 +8,18 @@ This is a temporary script file.
 from typing import Union, Iterable, Optional
 import copy
 import re
+import random
+import numpy as np
 
 class Strand:
     Modlist = ["+","b","r"]
     Nucleotides = ["A","C","G","T","U","a","c","g","t","u"]
 
     def __init__(self, sequence, name = ""):
-        if isinstance(sequence,str):                    # if sequence is provided as string, interpret as single sequence
+        if isinstance(sequence,Strand): # If already a sequence, return a copy of the original Strand object
+            self.name = copy.deepcopy(sequence.name)
+            self.sequence = copy.deepcopy(sequence.sequence)
+        elif isinstance(sequence,str):                    # if sequence is provided as string, interpret as single sequence
             self.sequence = [self.fromString(sequence)]  
             if isinstance(name,str):
                 self.name = [name]
@@ -36,7 +41,7 @@ class Strand:
             else:
                 raise TypeError("For multiple input sequences, name must be provided as a list of strings")
 
-    def __getitem__(self,ind):
+    def __getitem__(self,ind): # Indexing returns a new Strand object containing the corresponding indexed strands and names
         name = self.name[ind]
         seq = self.sequence[ind]
         if isinstance(name,str):
@@ -73,23 +78,60 @@ class Strand:
             return newStrand
         return NotImplemented
     
-    def __radd__(self, other: str):
+    def __radd__(self, other: str): # other + self = Strand(other) + self
         other = Strand(other)
         return other + self
     
-    def __neg__(self):
+    def __neg__(self): # Negative = reverse sequence 5'-to-3'
         return copy.deepcopy(self).reverse()
     
-    def __sub__(self,other):
+    def __sub__(self,other): # self - other = self + other.reverse()
         if isinstance(other,str):
             other = Strand(other)
         return self + (-other)
     
-    def __rsub__(self,other):
+    def __rsub__(self,other): # other - self = other + self.reverse()
         return other + (-self)
     
-    def __invert__(self):
+    def __invert__(self): # Invert operator ~ yields reverse complement
         return self.reverseComplement()
+    
+    def __eq__(self,other): # Equals operator: return True if two Strands have same sequences in the same order, and False otherwise
+        if self.sequence == other.sequence:
+            return True
+        return False
+    
+    def isSymmetric(self): # Return True for each sequence that it is its own reverse complement (regardless of type of sugar), and False otherwise
+        out = []
+        for ind in range(self.numel()):
+            if self[ind].toDNA() == ~(self[ind].toDNA()):
+                out.append(True)
+            else:
+                out.append(False)
+        if len(out)==1:
+            out = out[0]
+        return out
+    
+    def removeDuplicates(self): # Remove any duplicate sequences; keep only the first instance of any sequence + its name
+        out = copy.deepcopy(self)
+        seqnew = []
+        namenew = []
+        seen = {}
+        for seqrow, namerow in zip(self.sequence, self.name):
+            key = tuple(seqrow)
+            if key not in seen:
+                seen[key]=True
+                seqnew.append(seqrow)
+                namenew.append(namerow)
+        out.sequence = seqnew
+        out.name = namenew
+        return out 
+    
+    def scramble(self):
+        out = copy.deepcopy(self)
+        for ind in range(out.numel()):
+            random.shuffle(out.sequence[ind])
+        return out
     
     def fromString(self,str1: str): # Extract sequence from string input
         str1 = Strand.cleanString(str1) # Remove empty spaces and termini markers
@@ -201,6 +243,18 @@ class Strand:
         out.name = [name + '_complement' for name in out.name]
         return out                    
 
+    def crop(self,ind: list=(0,'end')):
+        if any(not(isinstance(item, int)) and not(item=='end') for item in ind):
+            raise TypeError("Indices for Strand.crop must be a list of integers or 'end'")
+        if ind[1]=='end':
+            ind[1] = np.inf
+        if not(ind[1]>ind[0]):
+            raise ValueError("Second index of Strand.crop must be larger than the first index")
+        out = copy.deepcopy(self)
+        for i, row in enumerate(out.sequence):
+            out.sequence[i] = out.sequence[i][max([0,ind[0]]):min([len(row),ind[1]])]
+        return out
+    
     def gcContent(self): # Fraction G and C bases for each sequence in Strand object
         fGC = [] 
         bareSeq = self.bareString()
@@ -208,6 +262,8 @@ class Strand:
             bareSeq = [bareSeq]
         for item in bareSeq:
             fGC.append((item.count('G') + item.count('C'))/len(item))
+        if len(fGC)==1: # return float scalar if only one sequence in Strand; list otherwise
+            fGC = fGC[0]
         return fGC
     
     def gc(self):
@@ -221,6 +277,23 @@ class Strand:
             if nameitem != "":
                 print(nameitem)
             print("5'-" + stritem + "-3'")
+    
+    def random(length: int, seqtype: str='DNA', gcContent: float=0.5,name: str=''):
+        if name == '':
+            name = f"Random_{seqtype}_{length}nt_{gcContent}GC"
+        nGC = int(np.round(gcContent*length))
+        str1 = "".join(random.choice(["C","G"]) for _ in range(nGC))
+        str2 = "".join(random.choice(["A","T"]) for _ in range(length-nGC))
+        seq = list(str1+str2)
+        random.shuffle(seq)
+        out = Strand("".join(seq),name=name)
+        if seqtype=='RNA':
+            out = out.toRNA()
+        elif seqtype=='LNA':
+            out = out.toLNA()
+        elif seqtype=='BNA':
+            out = out.toBNA()
+        return out
 
 # Example usage:
 A = Strand(["rArGrCrU","GACCTA"],name=["Sequence1","Sequence2"]) # Create a Strand object with two sequences
@@ -233,3 +306,5 @@ B = Strand('TTTTT',name="T5") # Create a strand object with a single sequence (5
 print(f"GC content of second sequence in Strand object A is {A[1].gc()[0]*100} %") 
 
 (~A).print() # Reverse complement
+
+Strand.random(20,seqtype='RNA',gcContent=0.25).print() # Create and print a random RNA sequence of length 20 with 25% GC content
