@@ -127,10 +127,11 @@ class Strand:
         out.name = namenew
         return out 
     
-    def scramble(self):
+    def scramble(self): # Scramble sequence(s) in Strand object
         out = copy.deepcopy(self)
         for ind in range(out.numel()):
             random.shuffle(out.sequence[ind])
+            out.name[ind] = out.name[ind]+'_scrambled'
         return out
     
     def fromString(self,str1: str): # Extract sequence from string input
@@ -155,7 +156,7 @@ class Strand:
             strlist = strlist[0]
         return strlist
         
-    def bareString(self): # String representation, stripped of modifications
+    def bareString(self): # String representation of sequence(s), stripped of modifications
         strlist = []
         string = self.string()
         if isinstance(string,str):
@@ -166,7 +167,7 @@ class Strand:
             strlist = strlist[0]
         return strlist
     
-    def bareSequence(self):
+    def bareSequence(self): # List representation of sequence(s), stripped of modifications
         bareSeq = copy.deepcopy(self.sequence)
         for seq in range(len(bareSeq)):
             for nt in range(len(bareSeq[seq])):
@@ -190,7 +191,7 @@ class Strand:
         out.sequence = [[s.replace('U','T') for s in row] for row in out.sequence]
         return out
         
-    def toRNA(self): # Convert to DNA sequence
+    def toRNA(self): # Convert to RNA sequence
         out = copy.deepcopy(self)
         out.sequence = out.bareSequence()
         out.sequence = [[s.replace('T','U') for s in row] for row in out.sequence]
@@ -243,7 +244,7 @@ class Strand:
         out.name = [name + '_complement' for name in out.name]
         return out                    
 
-    def crop(self,ind: list=(0,'end')):
+    def crop(self,ind: list=(0,'end')): # Crop sequence(s) to the specified nucleotide range
         if any(not(isinstance(item, int)) and not(item=='end') for item in ind):
             raise TypeError("Indices for Strand.crop must be a list of integers or 'end'")
         if ind[1]=='end':
@@ -278,7 +279,7 @@ class Strand:
                 print(nameitem)
             print("5'-" + stritem + "-3'")
     
-    def random(length: int, seqtype: str='DNA', gcContent: float=0.5,name: str=''):
+    def random(length: int, seqtype: str='DNA', gcContent: float=0.5,name: str=''): # Generate random sequence
         if name == '':
             name = f"Random_{seqtype}_{length}nt_{gcContent}GC"
         nGC = int(np.round(gcContent*length))
@@ -303,7 +304,7 @@ B = Strand('TTTTT',name="T5") # Create a strand object with a single sequence (5
 
 (B+A).print() # Concatenation
 
-print(f"GC content of second sequence in Strand object A is {A[1].gc()[0]*100} %") 
+print(f"GC content of second sequence in Strand object A is {A[1].gc()*100} %") 
 
 (~A).print() # Reverse complement
 
