@@ -97,6 +97,16 @@ classdef Strand
                 str = str{:};
             end
         end
+        function str = maskedString(objArray) % String representation of sequence(s)
+            str = cell(numel(objArray),1);
+            for n = 1:numel(objArray)
+                str{n} = strcat(objArray(n).Sequence{:});
+                str{n}(objArray(n).Mask=='-')='-';
+            end
+            if numel(str)==1
+                str = str{:};
+            end
+        end
         function str = bareString(objArray) % String representation of sequence(s), stripped of modifications
             str = cell(numel(objArray),1);
             for n = 1:numel(objArray)
