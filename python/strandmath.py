@@ -51,6 +51,16 @@ class Strand:
         newStrand.name = name
         newStrand.sequence = seq
         return newStrand
+    
+    def __setitem__(self,ind,value):
+        if isinstance(value,Strand):
+            if value.numel() == 1:
+                self.name[ind] = value.name[0]
+                self.sequence[ind] = value.sequence[0]
+            else:
+                raise ValueError("Strand item assignment operand must be a Strand object with one sequence")
+        else:
+            raise TypeError("Strand only supports item assignment for Strand operands")
 
     def __repr__(self):
         if self.numel()==1:
@@ -296,6 +306,36 @@ class Strand:
             out = out.toBNA()
         return out
 
+class Multistrand:
+    def __init__(self,strand0="",strand1=""):
+        self.Strands = Strand(["",""])
+        strand0 = Strand(strand0)
+        strand1 = Strand(strand1)
+        if len(strand1.string()) == 0:
+            if len(strand0.string()) > 0:
+                strand1 = ~strand0
+        self.Strands[0] = strand0
+        self.Strands[1] = strand1
+        
+        # if isinstance(strands,list):
+        #     if len(strands) > 1 and all(isinstance(seq,str) for seq in strands):
+        #         self.Strands = Strand(strands)
+        #     else:
+        #         raise ValueError("Multistrand must be initialized with two or more nucleic acid sequences, formatted as Strand or a list of str")
+    
+class Duplex:
+    Strands = Strand(["",""]) # Strand array containing two interacting nucleic acids
+    Schema = [[],[]] # 2xN List showing register of two sequences in interaction
+    PairingState = [] # 1xN List showing pairing state ('p'=paired, 'w'=wobble,''=mismatch,'d'= dangling/overhang)
+    NearestNeighbors = [] # List of codes for all nearest-neighbor interactions within the Duplex
+    Nbp = np.array([]) # Number of base pairs in interaction (initialize as empty unless provided)
+    Length = np.array([]) # ength of interaction, including mismatches and overhangs
+    fGC = -np.inf # GC content of interaction
+    dS0 = -np.inf # Entropy of hybridization at standard conditions
+    dH0 = np.inf # Enthalpy of hybridization at standard conditions
+    dG0 = np.inf # Free energy of hybridization at standard conditions
+    
+
 # Example usage:
 A = Strand(["rArGrCrU","GACCTA"],name=["Sequence1","Sequence2"]) # Create a Strand object with two sequences
 A.print() # Show all sequences
@@ -309,3 +349,7 @@ print(f"GC content of second sequence in Strand object A is {A[1].gc()*100} %")
 (~A).print() # Reverse complement
 
 Strand.random(20,seqtype='RNA',gcContent=0.25).print() # Create and print a random RNA sequence of length 20 with 25% GC content
+
+M = Multistrand('AGGC','TTAGTG')
+
+M.Strands.print()

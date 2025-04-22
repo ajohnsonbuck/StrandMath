@@ -1,0 +1,8 @@
+# Ignore MATLAB backup files
+*.asv
+*.bak
+*.orig
+
+# Ignore Spyder project files
+.spyderproject
+.spyproject
