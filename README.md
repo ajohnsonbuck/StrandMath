@@ -32,9 +32,9 @@ built-in class methods, implemented as intuitive and concise operations.
 
           5'-ACAGAGATTAGAAACCCAG-3'
 
-### Generating a random sequence with Strand('random')
+### Generating a random sequence with Strand.random()
      % Generate a random DNA 20-mer with 40% GC content
-     A = Strand('random', 'length', 20, 'GCcontent', 0.4);      
+     A = Strand.random('length', 20, 'GCcontent', 0.4);      
      A.print;
 
           5'-TTCATTTTCTCCAAGGAGCT-3'
