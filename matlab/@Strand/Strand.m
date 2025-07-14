@@ -12,44 +12,32 @@ classdef Strand
         Nucleotides = {'A','C','G','T','U','a','c','g','t','u'}; % List of all nucleotides known to the class
     end
     methods
-        function objArray = Strand(varargin) % Class constructor
-            if numel(varargin)>0
-                if strcmpi(varargin{1},'random') % Plan to change this to a static Class method (in analogy to the python class) rather than build into the constructor
-                    if nargin>1
-                        args = varargin(2:end);
-                    else
-                        args = {};
-                    end
-                    objArray = Strand.random(args{:});
-                else
-                    seq = varargin{1};
-                    if isa(seq,'char') || isa(seq,'string')
-                        objArray(1) = fromString(objArray(1), seq);
-                    elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argument is a vertical cell, assume those cells contain sequences
-                        objArray(1,numel(seq)) = Strand(); % preallocate object array
-                        for n = 1:numel(seq)
-                            objArray(n) = fromString(objArray(1), seq{n,1});
-                        end
-                    else
-                        objArray(1) = fromSequence(objArray(1), seq);
-                    end
-                end
+        function objArray = Strand(seq, NameValueArgs) % Class constructor
+            arguments
+                seq = ''; % Oligonucleotide sequence as char or string, or multiple sequences as cell array of char/string
+                NameValueArgs.Mask {mustBeTextScalar} = ''; % char or string indicating nucleotides available for base pairing as 'n' and unavailable as '-'
+                NameValueArgs.Name {mustBeText}  = ''; % name(s) of sequence(s)
             end
-            if length(varargin)>1 % Parse any arguments beyond sequence
-                for n = 2:2:length(varargin)
-                    if strcmpi(varargin{n},'Mask')
-                        for p = 1:numel(objArray)
-                            objArray(p).Mask = varargin{n+1};
-                        end
-                    elseif strcmpi(varargin{n},'Name')
-                        if numel(objArray)==1
-                            objArray(1).Name = varargin{n+1};
-                        else
-                        for p = 1:numel(objArray)
-                            objArray(p).Name = varargin{n+1}{p};
-                        end
-                        end
-                    end
+            % Parse sequence argument, if provided
+            if isa(seq,'char') || isa(seq,'string') 
+                objArray(1) = fromString(objArray(1), seq);
+            elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argument is a vertical cell, assume those cells contain sequences
+                objArray(1,numel(seq)) = Strand(); % preallocate object array
+                for n = 1:numel(seq)
+                    objArray(n) = fromString(objArray(1), seq{n,1});
+                end
+            else
+                objArray(1) = fromSequence(objArray(1), seq);
+            end
+            % Parse name-value pair arguments
+            for p = 1:numel(objArray)
+                objArray(p).Mask = NameValueArgs.Mask;
+            end
+            if isscalar(objArray)
+                objArray(1).Name = NameValueArgs.Name;
+            else
+                for p = 1:numel(objArray)
+                    objArray(p).Name = NameValueArgs.Name{p};
                 end
             end
             for m = 1:numel(objArray)
