@@ -25,7 +25,7 @@ classdef Strand
                     seq = varargin{1};
                     if isa(seq,'char') || isa(seq,'string')
                         objArray(1) = fromString(objArray(1), seq);
-                    elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argumeent is a vertical cell, assume those cells contain sequences
+                    elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argument is a vertical cell, assume those cells contain sequences
                         objArray(1,numel(seq)) = Strand(); % preallocate object array
                         for n = 1:numel(seq)
                             objArray(n) = fromString(objArray(1), seq{n,1});
@@ -61,6 +61,10 @@ classdef Strand
             end
         end
         function obj = fromString(obj,str1) % Populate object from input char or string
+            arguments
+                obj Strand
+                str1 {mustBeTextScalar} % string or char specifying nucleic acid sequence
+            end
             str1 = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
             str1bare = erase(str1,obj.Modlist);
             obj.Sequence = cell(1,length(str1bare));
@@ -83,15 +87,27 @@ classdef Strand
                c = c+1;
             end
         end
-        function obj = fromSequence(obj,varargin) % Populate object from input cell array of nucleotides
-            if ~isempty(varargin)
-                obj.Sequence = varargin{1};
+        function obj = fromSequence(obj,seq) % Populate object from input cell array of nucleotides
+            arguments
+                obj Strand
+                seq cell
             end
+            obj.Sequence = seq;
         end
         function str = string(objArray) % String representation of sequence(s)
             str = cell(numel(objArray),1);
             for n = 1:numel(objArray)
                 str{n} = strcat(objArray(n).Sequence{:});
+            end
+            if numel(str)==1
+                str = str{:};
+            end
+        end
+        function str = maskedString(objArray) % String representation of sequence(s)
+            str = cell(numel(objArray),1);
+            for n = 1:numel(objArray)
+                str{n} = strcat(objArray(n).Sequence{:});
+                str{n}(objArray(n).Mask=='-')='-';
             end
             if numel(str)==1
                 str = str{:};
@@ -207,26 +223,26 @@ classdef Strand
                 objArray(m) = objArray(m).fromSequence();
             end
         end
-        function r = reverse(objArray,varargin) % Flip sequence 5'-to-3'
-            outputType = 'Strand';
+        function r = reverse(objArray,outputType) % Flip sequence 5'-to-3'
+            arguments
+                objArray Strand
+                outputType {mustBeTextScalar} = 'Strand'
+            end
             r = cell(size(objArray));
-            if ~isempty(varargin)
-                for n = 1:length(varargin)
-                    if strcmpi(varargin{n},'char') || strcmpi(varargin{n},'string')
-                        outputType = 'char';
-                    elseif strcmpi(varargin{n},'sequence') || strcmpi(varargin{n},'cell')
-                        outputType = 'sequence';
-                    end
-                end
+            if strcmpi(outputType,'string')
+                outputType = 'char';
+            elseif strcmpi(outputType,'cell')
+                outputType = 'sequence';
             end
             if strcmp(outputType,'Strand')
                 rNA = objArray; % copy object array initially
             end
             for n = 1:numel(objArray)
                 seq = fliplr(objArray(n).Sequence);
-                if strcmpi(outputType,'char')
-                    r{n} = horzcat(seq{:});
-                elseif strcmpi(outputType,'sequence')
+                switch outputType
+                    case 'char'
+                        r{n} = horzcat(seq{:});
+                    elseif strcmpi(outputType,'sequence')
                     r{n} = seq;
                 elseif strcmp(outputType,'Strand')
                     rNA(n) = Strand(seq);
@@ -235,7 +251,7 @@ classdef Strand
             if strcmpi(outputType,'Strand')
                 r = rNA;
             end
-            if isa(r,'cell') && numel(objArray)==1
+            if isa(r,'cell') && isscalar(objArray)
                 r = r{1};
             end
         end
@@ -243,7 +259,7 @@ classdef Strand
             outputType = 'Strand'; % Default: provide reverse complement as Strand unless otherwise provided as argument
             keepName = false; % Default: append _reverseComplement to Name unless 'keepName' specified
             rc = cell(size(objArray));
-            if ~isempty(varargin)
+            if ~isempty(varargin) % parse arguments
                 for n = 1:length(varargin)
                     if strcmpi(varargin{n},'char') || strcmpi(varargin{n},'string')
                         outputType = 'char';
@@ -370,20 +386,16 @@ classdef Strand
                 end
             end
         end
-        function print(objArray,varargin) % Show sequence(s) and name(s)
-            printBare = false;
-            if numel(varargin)>0
-                for n = 1:numel(varargin)
-                    if strcmpi(varargin{n},'bare')
-                        printBare = true;
-                    end
-                end
+        function print(objArray,mode) % Show sequence(s) and name(s)
+            arguments
+                objArray Strand
+                mode {mustBeTextScalar} = 'notBare'; % String or char specifying 'bare' if bare string is wanted, and anything else otherwise
             end
             for n = 1:numel(objArray)
                 if ~isempty(objArray(n).Name)
                     fprintf(1,'\n%s',objArray(n).Name);
                 end
-                if printBare
+                if strcmpi(mode,'bare')
                     str1 = objArray(n).bareString;
                 else
                     str1 = objArray(n).string;
@@ -550,6 +562,10 @@ classdef Strand
     end
     methods (Static)
         function seq = randomSequence(L,fGC) % Generate random DNA sequence of length L with fractional GC content fGC
+            arguments
+                L double; % Length, in nucleotides
+                fGC double; % Fractional GC content
+            end
             AT = {'A','T'};
             GC = {'G','C'};
             nGC = round(fGC*L);
@@ -565,41 +581,35 @@ classdef Strand
             end
             seq = seq(randperm(length(seq))); % Shuffle sequence
         end
-        function obj = random(varargin)
-            L = 10;
-            fGC = 0.5;
-            type = 'DNA';
-            if ~isempty(varargin)
-                for n = 1:2:length(varargin)
-                    if strcmpi(varargin{n},'length') || strcmpi(varargin{n},'size')
-                        L = varargin{n+1};
-                    elseif strcmpi(varargin{n},'GCcontent') || strcmpi(varargin{n},'GC_content') || strcmpi(varargin{n},'fGC')
-                        fGC = varargin{n+1};
-                    elseif strcmpi(varargin{n},'type')
-                        type = varargin{n+1};
-                    else
-                        msg1 = strcat("Did not recognize input argument '",num2str(varargin{n}),"'.");
-                        error(msg1);
-                    end
-                end
+        function obj = random(NameValueArgs)    
+            arguments
+                NameValueArgs.length = 10; % number of nucleotides;
+                NameValueArgs.GCcontent double = 0.5; % fractional GC content (0-1)
+                NameValueArgs.type = 'DNA'; % type of nucleic acid ('DNA', 'RNA', 'LNA', 'BNA')
             end
-            seq = Strand.randomSequence(L, fGC);
+            NameValueArgs.length = double(NameValueArgs.length);
+            seq = Strand.randomSequence(NameValueArgs.length, NameValueArgs.GCcontent);
             obj = fromString(Strand(),seq);
-            if strcmpi(type,'RNA')
+            if strcmpi(NameValueArgs.type,'RNA')
                 obj = obj.toRNA;
-            elseif strcmpi(type,'LNA')
+            elseif strcmpi(NameValueArgs.type,'LNA')
                 obj = obj.toLNA;
-            elseif strcmpi(type,'BNA')
+            elseif strcmpi(NameValueArgs.type,'BNA')
                 obj = obj.toBNA;
             end
         end
         function mask = dotBracket2Mask(dotBracket)
-            if isa(dotBracket,{"string", "char"})
-               if isempty(erase(dotBracket,{".","(",")"}))
+            if isa(dotBracket,"string") || isa(dotBracket,"char")
+               if isempty(erase(dotBracket,{'.','(',')'}))
                    mask = replace(dotBracket,".","n");
                    mask = replace(mask,"(","-");
                    mask = replace(mask,")","-");
+                   mask = char(mask);
+               else
+                   error('Input argument to Strand.dotBracketMask must contain only the characters ., (, and )');
                end
+            else
+                error('Input argument to Strand.dotBracketMask must be a string or char array containing only the characters ., (, and )');
             end
         end
     end
