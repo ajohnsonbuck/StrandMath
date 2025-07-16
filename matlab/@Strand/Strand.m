@@ -50,7 +50,7 @@ classdef Strand
         end
         function obj = fromString(obj,str1) % Populate object from input char or string
             arguments
-                obj Strand
+                obj
                 str1 {mustBeTextScalar} % string or char specifying nucleic acid sequence
             end
             str1 = erase(char(str1),{' ',char("5'-"),char("-3'"),'5-','-3',char("5'"),char("3'")}); % Convert string to char and remove empty spaces and termini
@@ -77,8 +77,8 @@ classdef Strand
         end
         function obj = fromSequence(obj,seq) % Populate object from input cell array of nucleotides
             arguments
-                obj Strand
-                seq cell
+                obj
+                seq cell = obj.Sequence;
             end
             obj.Sequence = seq;
         end
@@ -207,13 +207,12 @@ classdef Strand
                         seq1{n} = strcat('r',seq1{n});
                     end
                 end
-                objArray(m).Sequence = seq1;
-                objArray(m) = objArray(m).fromSequence();
+                objArray(m) = fromSequence(objArray(m),seq1);
             end
         end
         function r = reverse(objArray,outputType) % Flip sequence 5'-to-3'
             arguments
-                objArray Strand
+                objArray
                 outputType {mustBeTextScalar} = 'Strand'
             end
             r = cell(size(objArray));
@@ -376,7 +375,7 @@ classdef Strand
         end
         function print(objArray,mode) % Show sequence(s) and name(s)
             arguments
-                objArray Strand
+                objArray
                 mode {mustBeTextScalar} = 'notBare'; % String or char specifying 'bare' if bare string is wanted, and anything else otherwise
             end
             for n = 1:numel(objArray)

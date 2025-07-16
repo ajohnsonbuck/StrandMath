@@ -24,10 +24,9 @@ function Tm = estimate_Tm(probe,varargin)
 
     pair = Multistrand(probe,target); % Generate nucleic acid pair
 
-    Tm = pair.longestDuplex.estimateTm('concentration',conc,'Na',Na,'Mg',Mg); % estimate Tm of longest duplex
+    Tm = pair.longestDuplex.estimateTm('conc',conc,'Na',Na,'Mg',Mg); % estimate Tm of longest duplex
 
     Tm = round(Tm,1);
-
 end
 
 function [type, conc, Na, Mg, target] = parse_input(probe, args)
