@@ -6,7 +6,7 @@ classdef Multistrand
     methods
         function objArray = Multistrand(varargin) % Constructor
             args = varargin;
-            if length(args) == 1
+            if isscalar(args)
                 if isa(args{1},'Strand')
                     objArray(1,numel(args{1})) = Multistrand();
                     for n = 1:numel(args{1})
