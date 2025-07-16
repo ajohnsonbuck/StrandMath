@@ -17,39 +17,34 @@ classdef Duplex < handle
         parameters = readtable("NN_Parameters.csv"); % Load nearest neighbor parameters;
     end
     methods
-        function objArray = Duplex(varargin) % Constructor
+        function objArray = Duplex(Schema, NameValueArgs) % Constructor
+            arguments
+                Schema cell = {'null'; 'null'}
+                NameValueArgs.Strands(2,1) Strand = Strand()
+                NameValueArgs.PairingState cell = {};
+                NameValueArgs.Nbp {mustBeNumeric} = [];
+            end
+
             for m = 1:numel(objArray)
-                if ~isempty(varargin)
-                    objArray(m).Schema = varargin{1};
-                else
-                    objArray(m).Schema = {'null';'null'}; % Create 'null' schema if none is provided
+                objArray(m).Schema = Schema;
+                objArray(m).Strands = NameValueArgs.Strands;
+                objArray(m).PairingState = NameValueArgs.PairingState;
+                objArray(m).Nbp = NameValueArgs.Nbp;
+                if isempty(objArray(m).PairingState) % Determine pairing state if not provided
+                    objArray(m) = determinePairingState(objArray(m));
                 end
-            if numel(varargin)>1 % Parse initialization arguments
-                for n = 2:2:length(varargin)
-                    if strcmpi(varargin{n},'Strands')
-                        objArray(m).Strands = varargin{n+1};
-                    elseif strcmpi(varargin{n},'PairingState')
-                        objArray(m).PairingState = varargin{n+1};
-                    elseif strcmpi(varargin{n}, 'Nbp')
-                        objArray(m).Nbp = varargin{n+1};
-                    end
+                if isempty(objArray(m).Nbp) % Determine number of base pairs if not provided
+                    nOverhangs = sum(strcmp(objArray(m).PairingState,'d'));
+                    nMismatches = sum(strcmp(objArray(m).PairingState,'-'));
+                    objArray(m).Nbp = length(objArray(m).PairingState)-nOverhangs-nMismatches;
                 end
-            end
-            if isempty(objArray(m).PairingState) % Determine pairing state if not provided
-                objArray(m) = determinePairingState(objArray(m));
-            end
-            if isempty(objArray(m).Nbp) % Determine number of base pairs if not provided
-                nOverhangs = sum(strcmp(objArray(m).PairingState,'d'));
-                nMismatches = sum(strcmp(objArray(m).PairingState,'-'));
-                objArray(m).Nbp = length(objArray(m).PairingState)-nOverhangs-nMismatches;
-            end
-            % parameters = readtable(obj.ParametersFile); % Load nearest neighbor parameters
-            objArray(m) = objArray(m).findNearestNeighbors(); % Find nearest neighbors
-            objArray(m) = determineSymmetryAndInitiation(objArray(m)); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
-            objArray(m) = objArray(m).estimateThermodynamics(Duplex.parameters); % Estimate deltaS, deltaH, deltaG
-            objArray(m) = objArray(m).gcContent();
-            % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
-            objArray(m).Length = length(objArray(m).PairingState); % 
+                % parameters = readtable(obj.ParametersFile); % Load nearest neighbor parameters
+                objArray(m) = objArray(m).findNearestNeighbors(); % Find nearest neighbors
+                objArray(m) = determineSymmetryAndInitiation(objArray(m)); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
+                objArray(m) = objArray(m).estimateThermodynamics(Duplex.parameters); % Estimate deltaS, deltaH, deltaG
+                objArray(m) = objArray(m).gcContent();
+                % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
+                objArray(m).Length = length(objArray(m).PairingState); %
             end
         end
         function obj = determinePairingState(obj)
