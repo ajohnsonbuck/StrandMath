@@ -43,7 +43,6 @@ classdef Duplex < handle
                 objArray(m) = determineSymmetryAndInitiation(objArray(m)); % Determine symmetry and initiation factors and add them to obj.NearestNeighbors property
                 objArray(m) = objArray(m).estimateThermodynamics(Duplex.parameters); % Estimate deltaS, deltaH, deltaG
                 objArray(m) = objArray(m).gcContent();
-                % obj = obj.estimateTm(); % Don't estimate by default - user may have specific conditions to request for Tm estimation
                 objArray(m).Length = length(objArray(m).PairingState); %
             end
         end
@@ -275,22 +274,18 @@ classdef Duplex < handle
             % Calculate deltaG
             obj.dG0 = obj.dH0 - 310.15*obj.dS0;
         end
-        function Tm = estimateTm(objArray, varargin)
-            Tm = zeros(numel(objArray),1);
-            conc = 0.2E-6;
-            Na = 1;
-            Mg = 0;
-            for n = 1:2:length(varargin)
-                if strcmpi(varargin{n}, 'Na')
-                    Na = varargin{n+1};
-                elseif strcmpi(varargin{n}, 'Mg')
-                    Mg = varargin{n+1};
-                elseif strcmpi(varargin{n}, 'concentration') || strcmpi(varargin{n}, 'conc')
-                    conc = varargin{n+1};
-                else
-                    fprintf(1,'Warning: Duplex.estimateTm() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
-                end
+        function Tm = estimateTm(objArray, Args)
+            arguments
+                objArray
+                Args.Na double = 1; % Concentration of sodium ion, in molar
+                Args.Mg double = 0; % Concentration of magnesium ion, in molar
+                Args.concentration double = 0.2E-6;
+                Args.conc double = 0.2E-6; % Concentration of oligonucleotide, in molar
             end
+            if Args.concentration ~= 0.2E-6
+                Args.conc = Args.concentration;
+            end
+            Tm = zeros(numel(objArray),1);
             R = 1.987204258; % Gas constant, cal/(mol K)
             for m = 1:numel(objArray)
                 % Check for symmetry
@@ -300,9 +295,9 @@ classdef Duplex < handle
                     a = 4; % for non-self-complementary duplexes
                 end
                 % Calculate Tm from entropy, enthalpy, and concentration
-                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(conc/a))-273.15;
+                Tm(m) = objArray(m).dH0/(objArray(m).dS0 + R*log(Args.conc/a))-273.15;
                 % Apply salt correction
-                Tm(m) = objArray(m).salt_correction(Tm(m),Na,Mg);
+                Tm(m) = objArray(m).salt_correction(Tm(m),Args.Na,Args.Mg);
             end
         end
         function Tm = salt_correction(obj, Tm_1MNa, Na, Mg)
@@ -320,27 +315,28 @@ classdef Duplex < handle
                 a = 3.92;
                 d = 1.42;
                 g = 8.31;
-                Tm = 1/(1/Tm_1MNa + (a - 0.911*log(Mg)+fGC*(6.26+d*log(Mg)+1/(2*(obj.Nbp-1))*(-48.2+52.5*log(Mg)+g*log(Mg))))*1E-5);
+                Tm = 1/(1/Tm_1MNa + (a - 0.911*log(Mg)+obj.fGC*(6.26+d*log(Mg)+1/(2*(obj.Nbp-1))*(-48.2+52.5*log(Mg)+g*log(Mg))))*1E-5);
             end
             % Convert from Kelvin back to Celsius
             Tm = Tm-273.15;
         end
-        function dG = estimateDeltaG(objArray,varargin)
-            R = 1.987204258;% Gas constant, cal/(mol K)
-            T = 37; % Temperature default 37 C
-            c = 1; % Concentration default 1 M
-            if ~isempty(varargin)
-                for n = 1:2:length(varargin)
-                    if strcmpi(varargin{n},'temperature') || strcmpi(varargin{n},'T')
-                        T = varargin{n+1};
-                    elseif strcmpi(varargin{n},'concentration') || strcmpi(varargin{n}, 'conc')
-                        c = varargin{n+1};
-                    else
-                        fprintf(1,'Warning: Duplex.estimateDeltaG() did not recognize argument "%s". Ignored this argument and any that immediately follow.  Please re-run function without this argument.', num2str(varargin{n}));
-                    end
-                end
+        function dG = estimateDeltaG(objArray,Args)
+            arguments
+                objArray
+                Args.Temperature double = 37; % Temperature in Celsius
+                Args.T double = 37; % Alternative temperature alias
+                Args.concentration double = 1; % Concentration of oligo in molar
+                Args.conc double = 1; % Alternative concentration alias
             end
-            T = T+273.15;
+            R = 1.987204258;% Gas constant, cal/(mol K)
+            if Args.Temperature ~= 37
+                Args.T = Args.Temperature;
+            end
+            if Args.concentration ~= 1
+                Args.conc = Args.concentration;
+            end
+            c = Args.conc;
+            T = Args.T+273.15;
             dG = zeros(size(objArray));
             for n = 1:numel(objArray)
                 if sum(contains(objArray(n).NearestNeighbors,'symm'))>0
@@ -375,14 +371,15 @@ classdef Duplex < handle
                 NN = NN{:};
             end
         end
-        function print(objArray,varargin)
-            flipSequences=false; % if true, put bottom sequence on top
-            if numel(varargin)>0
-                for n = 1:numel(varargin)
-                    if strcmp(varargin{n},'flip')
-                        flipSequences = true;
-                    end
-                end
+        function print(objArray,flipMode)
+            arguments
+                objArray
+                flipMode {mustBeTextScalar} = 'noflip'; % if 'flip', put bottom sequence on top
+            end
+            if strcmp(flipMode,'flip')
+                flipSequences = true;
+            else
+                flipSequences = false;
             end
             for m = 1:numel(objArray)
                 if flipSequences
@@ -440,11 +437,12 @@ classdef Duplex < handle
     end
     methods (Static, Access=public)
         function out = options(action, varargin)
-            % if ~isempty(varargin)
-            %     value = varargin{1};
-            % else
-            %     value = [];
-            % end
+            arguments
+                action {mustBeTextScalar}
+            end
+            arguments(Repeating)
+                varargin
+            end
             persistent Options
             if isempty(Options)
                 Options = struct('showApproximations',true,'showIgnored',true); % Default options
@@ -464,11 +462,11 @@ classdef Duplex < handle
                     end
                     out = [];
                 case 'get'
-                    if numel(varargin) == 1
+                    if isscalar(varargin)
                         if isfield(Options,varargin{1})
-                                out = Options.(varargin{1});
+                            out = Options.(varargin{1});
                         else
-                                error('Unknown field passed to Duplex.options');
+                            error('Unknown field passed to Duplex.options');
                         end
                     else
                         error('Duplex.options with action=get expects exactly one field variable to follow the "get" command');
