@@ -19,8 +19,8 @@ class Strand:
 
     def __init__(self, sequence, name = ""):
         if isinstance(sequence,Strand): # If already a sequence, return a copy of the original Strand object
-            self.name = copy.deepcopy(sequence.name)
-            self.sequence = copy.deepcopy(sequence.sequence)
+            self.name = copy.copy(sequence.name)
+            self.sequence = copy.copy(sequence.sequence)
         elif isinstance(sequence,str):                    # if sequence is provided as string, interpret as single sequence
             self.sequence = [self.fromString(sequence)]  
             if isinstance(name,str):
@@ -49,7 +49,7 @@ class Strand:
         if isinstance(name,str):
             name = [name]
             seq = [seq]
-        newStrand = copy.deepcopy(self)
+        newStrand = copy.copy(self)
         newStrand.name = name
         newStrand.sequence = seq
         return newStrand
@@ -75,14 +75,14 @@ class Strand:
         if isinstance(other, str): 
             other = Strand(other)
         if self.numel()==1:
-            newStrand = copy.deepcopy(other)
+            newStrand = copy.copy(other)
             for ind in range(other.numel()):
                 newStrand.sequence[ind] = self.sequence[0] + other.sequence[ind]
                 if len(self.name[0])>0:
                     newStrand.name[ind] = f"{self.name[0]} + {other.name[ind]}"
             return newStrand
         elif other.numel()==1:
-            newStrand = copy.deepcopy(self)
+            newStrand = copy.copy(self)
             for ind in range(self.numel()):
                 newStrand.sequence[ind] = self.sequence[ind] + other.sequence[0]
                 if len(other.name[0])>0:
@@ -95,7 +95,7 @@ class Strand:
         return other + self
     
     def __neg__(self): # Negative = reverse sequence 5'-to-3'
-        return copy.deepcopy(self).reverse()
+        return copy.copy(self).reverse()
     
     def __sub__(self,other): # self - other = self + other.reverse()
         if isinstance(other,str):
@@ -125,7 +125,7 @@ class Strand:
         return out
     
     def removeDuplicates(self): # Remove any duplicate sequences; keep only the first instance of any sequence + its name
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         seqnew = []
         namenew = []
         seen = {}
@@ -140,7 +140,7 @@ class Strand:
         return out 
     
     def scramble(self): # Scramble sequence(s) in Strand object
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         for ind in range(out.numel()):
             random.shuffle(out.sequence[ind])
             out.name[ind] = out.name[ind]+'_scrambled'
@@ -180,7 +180,7 @@ class Strand:
         return strlist
     
     def bareSequence(self): # List representation of sequence(s), stripped of modifications
-        bareSeq = copy.deepcopy(self.sequence)
+        bareSeq = copy.copy(self.sequence)
         for seq in range(len(bareSeq)):
             for nt in range(len(bareSeq[seq])):
                 bareSeq[seq][nt] = Strand.removeMods(bareSeq[seq][nt])
@@ -198,26 +198,26 @@ class Strand:
         return len(self.sequence)
     
     def toDNA(self): # Convert to DNA sequence
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         out.sequence = out.bareSequence()
         out.sequence = [[s.replace('U','T') for s in row] for row in out.sequence]
         return out
         
     def toRNA(self): # Convert to RNA sequence
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         out.sequence = out.bareSequence()
         out.sequence = [[s.replace('T','U') for s in row] for row in out.sequence]
         out.sequence = [['r' + s for s in row] for row in out.sequence]
         return out
     
     def toLNA(self): # Convert to LNA sequence
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         out.sequence = out.bareSequence()
         out.sequence = [['+' + s for s in row] for row in out.sequence]
         return out
     
     def toBNA(self): # Convert to BNA sequence
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         out.sequence = out.bareSequence()
         out.sequence = [['b' + s for s in row] for row in out.sequence]
         return out
@@ -231,13 +231,13 @@ class Strand:
         return L
     
     def reverse(self): # reverse sequence(s)
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         out.sequence = [row[::-1] for row in out.sequence]
         out.name = [name + '_reverse' for name in out.name]
         return out
     
     def reverseComplement(self): # Create reverse complement of all sequences in Strand
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         out = out.reverse()
         for i, seq in enumerate(out.sequence):
             for j, nt in enumerate(seq):
@@ -263,7 +263,7 @@ class Strand:
             ind[1] = np.inf
         if not(ind[1]>ind[0]):
             raise ValueError("Second index of Strand.crop must be larger than the first index")
-        out = copy.deepcopy(self)
+        out = copy.copy(self)
         for i, row in enumerate(out.sequence):
             out.sequence[i] = out.sequence[i][max([0,ind[0]]):min([len(row),ind[1]])]
         return out
@@ -338,20 +338,20 @@ class Duplex:
     dG0 = np.inf # Free energy of hybridization at standard conditions
     
 
-# Example usage:
-A = Strand(["rArGrCrU","GACCTA"],name=["Sequence1","Sequence2"]) # Create a Strand object with two sequences
-A.print() # Show all sequences
+# # Example usage:
+# A = Strand(["rArGrCrU","GACCTA"],name=["Sequence1","Sequence2"]) # Create a Strand object with two sequences
+# A.print() # Show all sequences
 
-B = Strand('TTTTT',name="T5") # Create a strand object with a single sequence (5T linker)
+# B = Strand('TTTTT',name="T5") # Create a strand object with a single sequence (5T linker)
 
-(B+A).print() # Concatenation
+# (B+A).print() # Concatenation
 
-print(f"GC content of second sequence in Strand object A is {A[1].gc()*100} %") 
+# print(f"GC content of second sequence in Strand object A is {A[1].gc()*100} %") 
 
-(~A).print() # Reverse complement
+# (~A).print() # Reverse complement
 
-Strand.random(20,seqtype='RNA',gcContent=0.25).print() # Create and print a random RNA sequence of length 20 with 25% GC content
+# Strand.random(20,seqtype='RNA',gcContent=0.25).print() # Create and print a random RNA sequence of length 20 with 25% GC content
 
-M = Multistrand('AGGC','TTAGTG')
+# M = Multistrand('AGGC','TTAGTG')
 
-M.Strands.print()
+# M.Strands.print()

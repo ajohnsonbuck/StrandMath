@@ -81,7 +81,7 @@ def test_neg_and_sub():
     rev = -s1
     assert rev.string() == "CGTA"
     sub_res = s1 - s2
-    assert sub_res.string()[0].startswith("ATGC")
+    assert sub_res.string().startswith("ATGC")
 
 
 def test_invert_reverse_complement():

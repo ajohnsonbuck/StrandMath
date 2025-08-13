@@ -6,3 +6,7 @@
 # Ignore Spyder project files
 .spyderproject
 .spyproject
+
+# Ignore caches
+*pytest_cache/
+*/__pycache__/
