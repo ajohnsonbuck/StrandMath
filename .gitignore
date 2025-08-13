@@ -9,4 +9,4 @@
 
 # Ignore caches
 *pytest_cache/
-__pycache__/
+*pycache*
