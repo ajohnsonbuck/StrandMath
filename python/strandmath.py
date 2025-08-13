@@ -12,11 +12,12 @@ import copy
 import re
 import random
 import numpy as np
+import pandas as pd
 
 class Strand:
     Modlist = ["+","b","r"]
     Nucleotides = ["A","C","G","T","U","a","c","g","t","u"]
-
+    
     def __init__(self, sequence, name = ""):
         if isinstance(sequence,Strand): # If already a sequence, return a copy of the original Strand object
             self.name = copy.copy(sequence.name)
@@ -42,6 +43,7 @@ class Strand:
                     self.name.append("")
             else:
                 raise TypeError("For multiple input sequences, name must be provided as a list of strings")
+        
 
     def __getitem__(self,ind): # Indexing returns a new Strand object containing the corresponding indexed strands and names
         name = self.name[ind]
@@ -326,6 +328,7 @@ class Multistrand:
         #         raise ValueError("Multistrand must be initialized with two or more nucleic acid sequences, formatted as Strand or a list of str")
     
 class Duplex:
+    PARAMETERS = pd.read_csv("../NN_Parameters.csv")
     Strands = Strand(["",""]) # Strand array containing two interacting nucleic acids
     Schema = [[],[]] # 2xN List showing register of two sequences in interaction
     PairingState = [] # 1xN List showing pairing state ('p'=paired, 'w'=wobble,''=mismatch,'d'= dangling/overhang)
