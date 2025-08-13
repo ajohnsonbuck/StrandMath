@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Alex Johnson-Buck, 2025
+The University of Michigan
 
-This is a temporary script file.
+Repository and documentation found at:
+    https://github.com/ajohnsonbuck/StrandMath
 """
 
 from typing import Union, Iterable, Optional
