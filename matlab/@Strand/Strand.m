@@ -22,6 +22,9 @@ classdef Strand
             if isa(seq,'char') || isa(seq,'string') 
                 objArray(1) = fromString(objArray(1), seq);
             elseif isa(seq,'cell') && size(seq,1)>1 && size(seq,2)==1 % if input argument is a vertical cell, assume those cells contain sequences
+                if ischar(NameValueArgs.Name) && strcmp(NameValueArgs.Name,'')
+                    NameValueArgs.Name = cell(size(seq,1),1);
+                end
                 objArray(1,numel(seq)) = Strand(); % preallocate object array
                 for n = 1:numel(seq)
                     objArray(n) = fromString(objArray(1), seq{n,1});

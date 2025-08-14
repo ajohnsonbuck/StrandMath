@@ -1,17 +1,19 @@
 function status = validate_NN_parameters()
     rmsd = zeros(3,1) + Inf;
 
+    validation_file_path = fullfile(fileparts(mfilename("fullpath")),'..','validation_datasets',filesep);
+
     % Load datasets
-    load('validation_Sugimoto_etal_1995.mat'); %DNA/RNA
-    load('validation_Owczarzy_etal_2011.mat'); %DNA/DNA and LNA/DNA
-    load('validation_Xia_etal_1998.mat'); % RNA/RNA
+    SugimotoTable2 = loadValidationSet(fullfile(validation_file_path,'validation_Sugimoto_etal_1995.csv')); %DNA/RNA
+    OwczarzyTable4 = loadValidationSet(fullfile(validation_file_path,'validation_Owczarzy_etal_2011.csv')); %DNA/DNA and LNA/DNA
+    XiaTable1 = loadValidationSet(fullfile(validation_file_path,'validation_Xia_etal_1998.csv')); % RNA/RNA
 
     for n = 1:numel(SugimotoTable2.seqs)
-        SugimotoTable2.Tm_pred(n) = estimate_Tm(SugimotoTable2.seqs(n),'target',toDNA(SugimotoTable2.seqs(n)'),'conc',100E-6);
+        SugimotoTable2.Tm_pred(n,1) = estimate_Tm(SugimotoTable2.seqs(n),'target',toDNA(SugimotoTable2.seqs(n)'),'conc',100E-6);
     end
 
     for n = 1:numel(OwczarzyTable4.seqs)
-        OwczarzyTable4.Tm_pred(n) = estimate_Tm(OwczarzyTable4.seqs(n),'target',OwczarzyTable4.comp(n),'conc',2E-6);
+        OwczarzyTable4.Tm_pred(n,1) = estimate_Tm(OwczarzyTable4.seqs(n),'target',OwczarzyTable4.comp(n),'conc',2E-6);
     end
 
     for n = 1:numel(XiaTable1.seqs)
@@ -42,4 +44,13 @@ function status = validate_NN_parameters()
         status = 'Not OK';
     end
     
+end
+
+function DataStruct = loadValidationSet(FileName)
+    DataTable = readtable(FileName);
+    DataStruct.seqs = Strand(DataTable.Sequence);
+    DataStruct.Tms = DataTable.Tm;
+    if ismember('Comp',DataTable.Properties.VariableNames)
+        DataStruct.comp = Strand(DataTable.Comp);
+    end
 end
