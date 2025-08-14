@@ -44,6 +44,18 @@ class Strand:
             else:
                 raise TypeError("For multiple input sequences, name must be provided as a list of strings")
         
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self,value):
+        if isinstance(value, str):
+            self._name = [value] 
+        elif isinstance(value, list): 
+            self._name = value 
+        else:
+            raise TypeError("name must be a string or a list of strings")      
 
     def __getitem__(self,ind): # Indexing returns a new Strand object containing the corresponding indexed strands and names
         name = self.name[ind]
@@ -114,6 +126,20 @@ class Strand:
         if self.sequence == other.sequence:
             return True
         return False
+    
+    def __mul__(self,other):
+        if isinstance(other,int): # Multiplying a Strand array by a constant b concatenates the sequence b times
+            seq = self.string() * other
+            return Strand(seq)
+        elif isinstance(other,Strand): # Multiplying two Strand arrays of size m and n results in a Duplex array of size m*n
+            return NotImplemented
+        else:
+            raise TypeError("* operator can only multiply a Strand by an int")
+            
+    def __rmul__(self,other):
+        if isinstance(other,str):
+            other = Strand(other)
+        return self * other
     
     def isSymmetric(self): # Return True for each sequence that it is its own reverse complement (regardless of type of sugar), and False otherwise
         out = []
@@ -309,6 +335,20 @@ class Strand:
         elif seqtype=='BNA':
             out = out.toBNA()
         return out
+    
+    def polyN(nt: str, n: int):
+        # Create homopolymer sequence of nucleotide nt with length n
+        if nt[0]=='d': # Remove 'd' prefix for DNA, if present
+            nt = nt.replace("d","")
+        name = 'dT10' # f"({nt}){n}"
+        out = n*Strand(nt)
+        out.name = name
+        return out
+    
+    def polyT(n: int):
+        out = Strand.polyN('T',n)
+        out.name = '(dT)' + str(n)
+        return out 
 
 class Multistrand:
     def __init__(self,strand0="",strand1=""):
@@ -358,3 +398,5 @@ class Duplex:
 # M = Multistrand('AGGC','TTAGTG')
 
 # M.Strands.print()
+
+Strand.polyN('rA',5).print()
