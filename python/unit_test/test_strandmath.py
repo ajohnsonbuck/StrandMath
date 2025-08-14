@@ -47,8 +47,11 @@ def test_init_invalid_name_type():
 def test_getitem_and_setitem():
     s = Strand(["AAA", "TTT"], name=["n1", "n2"])
     first = s[0]
+    second = s[1]
     assert first.string() == "AAA"
     assert first.name == ["n1"]
+    assert second.string() == "TTT"
+    assert second.name == ["n2"]
 
     replacement = Strand("GGG", name="new")
     s[0] = replacement

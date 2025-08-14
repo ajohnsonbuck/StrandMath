@@ -27,7 +27,7 @@ classdef Strand
                     objArray(n) = fromString(objArray(1), seq{n,1});
                 end
             else
-                objArray(1) = fromSequence(objArray(1), seq);
+                objArray(1).Sequence = seq;
             end
             % Parse name-value pair arguments
             for p = 1:numel(objArray)
@@ -75,19 +75,12 @@ classdef Strand
                c = c+1;
             end
         end
-        function obj = fromSequence(obj,seq) % Populate object from input cell array of nucleotides
-            arguments
-                obj
-                seq cell = obj.Sequence;
-            end
-            obj.Sequence = seq;
-        end
         function str = string(objArray) % String representation of sequence(s)
             str = cell(numel(objArray),1);
             for n = 1:numel(objArray)
                 str{n} = strcat(objArray(n).Sequence{:});
             end
-            if numel(str)==1
+            if isscalar(str)
                 str = str{:};
             end
         end
@@ -97,7 +90,7 @@ classdef Strand
                 str{n} = strcat(objArray(n).Sequence{:});
                 str{n}(objArray(n).Mask=='-')='-';
             end
-            if numel(str)==1
+            if isscalar(str)
                 str = str{:};
             end
         end
@@ -106,7 +99,7 @@ classdef Strand
             for n = 1:numel(objArray)
                 str{n} = erase(objArray(n).string,objArray(n).Modlist); % Remove modification prefixes from sequences
             end
-            if numel(str)==1
+            if isscalar(str)
                 str = str{:};
             end
         end
@@ -119,13 +112,13 @@ classdef Strand
                     bareSeqs{n}{1,p} = str(p);
                 end
             end
-            if numel(objArray) == 1
+            if isscalar(objArray)
                 bareSeqs = bareSeqs{1};
             end
         end
         function objArray = crop(objArray,varargin) % Crop sequence(s) to the specified nucleotide range
             ind = [1 Inf];
-            if numel(varargin)==1
+            if isscalar(varargin)
                 if numel(varargin{1})==2 && isnumeric(varargin{1}) && varargin{1}(1) > 0
                     ind = varargin{1};
                 else
@@ -160,7 +153,6 @@ classdef Strand
                     ind(2) = objArray(n).len;
                 end
                 objArray(n).Sequence = objArray(n).Sequence(ind(1):ind(2));
-                objArray(n) = objArray(n).fromSequence;
             end
         end
         function mods = modifications(objArray)
@@ -171,7 +163,7 @@ classdef Strand
                     mods{n}{p} = erase(objArray(n).Sequence{p},objArray(n).Nucleotides);
                 end
             end
-            if numel(objArray) == 1
+            if isscalar(objArray)
                 mods = mods{1};
             end
         end
@@ -187,7 +179,7 @@ classdef Strand
                 for p = 1:length(seq1)
                     seq1{p} = ['+',seq1{p}];
                 end
-                objArray(n) = fromSequence(objArray(n),seq1);
+                objArray(n).Sequence = seq1;
             end
         end
         function objArray = toBNA(objArray) % Convert to BNA sequence
@@ -196,7 +188,7 @@ classdef Strand
                 for p = 1:length(seq1)
                     seq1{p} = ['b',seq1{p}];
                 end
-                objArray(n) = fromSequence(objArray(n),seq1);
+                objArray(n).Sequence = seq1;
             end
         end
         function objArray = toRNA(objArray) % Convert to RNA sequence
@@ -207,7 +199,7 @@ classdef Strand
                         seq1{n} = strcat('r',seq1{n});
                     end
                 end
-                objArray(m) = fromSequence(objArray(m),seq1);
+                objArray(m).Sequence = seq1;
             end
         end
         function r = reverse(objArray,outputType) % Flip sequence 5'-to-3'
@@ -299,7 +291,7 @@ classdef Strand
             if strcmpi(outputType,'Strand')
                 rc = rcNA;
             end
-            if isa(rc,'cell') && numel(objArray)==1
+            if isa(rc,'cell') && isscalar(objArray)
                 rc = rc{1};
             end
         end
@@ -353,7 +345,7 @@ classdef Strand
         function objArray = applyMask(objArray,mask) % Apply mask dictating which nucleotides are available for base pairing
             for n = 1:numel(objArray)
                 if isa(mask,"cell")
-                   if numel(mask)==1
+                   if isscalar(mask)
                        objArray(n).Mask = mask{:};
                    elseif numel(mask) == numel(objArray)
                        objArray(n).Mask = mask{n}; 
@@ -408,7 +400,7 @@ classdef Strand
                             c(n).Name = a(n).Name;
                         end
                     end
-                elseif numel(a) == 1 % If one array has a single element, concatenate that to each element of the second array
+                elseif isscalar(a) % If one array has a single element, concatenate that to each element of the second array
                     c(1,numel(b)) = Strand();
                     for n = 1:numel(b)
                         c(n).Sequence = horzcat(a.Sequence,b(n).Sequence);
@@ -418,7 +410,7 @@ classdef Strand
                             c(n).Name = a.Name;
                         end
                     end
-                elseif numel(b) == 1 % If one array has a single element, concatenate that to each element of the second array
+                elseif isscalar(b) % If one array has a single element, concatenate that to each element of the second array
                     c(1,numel(a)) = Strand();
                     for n = 1:numel(a)
                         c(n).Sequence = horzcat(a(n).Sequence,b.Sequence);
