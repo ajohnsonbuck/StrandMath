@@ -20,8 +20,8 @@ class Strand:
     
     def __init__(self, sequence, name = ""):
         if isinstance(sequence,Strand): # If already a sequence, return a copy of the original Strand object
-            self.name = copy.copy(sequence.name)
-            self.sequence = copy.copy(sequence.sequence)
+            self.name = copy.deepcopy(sequence.name)
+            self.sequence = copy.deepcopy(sequence.sequence)
         elif isinstance(sequence,str):                    # if sequence is provided as string, interpret as single sequence
             self.sequence = [self.fromString(sequence)]  
             if isinstance(name,str):
@@ -63,7 +63,7 @@ class Strand:
         if isinstance(name,str):
             name = [name]
             seq = [seq]
-        newStrand = copy.copy(self)
+        newStrand = copy.deepcopy(self)
         newStrand.name = name
         newStrand.sequence = seq
         return newStrand
@@ -89,16 +89,16 @@ class Strand:
         if isinstance(other, str): 
             other = Strand(other)
         if self.numel()==1:
-            newStrand = copy.copy(other)
+            newStrand = copy.deepcopy(other)
             for ind in range(other.numel()):
                 newStrand.sequence[ind] = self.sequence[0] + other.sequence[ind]
                 if len(self.name[0])>0:
                     newStrand.name[ind] = f"{self.name[0]} + {other.name[ind]}"
             return newStrand
         elif other.numel()==1:
-            newStrand = copy.copy(self)
+            newStrand = copy.deepcopy(self)
             for ind in range(self.numel()):
-                newStrand.sequence[ind] = self.sequence[ind] + other.sequence[0]
+                newStrand.sequence[ind] = newStrand.sequence[ind] + other.sequence[0]
                 if len(other.name[0])>0:
                     newStrand.name[ind] = f"{self.name[ind]} + {other.name[0]}"
             return newStrand
@@ -106,18 +106,18 @@ class Strand:
     
     def __radd__(self, other: str): # other + self = Strand(other) + self
         other = Strand(other)
-        return other + self
+        return other + copy.deepcopy(self)
     
     def __neg__(self): # Negative = reverse sequence 5'-to-3'
-        return copy.copy(self).reverse()
+        return copy.deepcopy(self).reverse()
     
     def __sub__(self,other): # self - other = self + other.reverse()
         if isinstance(other,str):
             other = Strand(other)
-        return self + (-other)
+        return copy.deepcopy(self) + (-other)
     
     def __rsub__(self,other): # other - self = other + self.reverse()
-        return other + (-self)
+        return other + (-copy.deepcopy(self))
     
     def __invert__(self): # Invert operator ~ yields reverse complement
         return self.reverseComplement()
@@ -153,7 +153,7 @@ class Strand:
         return out
     
     def removeDuplicates(self): # Remove any duplicate sequences; keep only the first instance of any sequence + its name
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         seqnew = []
         namenew = []
         seen = {}
@@ -168,7 +168,7 @@ class Strand:
         return out 
     
     def scramble(self): # Scramble sequence(s) in Strand object
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         for ind in range(out.numel()):
             random.shuffle(out.sequence[ind])
             out.name[ind] = out.name[ind]+'_scrambled'
@@ -208,7 +208,7 @@ class Strand:
         return strlist
     
     def bareSequence(self): # List representation of sequence(s), stripped of modifications
-        bareSeq = copy.copy(self.sequence)
+        bareSeq = copy.deepcopy(self.sequence)
         for seq in range(len(bareSeq)):
             for nt in range(len(bareSeq[seq])):
                 bareSeq[seq][nt] = Strand.removeMods(bareSeq[seq][nt])
@@ -226,26 +226,26 @@ class Strand:
         return len(self.sequence)
     
     def toDNA(self): # Convert to DNA sequence
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         out.sequence = out.bareSequence()
         out.sequence = [[s.replace('U','T') for s in row] for row in out.sequence]
         return out
         
     def toRNA(self): # Convert to RNA sequence
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         out.sequence = out.bareSequence()
         out.sequence = [[s.replace('T','U') for s in row] for row in out.sequence]
         out.sequence = [['r' + s for s in row] for row in out.sequence]
         return out
     
     def toLNA(self): # Convert to LNA sequence
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         out.sequence = out.bareSequence()
         out.sequence = [['+' + s for s in row] for row in out.sequence]
         return out
     
     def toBNA(self): # Convert to BNA sequence
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         out.sequence = out.bareSequence()
         out.sequence = [['b' + s for s in row] for row in out.sequence]
         return out
@@ -259,13 +259,13 @@ class Strand:
         return L
     
     def reverse(self): # reverse sequence(s)
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         out.sequence = [row[::-1] for row in out.sequence]
         out.name = [name + '_reverse' for name in out.name]
         return out
     
     def reverseComplement(self): # Create reverse complement of all sequences in Strand
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         out = out.reverse()
         for i, seq in enumerate(out.sequence):
             for j, nt in enumerate(seq):
@@ -291,7 +291,7 @@ class Strand:
             ind[1] = np.inf
         if not(ind[1]>ind[0]):
             raise ValueError("Second index of Strand.crop must be larger than the first index")
-        out = copy.copy(self)
+        out = copy.deepcopy(self)
         for i, row in enumerate(out.sequence):
             out.sequence[i] = out.sequence[i][max([0,ind[0]]):min([len(row),ind[1]])]
         return out
@@ -398,5 +398,3 @@ class Duplex:
 # M = Multistrand('AGGC','TTAGTG')
 
 # M.Strands.print()
-
-Strand.polyN('rA',5).print()
