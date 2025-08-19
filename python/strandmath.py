@@ -351,21 +351,151 @@ class Strand:
         return out 
 
 class Multistrand:
-    def __init__(self,strand0="",strand1=""):
-        self.Strands = Strand(["",""])
-        strand0 = Strand(strand0)
-        strand1 = Strand(strand1)
-        if len(strand1.string()) == 0:
-            if len(strand0.string()) > 0:
-                strand1 = ~strand0
-        self.Strands[0] = strand0
-        self.Strands[1] = strand1
+    def __init__(self, strand0="", strand1=""):
+        # Always store two strands
+        self.Strands = Strand(["", ""])
+        self.Duplexes = [] # list of Duplex objects
+    
+        s0 = Strand(strand0)
+        s1 = Strand(strand1)
+    
+        # If second is empty, generate reverse complement of first
+        if len(s1.string()) == 0 and len(s0.string()) > 0:
+            s1 = ~s0
         
-        # if isinstance(strands,list):
-        #     if len(strands) > 1 and all(isinstance(seq,str) for seq in strands):
-        #         self.Strands = Strand(strands)
-        #     else:
-        #         raise ValueError("Multistrand must be initialized with two or more nucleic acid sequences, formatted as Strand or a list of str")
+        self.Strands[0] = s0
+        self.Strands[1] = s1
+    
+        # Reorder depending on RNA/LNA/BNA content
+        if self._count_mod("r", self.Strands[1]) < self._count_mod("r", self.Strands[0]):
+            self.Strands = self._flip_strands()
+        if self._count_mod("+", self.Strands[1]) > self._count_mod("+", self.Strands[0]):
+            self.Strands = self._flip_strands()
+        if self._count_mod("b", self.Strands[1]) > self._count_mod("b", self.Strands[0]):
+            self.Strands = self._flip_strands()
+    
+    
+        # Initialize duplexes if nonempty
+        if len(self.Strands[0].string()) > 0:
+            self.findLongestDuplex()
+    
+    
+    def _count_mod(self, mod, strand: Strand):
+        return sum(mod in nt for seq in strand.sequence for nt in seq)
+    
+    
+    def _flip_strands(self):
+        flipped = Strand(["", ""])
+        flipped[0] = self.Strands[1]
+        flipped[1] = self.Strands[0]
+        return flipped
+    
+    
+    def findLongestDuplex(self):
+        # Similar to MATLAB: find duplex with most base pairs
+        s1 = self.Strands[0].bareSequence()[0]
+        s2 = self.Strands[1].bareSequence()[0][::-1] # reverse second strand
+        
+        # encode sequences
+        seq1 = self.encodeSequence(s1)
+        seq2 = self.encodeSequence(s2)
+        
+        score_best = -np.inf
+        nbest = 0
+        for offset in range(len(seq2) + len(seq1) - 1):
+            score = self.scoreBasePairs(seq1, seq2, offset)
+            if score > score_best:
+                score_best = score
+                nbest = offset
+        
+        # Build schema (2xN array of str)
+        schema_len = len(seq2) + (len(seq1) - 1) * 2
+        schema = [["" for _ in range(schema_len)] for _ in range(2)]
+        # place seq2 in center
+        start2 = len(seq1)
+        schema[1][start2:start2 + len(s2)] = s2
+        # place seq1 at best offset
+        schema[0][nbest:nbest + len(s1)] = s1
+        
+        # Trim empty cols
+        nonempty_cols = [j for j in range(schema_len) if schema[0][j] != "" or schema[1][j] != ""]
+        if nonempty_cols:
+            start, end = nonempty_cols[0], nonempty_cols[-1] + 1
+            schema = [row[start:end] for row in schema]
+            
+        # Create Duplex object (stub: adapt later)
+        duplex = Duplex()
+        duplex.Schema = schema
+        duplex.Strands = self.Strands
+        self.Duplexes = [duplex]
+        return self
+    
+    def longestDuplex(self):
+        if self.Duplexes:
+            return self.Duplexes[0]
+        return None
+    
+    def list(self):
+        for i, strand in enumerate(self.Strands.sequence):
+            print(f"Sequence {i+1}: {self.Strands[i].string()}")
+    
+    def estimateTm(self, *args, **kwargs):
+        duplex = self.longestDuplex()
+        if duplex is None:
+            return None
+        if hasattr(duplex, "estimateTm"):
+            return duplex.estimateTm(*args, **kwargs)
+        else:
+            raise NotImplementedError("Duplex.estimateTm not yet implemented")
+
+    def applyMask(self):
+        # Stub: MATLAB has Mask property on Strand, not in Python class yet
+        # This function can implement masking
+        return self
+
+    def print(self, mode="longestDuplex"):
+        if mode == "longestDuplex":
+            duplex = self.longestDuplex()
+            if duplex is not None:
+                if hasattr(duplex, "print"):
+                    duplex.print()
+                else:
+                    print("Schema:")
+                    for row in duplex.Schema:
+                        print("".join(nt if nt else "-" for nt in row))
+        elif mode == "strands":
+            for i, strand in enumerate(self.Strands):
+                print(f"\nSequence {i+1}: {strand.name[0] if strand.name else ''}")
+                print(f"5'-{strand.string()}-3'")
+        else:
+            raise ValueError("Unknown argument to Multistrand.print")
+
+
+    @staticmethod
+    def encodeSequence(seq):
+        mapping = {"A": 2, "C": 3, "G": 4, "T": 5, "U": 6}
+        return [mapping.get(base[-1], 1) for base in seq]
+
+
+    @staticmethod
+    def scoreBasePairs(seq1, seq2, offset):
+        # Score base pairs given an offset of seq1 relative to seq2
+        scoreMat = np.array([
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 4, 4],
+            [0, 0, 0, 6, 0, 0],
+            [0, 0, 6, 0, 2, 3],
+            [0, 4, 0, 2, 0, 0],
+            [0, 4, 0, 3, 0, 0]
+        ], dtype=np.int8)
+
+        score = 0
+        for i, b1 in enumerate(seq1):
+            j = offset + i
+            if 0 <= j < len(seq2):
+                b2 = seq2[j]
+                score += scoreMat[b1, b2]
+        return score
     
 class Duplex:
     PARAMETERS = pd.read_csv("../NN_Parameters.csv")
